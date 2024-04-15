@@ -29,12 +29,4 @@
         ->setPassword("543")
         ->setAddress("OK")
         ->setPhone("123456");
-
-        $_SESSION["username"] = "jim";
-            $_SESSION["password"] = "ok";
-
-            echo $_SESSION["username"] . "<br>";
-            echo $_SESSION["password"] . "<br>";
-
-        echo $customer->getUsername();
 ?>

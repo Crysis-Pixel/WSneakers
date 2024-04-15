@@ -29,9 +29,6 @@
             $_SESSION["username"] = $username;
             $_SESSION["password"] = $password;
 
-            echo $_SESSION["username"] . "<br>";
-            echo $_SESSION["password"];
-
             header("location: index.php");
         } else {
             echo "username/pass incorrect";
