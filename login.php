@@ -35,16 +35,32 @@
 </html>
 
 <?php  
+    $adminUsername = "admin";
+    $adminPassword = "123";
     if (isset($_POST["loginBtn"])){
         $username = filter_input(INPUT_POST,"username",FILTER_SANITIZE_SPECIAL_CHARS);
         $password = filter_input(INPUT_POST,"password",FILTER_SANITIZE_SPECIAL_CHARS);
-        if (!empty($username) && !empty($password)){
+        if (!empty($username) && !empty($password)){        //Check Empty Text Box
             $_SESSION["username"] = $username;
             $_SESSION["password"] = $password;
 
-            header("location: index.php");
+            if ($_SESSION["username"] == $adminUsername)    //Admin Login
+            {
+                if ($_SESSION["password"] == $adminPassword)
+                {
+                    header("location: adminpage.php");
+                } else
+                {
+                    echo "wrong admin password!";
+                }
+            } else                                          //Customer or Seller Login
+            {
+                CustomerService::getInstance()->Login($_SESSION["username"], $_SESSION["password"]);
+                header("location: index.php");
+            }
+
         } else {
-            echo "username/pass incorrect";
+            echo "username or password missing";
         }
     }
 ?>

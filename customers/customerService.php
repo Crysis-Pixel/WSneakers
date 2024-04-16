@@ -13,9 +13,31 @@
             $customerRepo = $this->customerRepo->Insert($customer);
         }
 
-        public function Login($customer)
+        public function Login($username, $passowrd): bool
         {
-            $customerRepo = $this->customerRepo->Insert($customer);
+            $isFound = false;
+
+            $customerRepo = CustomerRepo::getInstance();
+            $customerCount = $customerRepo->GetCustomerCount();
+            $customerUsernames = $customerRepo->GetAllUsername();
+            $customerPasswords = $customerRepo->GetAllPassword();
+            for($i = 1; $i < $customerCount; $i++)
+            {
+                $customers[$i] = Customer::create()
+                ->setUsername($customerUsernames[$i])
+                ->setPassword($customerPasswords[$i]);
+            }
+            
+            foreach ($customers as $customer) {
+                if ($username == $customer->getUsername() && password_verify($passowrd, $customer->getPassword()))
+                {
+                    $isFound = true;
+                    return $isFound;
+                }
+            }
+
+            return false;
+            
         }
 
 

@@ -10,6 +10,69 @@ class CustomerRepo
 
   }
 
+  public function GetAllID()
+  {
+    $con = Db::getInstance()->getConnection();
+    $result = mysqli_query($con, "Select customerID FROM customer");
+    while($row = $result->fetch_assoc())
+    {
+      $customerID[] = $row["customerID"];
+    }
+
+    return $customerID;
+  
+  }
+
+  public function GetAllUsername()
+  {
+    $con = Db::getInstance()->getConnection();
+    $result = mysqli_query($con, "Select username FROM customer");
+    while($row = $result->fetch_assoc())
+    {
+      $customerUsername[] = $row["username"];
+    }
+
+    return $customerUsername;
+  
+  }
+  public function GetCustomerCount()
+  {
+    $con = Db::getInstance()->getConnection();
+    $result = mysqli_query($con, "select customerID FROM customer");
+
+    return mysqli_num_rows($result);
+  
+  }
+
+  public function GetAllPassword()
+  {
+    $con = Db::getInstance()->getConnection();
+    $result = mysqli_query($con, "Select password FROM customer");
+    while($row = $result->fetch_assoc())
+    {
+      $customerPassword[] = $row["password"];
+    }
+
+    return $customerPassword;
+  
+  }
+/*
+  public function GetAllLoginCredentials():Customer
+  {
+    $con = Db::getInstance()->getConnection();
+    //$numberOfCustomers = mysqli_query($con, "count(customerID) FROM customer");
+    $result = mysqli_query($con, "Select customerID, username, password FROM customer");
+    while($row = $result->fetch_assoc())
+    {
+      $customer[$row["customerID"]] = Customer::create()
+          ->setUsername($row["username"])
+          ->setPassword($row["password"]);          //This is hashed password.
+    }
+
+    return $customer;
+  
+  }
+*/
   public function Insert(Customer $customer): Customer
   {
     $con = Db::getInstance()->getConnection();

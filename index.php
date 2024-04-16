@@ -29,4 +29,10 @@
         ->setPassword("543")
         ->setAddress("OK")
         ->setPhone("123456");
+
+        echo password_hash("123", PASSWORD_DEFAULT);
+
+        //$customer[] = CustomerService::getInstance()->Login();
+        CustomerRepo::getInstance()->GetCustomerCount();
+        //echo $customer[1]->getUsername();
 ?>
