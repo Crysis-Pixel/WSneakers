@@ -1,0 +1,68 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.body {
+  font-family: sans-serif;
+  line-height: 1.4;
+  border: 4px solid black;
+  width: 825px;
+  margin: 50px auto;
+}
+
+.h1 {
+  text-align: center;
+  font-size: 22px;
+  text-transform: uppercase;
+  background-color: #f7f7f7;
+  padding: 15px;
+  margin-top: 70px;
+}
+
+.homePage {
+  color: #000;
+  margin-left: 20px;
+}
+
+.homePage:hover {
+  text-decoration: none;
+}
+
+.loginButton {
+  background-color: black;
+  border: none;
+  color: white;
+  font-size: 20px;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 100%;
+  border-top: 4px solid black;
+  border-bottom: 4px solid black;
+}
+
+.loginButton:hover {
+  color: #000;
+  background-color: #fff;
+}
+
+.username {
+  text-align: center;
+}
+
+.password {
+  text-align: center;
+}
+
+.sign-up{
+  padding-top: 20px;
+  margin-left: 20px;
+}
+
+.sign-up-link{
+  color: #000;
+}
+
+.sign-up-link:hover {
+  text-decoration: none;
+}

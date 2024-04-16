@@ -28,10 +28,7 @@
             {
                 Db::$instance = new Db();
             }
-
             return Db::$instance;
         }
     }
-    
-
 ?>
