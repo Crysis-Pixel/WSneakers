@@ -5,6 +5,15 @@
     include("./customers/customerService.php");
     include("./customers/customerRepository.php");
     session_start();
+    if(!empty($_SESSION["Username"]))
+    {
+        echo $_SESSION["Username"] . "<br>";
+        echo $_SESSION["Password"];
+    } else
+    {
+        echo "Logged Out";
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +28,9 @@
     <a href="itempage.php">Item2</a> &nbsp&nbsp&nbsp&nbsp
     <a href="itempage.php">Item3</a> &nbsp&nbsp&nbsp&nbsp
     <a href="itempage.php">Item4</a> &nbsp&nbsp&nbsp&nbsp <br><br>
+    <form action="index.php" method="post">
+        <input class="logoutBtn" type="submit" name="logoutBtn" value="Logout">
+    </form>
 </body>
 </html>
 
@@ -30,9 +42,10 @@
         ->setAddress("OK")
         ->setPhone("123456");
 
-        echo password_hash("123", PASSWORD_DEFAULT);
+    if(isset($_POST["logoutBtn"]))
+    {
+        session_destroy();
+        header("location: index.php");
+    }
 
-        //$customer[] = CustomerService::getInstance()->Login();
-        CustomerRepo::getInstance()->GetCustomerCount();
-        //echo $customer[1]->getUsername();
 ?>

@@ -1,5 +1,9 @@
 <?php
     include("header.html");
+    include("./database/db.php");
+    include("./customers/customer.php");
+    include("./customers/customerService.php");
+    include("./customers/customerRepository.php");
     session_start();
 ?>
 
@@ -41,13 +45,12 @@
         $username = filter_input(INPUT_POST,"username",FILTER_SANITIZE_SPECIAL_CHARS);
         $password = filter_input(INPUT_POST,"password",FILTER_SANITIZE_SPECIAL_CHARS);
         if (!empty($username) && !empty($password)){        //Check Empty Text Box
-            $_SESSION["username"] = $username;
-            $_SESSION["password"] = $password;
-
-            if ($_SESSION["username"] == $adminUsername)    //Admin Login
+            if ($username == $adminUsername)    //Admin Login
             {
-                if ($_SESSION["password"] == $adminPassword)
+                if ($password == $adminPassword)
                 {
+                    $_SESSION["username"] = $username;
+                    $_SESSION["password"] = $password;
                     header("location: adminpage.php");
                 } else
                 {
@@ -55,8 +58,13 @@
                 }
             } else                                          //Customer or Seller Login
             {
-                CustomerService::getInstance()->Login($_SESSION["username"], $_SESSION["password"]);
-                header("location: index.php");
+                $customer = CustomerService::getInstance()->Login($username, $password);
+                if ($customer != null)
+                {
+                    $_SESSION["Username"] = $username;
+                    $_SESSION["Password"] = $password;
+                    header("location: index.php");
+                }
             }
 
         } else {

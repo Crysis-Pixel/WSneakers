@@ -1,55 +1,68 @@
 <?php
-    class CustomerService
+class CustomerService
+{
+    private CustomerRepo $customerRepo;
+    private static $instance;
+
+    private function __construct()
     {
-        private CustomerRepo $customerRepo;
-        private static $instance;
+        $this->customerRepo = new CustomerRepo();
+    }
 
-        private function __construct() {
-            $this->customerRepo = new CustomerRepo();
-        }
+    public function Insert(Customer $customer)
+    {
+        $customerRepo = $this->customerRepo->Insert($customer);
+    }
 
-        public function Insert(Customer $customer)
+    public function Login($username, $password): ?Customer
+    {
+        $customerRepo = CustomerRepo::getInstance();
+        $customer = $customerRepo->FindByUsername($username);
+
+        if ($customer != null)
         {
-            $customerRepo = $this->customerRepo->Insert($customer);
-        }
-
-        public function Login($username, $passowrd): bool
-        {
-            $isFound = false;
-
-            $customerRepo = CustomerRepo::getInstance();
-            $customerCount = $customerRepo->GetCustomerCount();
-            $customerUsernames = $customerRepo->GetAllUsername();
-            $customerPasswords = $customerRepo->GetAllPassword();
-            for($i = 1; $i < $customerCount; $i++)
-            {
-                $customers[$i] = Customer::create()
-                ->setUsername($customerUsernames[$i])
-                ->setPassword($customerPasswords[$i]);
-            }
-            
-            foreach ($customers as $customer) {
-                if ($username == $customer->getUsername() && password_verify($passowrd, $customer->getPassword()))
-                {
-                    $isFound = true;
-                    return $isFound;
+            if ($username == $customer->getUsername()) {
+                if (password_verify($password, $customer->getPassword())) {
+                    echo "Logged IN";
+                    return $customer;
+                } else {
+                    echo "Wrong Pass";
+                    return null;
                 }
             }
-
-            return false;
-            
         }
-
-
-
-        public static function getInstance(): CustomerService
-        {
-            if (!isset(CustomerService::$instance))
-            {
-                CustomerService::$instance = new CustomerService();
-            }
-
-            return CustomerService::$instance;
-        }
+        
+        echo "No ID Found!";
+        return null;
     }
-?>
+    public static function getInstance(): CustomerService
+    {
+        if (!isset(CustomerService::$instance)) {
+            CustomerService::$instance = new CustomerService();
+        }
+
+        return CustomerService::$instance;
+    }
+}
+/*
+    public function Login($username, $password): Customer
+            {
+                $customerRepo = CustomerRepo::getInstance();
+                $customer = $customerRepo->FindByUsername($username);
+                echo $customer->getUsername();
+                
+                if ($customer->getPassword() !== null)
+                {
+                    if (password_verify($password, $customer->getPassword()))
+                    {
+                        echo "Login Successful!";
+                        //header("location: index.php");
+                    } else
+                    {
+                        echo "Wrong Password!";
+                    }
+                }
+                
+                return $customer;
+            }
+    */

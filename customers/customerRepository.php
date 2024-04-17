@@ -3,92 +3,72 @@ class CustomerRepo
 {
   public static $instance;
 
-  public function GetAllCustomers(): void
+  public function GetAllCustomers()
   {
     $con = Db::getInstance()->getConnection();
     $result = mysqli_query($con, "Select * FROM customer");
-
+    return $result;
   }
 
   public function GetAllID()
   {
     $con = Db::getInstance()->getConnection();
-    $result = mysqli_query($con, "Select customerID FROM customer");
-    while($row = $result->fetch_assoc())
-    {
-      $customerID[] = $row["customerID"];
+    $result = mysqli_query($con, "Select CustomerID FROM customer");
+    while ($row = $result->fetch_assoc()) {
+      $customerID[] = $row["CustomerID"];
     }
 
     return $customerID;
-  
   }
 
   public function GetAllUsername()
   {
     $con = Db::getInstance()->getConnection();
-    $result = mysqli_query($con, "Select username FROM customer");
-    while($row = $result->fetch_assoc())
-    {
-      $customerUsername[] = $row["username"];
+    $result = mysqli_query($con, "Select Username FROM customer");
+    while ($row = $result->fetch_assoc()) {
+      $customerUsername[] = $row["Username"];
     }
 
     return $customerUsername;
-  
   }
   public function GetCustomerCount()
   {
     $con = Db::getInstance()->getConnection();
-    $result = mysqli_query($con, "select customerID FROM customer");
+    $result = mysqli_query($con, "select CustomerID FROM customer");
 
     return mysqli_num_rows($result);
-  
   }
 
   public function GetAllPassword()
   {
     $con = Db::getInstance()->getConnection();
-    $result = mysqli_query($con, "Select password FROM customer");
-    while($row = $result->fetch_assoc())
-    {
-      $customerPassword[] = $row["password"];
+    $result = mysqli_query($con, "Select Password FROM customer");
+    while ($row = $result->fetch_assoc()) {
+      $customerPassword[] = $row["Password"];
     }
 
     return $customerPassword;
-  
   }
-/*
-  public function GetAllLoginCredentials():Customer
-  {
-    $con = Db::getInstance()->getConnection();
-    //$numberOfCustomers = mysqli_query($con, "count(customerID) FROM customer");
-    $result = mysqli_query($con, "Select customerID, username, password FROM customer");
-    while($row = $result->fetch_assoc())
-    {
-      $customer[$row["customerID"]] = Customer::create()
-          ->setUsername($row["username"])
-          ->setPassword($row["password"]);          //This is hashed password.
-    }
 
-    return $customer;
-  
-  }
-*/
   public function Insert(Customer $customer): Customer
   {
     $con = Db::getInstance()->getConnection();
-    
+
     return $customer;
   }
 
-  public function FindByUsername(Customer $customer): Customer
+  public function FindByUsername($username): ?Customer
   {
     $con = Db::getInstance()->getConnection();
-    $result = mysqli_query($con, "Select * FROM customer where username =" . $customer->getUsername());
+    $result = mysqli_query($con, "SELECT * FROM customer WHERE `Username` = '$username' LIMIT 1");
+
+    //echo mysqli_error($con);
 
     if (mysqli_num_rows($result) > 0) {
       // output data of each row
       if ($row = mysqli_fetch_assoc($result)) {
         $customer = Customer::create()
+          ->setCustomerID($row["CustomerID"])
           ->setUsername($row["Username"])
           ->setPassword($row["Password"])
           ->setAddress($row["Address"])
@@ -96,7 +76,6 @@ class CustomerRepo
         return $customer;
       }
     } else {
-      echo "0 results";
       return null;
     }
   }

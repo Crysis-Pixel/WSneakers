@@ -2,13 +2,13 @@
 class Customer
 {
     private int $customerID;
-    private string $username;
-    private string $password;
-    private string $phone;
-    private string $birthdate;
+    private string $username = "";
+    private string $password = "";
+    private string $phone = "";
+    private string $birthdate = "";
     private int $orderID;
     private int $trxID;
-    private string $address;
+    private string $address = "";
     private int $reportID;
     private int $reviewID;
 
