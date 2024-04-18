@@ -17,7 +17,7 @@
   text-transform: uppercase;
   background-color: #f7f7f7;
   padding: 15px;
-  margin-top: 70px;
+  margin-top: 40px;
 }
 
 .homePage {
@@ -66,3 +66,16 @@
 .sign-up-link:hover {
   text-decoration: none;
 }
+
+.radio-button{
+  display: flex;
+  justify-content: center;
+}
+
+.custom-radio {
+  margin-right: 20px;
+}
+
+
+
+
