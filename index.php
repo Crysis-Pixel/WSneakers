@@ -18,6 +18,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="index.css" rel="stylesheet"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <h2>Home Page</h2>
@@ -33,7 +34,6 @@
     </form>
 </body>
 </html>
-
 
 <?php
     $customer = Customer::create()

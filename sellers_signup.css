@@ -20,7 +20,7 @@
   margin-top: 40px;
 }
 
-.loginButton {
+.signupButton {
   background-color: black;
   border: none;
   color: white;
@@ -32,9 +32,14 @@
   border-bottom: 4px solid black;
 }
 
-.loginButton:hover {
+.signupButton:hover {
   color: #000;
   background-color: #fff;
+}
+
+.phone {
+  margin-top: 20px;
+  text-align: center;
 }
 
 .username {
@@ -44,29 +49,3 @@
 .password {
   text-align: center;
 }
-
-.sign-up{
-  padding-top: 20px;
-  margin-left: 20px;
-}
-
-.sign-up-link{
-  color: #000;
-}
-
-.sign-up-link:hover {
-  text-decoration: none;
-}
-
-.radio-button{
-  display: flex;
-  justify-content: center;
-}
-
-.custom-radio {
-  margin-right: 20px;
-}
-
-
-
-
