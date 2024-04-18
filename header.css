@@ -1,3 +1,9 @@
-.header{
+.homepage{
   font-family: sans-serif;
+  color: black;
+  margin-left: 20px;
+}
+
+.homePage:hover {
+  text-decoration: none;
 }

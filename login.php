@@ -11,8 +11,8 @@ session_start();
 <html lang="en">
 
 <head>
-    <h1 class="h1">Login Page</h1>
     <link href="login.css" rel="stylesheet" />
+    <h1 class="h1">Login Page</h1>
 </head>
 
 <body class="body">
@@ -44,7 +44,7 @@ session_start();
         </div>
         <div class="sign-up">
             <label>New to WSneaker?</label>
-            <a href="" class="sign-up-link">Create an account</a>
+            <a href="sellers_signup.php" class="sign-up-link">Create an account</a>
         </div>
     </form>
 </body>
