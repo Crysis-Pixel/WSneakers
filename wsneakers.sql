@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2024 at 10:40 PM
+-- Generation Time: Apr 19, 2024 at 11:21 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -121,6 +121,27 @@ INSERT INTO `product_size` (`ProductID`, `size`) VALUES
 (4, 42),
 (4, 43);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `seller`
+--
+
+CREATE TABLE `seller` (
+  `SellerID` int(128) NOT NULL,
+  `Phone` varchar(15) NOT NULL,
+  `Username` varchar(128) NOT NULL,
+  `Pwd` varchar(256) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `seller`
+--
+
+INSERT INTO `seller` (`SellerID`, `Phone`, `Username`, `Pwd`) VALUES
+(1, '01956012107', 'Rudra Tahsin', 'Double0Woof'),
+(3, '01711175098', 'John Wick', 'IamAcatLover');
+
 --
 -- Indexes for dumped tables
 --
@@ -150,6 +171,13 @@ ALTER TABLE `product_size`
   ADD KEY `ProductID` (`ProductID`);
 
 --
+-- Indexes for table `seller`
+--
+ALTER TABLE `seller`
+  ADD PRIMARY KEY (`SellerID`),
+  ADD UNIQUE KEY `Username` (`Username`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -164,6 +192,12 @@ ALTER TABLE `customer`
 --
 ALTER TABLE `product`
   MODIFY `ProductID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `seller`
+--
+ALTER TABLE `seller`
+  MODIFY `SellerID` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
