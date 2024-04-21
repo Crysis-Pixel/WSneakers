@@ -1,10 +1,18 @@
 <?php
 class Seller
 {
-  private int $sellerID;
+  private int $sellerID = 0;
   private string $phone;
   private string $username;
   private string $password;
+
+  //Grabbing the data that the user submitted using the sign up form and assigning it into the properties in here
+  public function __construct($phone, $username, $password) 
+  { 
+    $this->$phone = $phone;
+    $this->$username = $username;
+    $this->$password = $password;
+  }
 
   public function setSellerID(int $sellerID): Seller
   {
@@ -48,10 +56,5 @@ class Seller
   public function getPassword(): string
   {
     return $this->password;
-  }
-
-  public static function create() : Seller 
-  {
-    return new Seller();
   }
 }

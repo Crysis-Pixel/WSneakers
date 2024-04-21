@@ -1,13 +1,13 @@
 <?php
 include("header.html");
-include("./database/db.php");
+include("./database/db.php")
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <h1 class="h1">Sign up Page</h1>
+    <h1 class="h1">Sellers Sign up Page</h1>
     <link rel="stylesheet" href="sellers_signup.css">
 </head>
 
@@ -30,10 +30,31 @@ include("./database/db.php");
         </div>
 
         <div>
-            <input class="signupButton" type="submit" name="signupBtn" value="Sign up">
+            <input class="signupButton" type="submit" name="submit" value="Sign up">
         </div>
-
     </form>
 </body>
 
 </html>
+
+<?php
+if (isset($_POST["submit"])) {
+    $phone = $_POST["phone"];
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    echo " $phone, $username, $password";
+
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $sql = "INSERT INTO seller (Phone, Username, Pwd) VALUES('$phone', '$username', '$hashed_password')";
+
+    $con = db::getInstance()->getConnection();
+
+    mysqli_query($con, $sql);
+    try {
+        echo "User is now registered";
+    } catch (mysqli_sql_exception) {
+        echo "Could not register user";
+    }
+}
+?>

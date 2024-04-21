@@ -42,9 +42,13 @@ session_start();
         <div>
             <input class="loginButton" type="submit" name="loginBtn" value="Login">
         </div>
-        <div class="sign-up">
-            <label>New to WSneaker?</label>
-            <a href="sellers_signup.php" class="sign-up-link">Create an account</a>
+        <div class="signUp">
+            <div class="signUpsellers">
+                <a href="sellers_signup.php" class="sign-up-sellers-link">Create sellers account</a>
+            </div>
+            <div class="signUpCustomer">
+                <a href="customer_signup.php" class="sign-up-customers-link">Create customers account</a>
+            </div>
         </div>
     </form>
 </body>

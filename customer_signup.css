@@ -20,7 +20,7 @@
   margin-top: 40px;
 }
 
-.loginButton {
+.signupButton {
   background-color: black;
   border: none;
   color: white;
@@ -32,12 +32,13 @@
   border-bottom: 4px solid black;
 }
 
-.loginButton:hover {
+.signupButton:hover {
   color: #000;
   background-color: #fff;
 }
 
 .username {
+  margin-top: 20px;
   text-align: center;
 }
 
@@ -45,41 +46,14 @@
   text-align: center;
 }
 
-.signUp {
+.phone {
   text-align: center;
 }
 
-.signUpsellers {
-  padding-top: 20px;
-  margin-left: 20px;
+.birthdate {
+  text-align: center;
 }
 
-.signUpCustomer {
-  padding-top: 20px;
-  margin-left: 20px;
-}
-
-.sign-up-sellers-link {
-  color: #000;
-}
-
-.sign-up-customers-link {
-  color: #000;
-}
-
-.sign-up-customers-link:hover {
-  text-decoration: none;
-}
-
-.sign-up-sellers-link:hover {
-  text-decoration: none;
-}
-
-.radio-button {
-  display: flex;
-  justify-content: center;
-}
-
-.custom-radio {
-  margin-right: 20px;
+.address {
+  text-align: center;
 }
