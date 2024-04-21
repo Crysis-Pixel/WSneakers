@@ -50,11 +50,21 @@ class CustomerRepo
     return $customerPassword;
   }
 
-  public function Insert(Customer $customer): Customer
+  public function Insert(Customer $customer): bool
   {
     $con = Db::getInstance()->getConnection();
 
-    return $customer;
+    $username = $customer->getUsername();
+    $password = $customer->getPassword();
+    $phone = $customer->getPhone();
+    $birthdate = $customer->getBirthdate();
+    $address = $customer->getAddress();
+
+    $isSuccessful = mysqli_query($con, "INSERT INTO customer(Username, Password, Phone, Birthdate, Address) VALUES
+    ('$username', '$password', '$phone', 
+    '$birthdate', '$address')" );
+
+    return $isSuccessful;
   }
 
   public function FindByUsername($username): ?Customer

@@ -1,22 +1,13 @@
-<?php
-include("header.html");
-include("./database/db.php");
-include("./customers/customer.php");
-include("./customers/customerService.php");
-include("./customers/customerRepository.php");
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <h1 class="h1">Customers Sign up Page</h1>
-  <link rel="stylesheet" href="customer_signup.css">
+  <link rel="stylesheet" href="./customer_signup.css">
 </head>
 
 <body class="body">
-  <form action="" method="post">
+  <form action="./customer_signup.php" method="post">
 
     <div class="username">
       <label>Username: </label>
@@ -39,7 +30,7 @@ session_start();
       <input type="text" name="address" placeholder="Address"><br><br>
     </div>
     <div>
-      <input class="signupButton" type="submit" name="submit" value="Sign up">
+      <input class="signupButton" type="submit" name="signupButton" value="Sign up">
     </div>
   </form>
 </body>

@@ -1,0 +1,30 @@
+.h1{
+    color: #2da1c1;
+    font-size: xx-large;
+    text-decoration: none;
+    float: right;
+}
+
+.profile{
+    color: #2da1c1;
+    font-size: xx-large;
+    text-decoration: none;
+    float: right;
+}
+
+.profile :hover{
+    color: #f90;
+    text-decoration: underline;
+}
+
+.login{
+    color: #2da1c1;
+    font-size: xx-large;
+    text-decoration: none;
+    float: center;
+}
+
+.login :hover{
+    color: #f90;
+    text-decoration: underline;
+}

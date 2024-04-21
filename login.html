@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="login.css" rel="stylesheet" />
+    <h1 class="h1">Login Page</h1>
+</head>
+
+<body class="body">
+    <form action="login.php" method="post">
+
+        <div class="radio-button">
+
+            <label class="custom-radio">
+                <input type="radio" name="option" value="Customer" checked="checked">
+                Customer
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="option" value="Seller">
+                Seller
+            </label>
+
+        </div>
+        <br>
+        <div class="username">
+            <label>Username: </label>
+            <input type="text" name="username" placeholder="Username"><br><br>
+        </div>
+        <div class="password">
+            <label>Password: </label>
+            <input type="password" name="password" placeholder="Password"><br><br>
+        </div>
+        <div>
+            <input class="loginButton" type="submit" name="loginBtn" value="Login">
+        </div>
+        <div class="signUp">
+            <div class="signUpsellers">
+                <a href="sellers_signup.php" class="sign-up-sellers-link">Create sellers account</a>
+            </div>
+            <div class="signUpCustomer">
+                <a href="./customerSignupPage/customer_signup.php" class="sign-up-customers-link">Create customers account</a>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>

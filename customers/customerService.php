@@ -6,12 +6,21 @@ class CustomerService
 
     private function __construct()
     {
-        $this->customerRepo = new CustomerRepo();
+        
     }
 
-    public function Insert(Customer $customer)
+    public function Insert(Customer $customer):bool
     {
-        $customerRepo = $this->customerRepo->Insert($customer);
+        $customerRepo = CustomerRepo::getInstance();
+        $isSuccessful = $customerRepo->Insert($customer);
+        if ($isSuccessful)
+        {
+            echo "Successfully Registered! <br>"; 
+        } else
+        {
+            echo "Failed to access database! <br>";
+        }
+        return $isSuccessful;
     }
 
     public function Login($username, $password): ?Customer

@@ -1,59 +1,12 @@
 <?php
-include("header.html");
-include("./database/db.php");
-include("./customers/customer.php");
-include("./customers/customerService.php");
-include("./customers/customerRepository.php");
+include_once("header.html");
+include_once("login.html");
+include_once("./database/db.php");
+include_once("./customers/customer.php");
+include_once("./customers/customerService.php");
+include_once("./customers/customerRepository.php");
 session_start();
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <link href="login.css" rel="stylesheet" />
-    <h1 class="h1">Login Page</h1>
-</head>
-
-<body class="body">
-    <form action="login.php" method="post">
-
-        <div class="radio-button">
-
-            <label class="custom-radio">
-                <input type="radio" name="option" value="Customer" checked="checked">
-                Customer
-            </label>
-            <label class="custom-radio">
-                <input type="radio" name="option" value="Seller">
-                Seller
-            </label>
-
-        </div>
-        <br>
-        <div class="username">
-            <label>Username: </label>
-            <input type="text" name="username" placeholder="Username"><br><br>
-        </div>
-        <div class="password">
-            <label>Password: </label>
-            <input type="password" name="password" placeholder="Password"><br><br>
-        </div>
-        <div>
-            <input class="loginButton" type="submit" name="loginBtn" value="Login">
-        </div>
-        <div class="signUp">
-            <div class="signUpsellers">
-                <a href="sellers_signup.php" class="sign-up-sellers-link">Create sellers account</a>
-            </div>
-            <div class="signUpCustomer">
-                <a href="customer_signup.php" class="sign-up-customers-link">Create customers account</a>
-            </div>
-        </div>
-    </form>
-</body>
-
-</html>
 
 <?php
 $adminUsername = "admin";
@@ -78,6 +31,9 @@ if (isset($_POST["loginBtn"])) {
                 if ($customer != null) {
                     $_SESSION["Username"] = $username;
                     $_SESSION["Password"] = $password;
+                    $_SESSION["Phone"] = $customer->getPhone();
+                    $_SESSION["Birthdate"] = $customer->getBirthdate();
+                    $_SESSION["Address"] = $customer->getAddress();
                     header("location: index.php");
                 }
             } else if ($_POST["option"] == "Seller") {
