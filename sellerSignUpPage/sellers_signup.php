@@ -1,6 +1,6 @@
 <?php
-include("header.html");
-include("./database/db.php")
+include("../header.html");
+include("../database/db.php");
 ?>
 
 <!DOCTYPE html>
@@ -39,22 +39,24 @@ include("./database/db.php")
 
 <?php
 if (isset($_POST["submit"])) {
-    $phone = $_POST["phone"];
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+    if (empty($_POST["phone"]) || empty($_POST["username"]) || empty($_POST["password"])) {
+        echo "Please fillup the sign up form";
+    } else {
+        $phone = $_POST["phone"];
+        $username = $_POST["username"];
+        $password = $_POST["password"];
 
-    echo " $phone, $username, $password";
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO seller (Phone, Username, Pwd) VALUES('$phone', '$username', '$hashedPassword')";
 
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    $sql = "INSERT INTO seller (Phone, Username, Pwd) VALUES('$phone', '$username', '$hashed_password')";
+        $con = db::getInstance()->getConnection();
 
-    $con = db::getInstance()->getConnection();
-
-    mysqli_query($con, $sql);
-    try {
-        echo "User is now registered";
-    } catch (mysqli_sql_exception) {
-        echo "Could not register user";
+        mysqli_query($con, $sql);
+        try {
+            echo "User is now registered";
+        } catch (mysqli_sql_exception) {
+            echo "Could not register user";
+        }
     }
 }
 ?>
