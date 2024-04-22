@@ -1,0 +1,72 @@
+th, td {
+    border: 1px solid rgb(0, 156, 247);
+    padding-bottom: 20px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: larger;
+    
+}
+
+table {
+    border-collapse: collapse;
+    text-align: center;
+}
+
+thead {
+    background-color: #333;
+    color: white;
+}
+thead{
+
+    text-transform: uppercase;
+}
+body {
+    font-family: sans-serif;
+}
+caption {
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    color: #333;
+}
+
+.admin{
+    text-transform: uppercase;
+    color: #333;
+    font-weight: bold;
+    font-size: larger;
+    padding-left: 10px;
+    font-size: 30px;
+}
+
+.edit{
+    text-transform: uppercase;
+    color: #333;
+    font-weight: bold;
+    padding-left: 10px;
+    font-size: 20px;
+}
+.edit:hover{
+    text-transform: uppercase;
+    color: #0bb9b9;
+    font-weight: bold;
+    padding-left: 10px;
+    font-size: 20px;
+}
+
+.delete{
+    text-transform: uppercase;
+    color: #333;
+    font-weight: bold;
+    padding-left: 10px;
+    font-size: 20px;
+}
+
+.delete:hover{
+    text-transform: uppercase;
+    color: #0bb9b9;
+    font-weight: bold;
+    padding-left: 10px;
+    font-size: 20px;
+}

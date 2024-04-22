@@ -69,5 +69,6 @@ class Customer
     public static function create() : Customer {
         return new Customer();
     }
+    
 }
 ?>

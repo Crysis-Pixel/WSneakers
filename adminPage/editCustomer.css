@@ -1,0 +1,59 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.body {
+  font-family: sans-serif;
+  line-height: 1.4;
+  border: 4px solid black;
+  width: 825px;
+  margin: 50px auto;
+}
+
+.h1 {
+  text-align: center;
+  font-size: 22px;
+  text-transform: uppercase;
+  background-color: #f7f7f7;
+  padding: 15px;
+  margin-top: 40px;
+}
+
+.editBtn {
+  background-color: black;
+  border: none;
+  color: white;
+  font-size: 20px;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 100%;
+  border-top: 4px solid black;
+  border-bottom: 4px solid black;
+}
+
+.editBtn:hover {
+  color: #000;
+  background-color: #fff;
+}
+
+.username {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.password {
+  text-align: center;
+}
+
+.phone {
+  text-align: center;
+}
+
+.birthdate {
+  text-align: center;
+}
+
+.address {
+  text-align: center;
+}

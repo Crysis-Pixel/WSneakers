@@ -5,6 +5,7 @@
     include("../customers/customer.php");
     include("../customers/customerService.php");
     include("../customers/customerRepository.php");
+    session_start();
     if (isset($_POST["signupButton"]))
     {
         if(!empty($_POST["username"]) && !empty($_POST["password"]) && 
@@ -26,6 +27,12 @@
 
             if($isSuccessful)
             {
+                $_SESSION["Username"] = $username;
+                $_SESSION["Password"] = $password;
+                $_SESSION["Phone"] = $phone;
+                $_SESSION["Birthdate"] = $birthdate;
+                $_SESSION["Address"] = $address;
+
                 header("location: ../customerProfile/customerProfile.php");
             }
 

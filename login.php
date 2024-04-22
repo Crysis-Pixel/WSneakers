@@ -18,9 +18,9 @@ if (isset($_POST["loginBtn"])) {
         if ($username == $adminUsername)    //Admin Login
         {
             if ($password == $adminPassword) {
-                $_SESSION["username"] = $username;
-                $_SESSION["password"] = $password;
-                header("location: adminpage.php");
+                $_SESSION["Username"] = $username;
+                $_SESSION["Password"] = $password;
+                header("location: ./adminPage/adminPage.html");
             } else {
                 echo "wrong admin password!";
             }
