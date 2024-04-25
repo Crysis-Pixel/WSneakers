@@ -10,12 +10,13 @@ function getAllSellers()
 
   $result = mysqli_query($con, $getAllSellers);
 
+  return $result;
+
   while ($row = mysqli_fetch_assoc($result)) {
     echo '<br>';
-    echo $row['SellerID'] . '<br>';
-    echo $row['Username'] . '<br>';
-    echo $row['Phone'] . '<br>';
-    echo $row['Pwd'] . '<br>';
+    echo $row['SellerID'];
+    echo $row['Username'];
+    echo $row['Phone'];
   }
 }
 
@@ -30,7 +31,7 @@ function getAllSellersID()
 
   while ($row = mysqli_fetch_assoc($result)) {
     echo '<br>';
-    echo $row['SellerID'] . '<br>';
+    echo $row['SellerID'];
   }
 }
 
@@ -45,7 +46,7 @@ function getAllSellersUsername()
 
   while ($row = mysqli_fetch_assoc($result)) {
     echo '<br>';
-    echo $row['Username'] . '<br>';
+    echo $row['Username'];
   }
 }
 
@@ -60,7 +61,7 @@ function getAllSellersPhone()
 
   while ($row = mysqli_fetch_assoc($result)) {
     echo '<br>';
-    echo $row['Phone'] . '<br>';
+    echo $row['Phone'];
   }
 }
 
