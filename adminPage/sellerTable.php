@@ -38,12 +38,13 @@ include("../sellers/sellerRepository.php");
           echo '<td>';
           echo "<div>";
           echo "<div>
-                  <form action='editSellerUI.php' method='post'>
+                  <form action='editSeller.php' method='post'>
+                    <input type='hidden' name='sellerID' value='" . $row['SellerID'] . "'>
                     <input class='edit' type='submit' name='editBtn' value='Edit'>
-                  </form>
+                  </form>        
                 </div>";
           echo "<div>
-                  <form action='deleteSellerUI.php' method='post'>
+                  <form action='deleteSeller.php' method='post'>
                     <input class='delete' type='submit' name='deleteBtn' value='Delete'>
                   </form>
                 </div>";
