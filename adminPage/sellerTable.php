@@ -45,6 +45,7 @@ include("../sellers/sellerRepository.php");
                 </div>";
           echo "<div>
                   <form action='deleteSeller.php' method='post'>
+                    <input type='hidden' name='sellerID' value='" . $row['SellerID'] . "'>
                     <input class='delete' type='submit' name='deleteBtn' value='Delete'>
                   </form>
                 </div>";
