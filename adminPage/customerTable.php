@@ -62,13 +62,11 @@
 <?php
 
 if (isset($_POST["editCustomer"])) {
-    $_SESSION["CustomerID"] = $_POST["editCustomer"];
-    echo $_SESSION["CustomerID"];
+    $_SESSION["editCustomerID"] = $_POST["editCustomer"];
     header("location: ./editCustomer.php");
 }
 if (isset($_POST["deleteCustomer"])) {
     $customerID = $_POST["deleteCustomer"];
-    echo $customerID;
     $isSuccessful = CustomerService::getInstance()->Delete($_POST["deleteCustomer"]);
     if ($isSuccessful)
     {

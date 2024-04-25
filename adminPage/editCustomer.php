@@ -13,14 +13,21 @@ if (isset($_SESSION["Username"]))
         
         if (isset($_POST["editBtn"])) {
             if (
-                    !empty($_POST["username"]) && !empty($_POST["password"]) &&
+                    !empty($_POST["username"]) &&
                     !empty($_POST["phone"]) && !empty($_POST["birthdate"]) &&
                     !empty($_POST["address"])
                 ) {
-                    $customerID = $_SESSION["CustomerID"];
+                    $customerID = $_SESSION["editCustomerID"];
                     echo $customerID;
                     $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
-                    $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
+                    if(!empty($_POST["password"]))
+                    {
+                        $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
+                        $password = password_hash($password, PASSWORD_DEFAULT);
+                    } else
+                    {
+                        $password = $_SESSION["editPassword"];
+                    }
                     $phone = filter_input(INPUT_POST, "phone", FILTER_SANITIZE_SPECIAL_CHARS);
                     $birthDate = filter_input(INPUT_POST, "birthdate", FILTER_SANITIZE_SPECIAL_CHARS);
                     $address = filter_input(INPUT_POST, "address", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -34,7 +41,7 @@ if (isset($_SESSION["Username"]))
                     $newCustomer = Customer::create()
                         ->setCustomerID($customerID)
                         ->setUsername($username)
-                        ->setPassword(password_hash($password, PASSWORD_DEFAULT))
+                        ->setPassword($password)
                         ->setPhone($phone)
                         ->setBirthdate($birthDate)
                         ->setAddress($address);

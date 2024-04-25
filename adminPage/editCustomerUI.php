@@ -6,9 +6,10 @@
   <link rel="stylesheet" href="./editCustomer.css">
 </head>
 <?php
-  if (isset($_SESSION["CustomerID"]))
+  if (isset($_SESSION["editCustomerID"]))
   {
-    $customerOld = CustomerService::getInstance()->FindByCustomerID($_SESSION["CustomerID"]);
+    $customerOld = CustomerService::getInstance()->FindByCustomerID($_SESSION["editCustomerID"]);
+    $_SESSION["editPassword"] = $customerOld->getPassword(); 
   }
 ?>
 <body class="body">
