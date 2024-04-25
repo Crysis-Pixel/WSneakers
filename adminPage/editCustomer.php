@@ -47,6 +47,9 @@ if (isset($_SESSION["Username"]))
                         header("location: ./customerTable.php");
                     }
                 }
+            } else
+            {
+                echo "Some Fields are empty!";
             }
         }
     }

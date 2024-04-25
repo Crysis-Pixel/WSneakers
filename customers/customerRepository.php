@@ -80,8 +80,9 @@ class CustomerRepo
           ->setCustomerID($row["CustomerID"])
           ->setUsername($row["Username"])
           ->setPassword($row["Password"])
-          ->setAddress($row["Address"])
-          ->setPhone($row["Phone"]);
+          ->setPhone($row["Phone"])
+          ->setBirthdate($row["Birthdate"])
+          ->setAddress($row["Address"]);
         return $customer;
       }
     } else {
@@ -103,8 +104,9 @@ class CustomerRepo
           ->setCustomerID($row["CustomerID"])
           ->setUsername($row["Username"])
           ->setPassword($row["Password"])
-          ->setAddress($row["Address"])
-          ->setPhone($row["Phone"]);
+          ->setPhone($row["Phone"])
+          ->setBirthdate($row["Birthdate"])
+          ->setAddress($row["Address"]);
         return $customer;
       }
     } else {
