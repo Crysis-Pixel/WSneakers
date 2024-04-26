@@ -5,11 +5,37 @@ class ProductRepo{
     //contains all the code through which PHP will access database.
     //Added Exception Handling to prevent code from stopping at a particular point.
 
+    public function getProduct($productID){
+        try{
+            $con = Db::getInstance()->getConnection();
+            $result = mysqli_query($con,"select * FROM product WHERE ProductID = {$productID}");
+            return $result;
+        }
+        catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+            return null;
+        }
+    }
+
+    //returns number of products in product table
+    public function getProductCount(){
+        try{
+            $con = Db::getInstance()->getConnection();
+            $result = mysqli_query($con,"select count(1) FROM product");
+            $row = mysqli_fetch_array($result);
+            return $row[0];
+        }
+        catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+            return null;
+        }
+    }
+
     //will return the array of all the colours of a product available in products_colour table
     public function getProductColours(int $ProductID){
         try{
             $con = Db::getInstance()->getConnection();
-            $result = mysqli_query($con, "Select * FROM product_colour WHERE ProductID = {$ProductID}");
+            $result = mysqli_query($con, "Select Colour FROM product_colour WHERE ProductID = {$ProductID}");
             return $result;
         }
         catch(Exception $e){
@@ -22,7 +48,7 @@ class ProductRepo{
     public function getProductSizes(int $ProductID){
         try{
             $con = Db::getInstance()->getConnection();
-            $result = mysqli_query($con, "Select * FROM product_size WHERE ProductID = {$ProductID}");
+            $result = mysqli_query($con, "Select size FROM product_size WHERE ProductID = {$ProductID}");
             return $result;
         }
         catch(Exception $e){
@@ -32,7 +58,7 @@ class ProductRepo{
     }
 
     //will return the array of all the products available in products table
-    public function getAllProducts() : mysqli_result {
+    public function getAllProducts(){
         try{
             $con = Db::getInstance()->getConnection();
             $result = mysqli_query($con, "Select * FROM product");
@@ -45,7 +71,7 @@ class ProductRepo{
     }
 
     //will search a given product by name. If available, will return the result
-    public function SearchProduct(String $productname) {
+    public function SearchProduct(String $productname){
         try{
             $con = Db::getInstance()->getConnection();
             $result = mysqli_query($con, "Select * FROM product WHERE ProductName LIKE '%{$productname}%'");
@@ -62,8 +88,9 @@ class ProductRepo{
 
     //will add product to a table,  will return true if successfully added
     public function AddProduct(Product $p) : bool{
+        $con = Db::getInstance()->getConnection();
+        
         try{
-            $con = Db::getInstance()->getConnection();
             $productName = $p->getProductName();
             $price = $p->getPrice();
             $quantity = $p->getQuantity();
@@ -73,10 +100,9 @@ class ProductRepo{
                         VALUES('$productName','$price','$quantity','$image','$productDescription')");
             if ($result){
                 $lastID = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM product ORDER BY ProductID DESC LIMIT 1;"))["ProductID"];
-                echo $lastID;
+
                 foreach ((array)$p->getColours() as $colour){
                     try{
-                        
                         $colourresult = mysqli_query($con, "INSERT INTO product_colour (ProductID, Colour)
                                         VALUES('$lastID', '$colour');");
                     }
@@ -86,7 +112,6 @@ class ProductRepo{
                         return false;
                         $con->close();
                     }
-                    
                 }
 
                 foreach ((array)$p->getSizes() as $size){
@@ -101,7 +126,6 @@ class ProductRepo{
                     }
                 }
             }
-            
             return true;
         }
         catch(Exception $e){
@@ -114,11 +138,14 @@ class ProductRepo{
     public function RemoveProduct(int $ProductID) : bool{
         try{
             $con = Db::getInstance()->getConnection();
+            $productImage = $this->getProduct($ProductID)->fetch_assoc()['Image'];
+            $imageloc = "../ProductImages/".$productImage;
+            unlink($imageloc);
             $result = mysqli_query($con, "DELETE FROM product WHERE ProductID = {$ProductID}");
-
             return true;
         }
         catch(Exception $e){
+            mysqli_rollback($con);
             echo "Error: " . $e->getMessage() . "<br>";
             return false;
         }
@@ -127,14 +154,16 @@ class ProductRepo{
 
     //Updates any specific record, will return true if successfully updated
     public function UpdateProduct(Product $p, int $productID) : bool{
-        
+
+        $con = Db::getInstance()->getConnection();
+
         try{
-            $con = Db::getInstance()->getConnection();
             $productName = $p->getProductName();
             $price = $p->getPrice();
             $quantity = $p->getQuantity();
             $image = $p->getImage();
             $productDescription = $p->getDesc();
+            
             $result = mysqli_query($con, 
             "UPDATE product SET 
             ProductName = '$productName', 
@@ -143,27 +172,118 @@ class ProductRepo{
             Image = '$image', 
             ProductDesc = '$productDescription'
             WHERE ProductID = {$productID};");
-
-            //had to delete first then insert as updating directly made same changes to all rows with same productID
-            $colourresult = mysqli_query($con, "DELETE FROM product_colour WHERE ProductID = {$productID};");
-            foreach((array)$p->getColours() as $colour){
-                $colourresult = mysqli_query($con, "INSERT INTO product_colour (ProductID, Colour)
-                                        VALUES('$productID', '$colour');");
-            }
-
-            //had to delete first then insert as updating directly made same changes to all rows with same productID
-            $sizeresult = mysqli_query($con, "DELETE FROM product_size WHERE ProductID = {$productID};");
-            foreach((array)$p->getSizes() as $size){
-                $sizeresult = mysqli_query($con, "INSERT INTO product_size (ProductID, size)
-                                        VALUES({$productID}, {$size});");
-            }
-
             return true;
         }
         catch(Exception $e){
             echo "Error: " . $e->getMessage() . "<br>";
             return false;
         }
+    }
+
+    public function AddProductSize(int $productID, int $size):bool{
+
+        $con = Db::getInstance()->getConnection();
+
+        try{
+            //had to delete first then insert as updating directly made same changes to all rows with same productID
+            $sizeresult = mysqli_query($con, "SELECT size FROM product_size 
+            WHERE ProductID = {$productID} AND size = {$size};");
+            if (mysqli_num_rows($sizeresult) == 0) {
+                $sizeresult = mysqli_query($con, "INSERT INTO product_size(ProductID, size)
+                VALUES({$productID}, {$size});");
+                return true;
+            }
+            else{
+                echo "<h3> Product size already in product. </h3>";
+                return false;
+            }
+        }
+        catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+
+    public function AddProductColour(int $productID, string $colour):bool{
+
+        $con = Db::getInstance()->getConnection();
+
+        try{
+            //had to delete first then insert as updating directly made same changes to all rows with same productID
+            $colourresult = mysqli_query($con, "SELECT Colour FROM product_colour 
+            WHERE ProductID = {$productID} AND Colour = '{$colour}';");
+            if (mysqli_num_rows($colourresult) == 0) {
+                $colourresult = mysqli_query($con, "INSERT INTO product_colour(ProductID, Colour)
+                VALUES({$productID}, '{$colour}');");
+                return true;
+            }
+            else{
+                echo "<h3> Product colour already in product. </h3>";
+                return false;
+            }
+        }
+        catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+
+    public function DeleteProductSize(int $productID, int $size):bool{
+
+        $con = Db::getInstance()->getConnection();
+
+        try{
+            //had to delete first then insert as updating directly made same changes to all rows with same productID
+            $sizeresult = mysqli_query($con, "DELETE FROM product_size WHERE ProductID = {$productID} AND size = {$size};");
+            return true;
+        }
+        catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+
+    public function UpdateProductColour(int $productID, string $oldcolour, string $newcolour):bool{
+
+        $con = Db::getInstance()->getConnection();
+
+        try{
+            //had to delete first then insert as updating directly made same changes to all rows with same productID
+            $colourresult = mysqli_query($con, "UPDATE product_colour SET
+            Colour = {$newcolour}
+            WHERE ProductID = {$productID} AND Colour = {$oldcolour};");
+            return true;
+        }
+        catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+
+    public function DeleteProductColour(int $productID, string $colour):bool{
+
+        $con = Db::getInstance()->getConnection();
+
+        try{
+            //had to delete first then insert as updating directly made same changes to all rows with same productID
+            $colourresult = mysqli_query($con, "DELETE FROM product_colour WHERE ProductID = {$productID} AND Colour = '{$colour}';");
+            return true;
+        }
+        catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+
+    public function getLastID() {
+        $con = Db::getInstance()->getConnection();
+        $result = mysqli_query($con, "SELECT ProductID FROM product ORDER BY ProductID DESC LIMIT 1");
+
+        if ($result){
+            $row = mysqli_fetch_assoc($result);
+            return (int)$row['ProductID'];
+        }
+        else return null;
     }
 }
 ?>

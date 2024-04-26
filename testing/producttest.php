@@ -17,7 +17,7 @@
     //$p->Delete(4);
     //$p->Search("Nike");
     //$p->Update($prod,4);
-    $p->GetAll(); //gets all products
+    $p->GetAllProducts(); //gets all products
     ?> 
 </body>
 </html>
