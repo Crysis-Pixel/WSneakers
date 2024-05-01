@@ -2,8 +2,12 @@
     include ("../header.html");
     include("../database/db.php"); //had to include directory like this else it was not working
     include("../products/productService.php");
+    include("../brand/brandService.php");
+    include("../category/categoryService.php");
     $mainImageDIR = "../ProductImages/"; //location directory of product images
     $p = new ProductService();
+    $b = new BrandService();
+    $c = new CategoryService();
 
     if (isset($_POST['Cancel'])){
         header("location: adminproductpage.php");
@@ -15,6 +19,8 @@
         $price =  filter_input(INPUT_POST, "Price", FILTER_SANITIZE_SPECIAL_CHARS);
         $quantity =  filter_input(INPUT_POST, "Quantity", FILTER_SANITIZE_SPECIAL_CHARS);
         $description =  filter_input(INPUT_POST, "Description", FILTER_SANITIZE_SPECIAL_CHARS);
+        $brand = $_POST["branddropdown"];
+        $category = $_POST["categorydropdown"];
 
         if (!empty($name) and !empty($price) and !empty($quantity) and !empty($description) and $_FILES['image']){
             
@@ -55,7 +61,7 @@
                 }
             }
 
-            $prod = new Product($name,$price, $quantity, array(), $newFilename.".".$fileExtension, array(), $description);
+            $prod = new Product( $name, $price, $quantity, array(), $newFilename.".".$fileExtension, array(), $description, $brand, $category);
 
             $p->Insert($prod);
         }
@@ -88,17 +94,49 @@
             echo "<th>Product Information</th>";
             echo "</tr>";
             echo "<tr>";
-            echo "<td><br> Name: <input type='text' name='ProductName' placeholder='Enter product name'></td>";
+            echo "<td><br> Name: <input type='text' name='ProductName' placeholder='Enter product name'><br><br></td>";
             echo "</tr>";
             echo "<tr>";
-            echo "<td><br> Price(tk): <input type='number' name='Price' step='0.01' placeholder='Enter product price'> </td>";
+            echo "<td><br> Price(tk): <input type='number' name='Price' step='0.01' placeholder='Enter product price'><br><br></td>";
             echo "</tr>";
             echo "<tr>";
-            echo "<td><br> Quantity: <input type='number' name='Quantity' placeholder='Enter product quantity' ></td>";
+            echo "<td><br> Quantity: <input type='number' name='Quantity' placeholder='Enter product quantity' ><br><br></td>";
             echo "</tr>";
             echo "<tr>";
-            echo "<td>Upload new image: <input type='file' name='image' /></td>";    
+            echo "<td><br>Upload new image: <input type='file' name='image' /><br><br></td>";    
             echo "</tr>";
+            echo "<tr><td>";
+            echo "<br>";
+            echo "Choose category: ";
+            echo "<select name='categorydropdown'>";
+            $category = $c->GetAllCategories();
+            if ($category){
+                while ($crow = $category->fetch_assoc()){
+                    echo "<option value='" . $crow['CategoryID'] . "'>" . $crow['Type'] . "</option>";
+                }
+            }
+            else {
+                echo "Failed to get Category.";
+            }
+            echo "</select>";
+            echo "<br><br>";
+            echo "</td></tr>";
+            echo "<tr><td>";
+            echo "<br>";
+            echo "Choose brand: ";
+            echo "<select name='branddropdown'>";
+            $brand = $b->GetAllBrands();
+            if ($brand){
+                while ($brow = $brand->fetch_assoc()){
+                    echo "<option value='" . $brow['BrandID'] . "'>" . $brow['Name'] . "</option>";
+                }
+            }
+            else {
+                echo "Failed to get brand.";
+            }
+            echo "</select>";
+            echo "<br><br>";
+            echo "</td></tr>";
             echo "<tr>";
             echo "<td><br> Description: <input type='text' name='Description' placeholder='Enter product description' size='50'> <br><br> </td>";
             echo "</tr>";

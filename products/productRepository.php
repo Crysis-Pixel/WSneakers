@@ -71,14 +71,32 @@ class ProductRepo{
     }
 
     //will search a given product by name. If available, will return the result
-    public function SearchProduct(String $productname){
+    public function SearchProduct(String $productname, int $size, string $colour, string $category, string $brand){
         try{
             $con = Db::getInstance()->getConnection();
-            $result = mysqli_query($con, "Select * FROM product WHERE ProductName LIKE '%{$productname}%'");
-            if (mysqli_num_rows($result) > 0) {
-                return $result;
+            if ($size==-1){
+                $result = mysqli_query($con, "SELECT DISTINCT(p.ProductID), p.ProductName, p.Price, p.Quantity, p.Image, p.ProductDesc, p.SellerID, p.BrandID, p.CategoryID
+                FROM product AS p
+                INNER JOIN product_size ON p.ProductID = product_size.ProductID
+                INNER JOIN product_colour ON p.ProductID = product_colour.ProductID
+                INNER JOIN category ON p.CategoryID=category.CategoryID
+                INNER JOIN brand ON p.BrandID=brand.BrandID
+                WHERE product_colour.Colour LIKE '{$colour}%' and p.ProductName LIKE '{$productname}%' and category.Type LIKE '{$category}%' and brand.Name LIKE '{$brand}%';");
             }
-            else return null;
+            else{
+                $result = mysqli_query($con, "SELECT DISTINCT(p.ProductID), p.ProductName, p.Price, p.Quantity, p.Image, p.ProductDesc, p.SellerID, p.BrandID, p.CategoryID
+                FROM product AS p
+                INNER JOIN product_size ON p.ProductID = product_size.ProductID
+                INNER JOIN product_colour ON p.ProductID = product_colour.ProductID
+                INNER JOIN category ON p.CategoryID=category.CategoryID
+                INNER JOIN brand ON p.BrandID=brand.BrandID
+                WHERE product_size.size = {$size} and product_colour.Colour LIKE '{$colour}%' and p.ProductName LIKE '{$productname}%' and category.Type LIKE '{$category}%' and brand.Name LIKE '{$brand}%';");
+            }
+            return $result;
+            // if (mysqli_num_rows($result) > 0) {
+            //     return $result;
+            // }
+            // else return null;
         }
         catch(Exception $e){
             echo "Error: " . $e->getMessage() . "<br>";
@@ -96,8 +114,10 @@ class ProductRepo{
             $quantity = $p->getQuantity();
             $image = $p->getImage();
             $productDescription = $p->getDesc();
-            $result = mysqli_query($con, "INSERT INTO product (ProductName, Price, Quantity, Image, ProductDesc)
-                        VALUES('$productName','$price','$quantity','$image','$productDescription')");
+            $BrandID = $p->getBrandID();
+            $CategoryID = $p->getCategoryID();
+            $result = mysqli_query($con, "INSERT INTO product (ProductName, Price, Quantity, Image, ProductDesc, BrandID, CategoryID)
+                        VALUES('$productName','$price','$quantity','$image','$productDescription', '$BrandID', '$CategoryID')");
             if ($result){
                 $lastID = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM product ORDER BY ProductID DESC LIMIT 1;"))["ProductID"];
 
@@ -145,7 +165,6 @@ class ProductRepo{
             return true;
         }
         catch(Exception $e){
-            mysqli_rollback($con);
             echo "Error: " . $e->getMessage() . "<br>";
             return false;
         }
@@ -163,6 +182,8 @@ class ProductRepo{
             $quantity = $p->getQuantity();
             $image = $p->getImage();
             $productDescription = $p->getDesc();
+            $BrandID = $p->getBrandID();
+            $CategoryID = $p->getCategoryID();
             
             $result = mysqli_query($con, 
             "UPDATE product SET 
@@ -170,7 +191,9 @@ class ProductRepo{
             Price = '$price', 
             Quantity = '$quantity', 
             Image = '$image', 
-            ProductDesc = '$productDescription'
+            ProductDesc = '$productDescription',
+            BrandID = '$BrandID',
+            CategoryID = '$CategoryID'
             WHERE ProductID = {$productID};");
             return true;
         }
@@ -285,5 +308,50 @@ class ProductRepo{
         }
         else return null;
     }
+
+    public function SearchbyBrand(string $Brand){
+        try{
+            $con = Db::getInstance()->getConnection();
+            $result = mysqli_query($con, "SELECT p.ProductID, p.ProductName, p.Price, p.Quantity, p.Image, p.ProductDesc, p.SellerID, b.BrandID, p.CategoryID
+                                        FROM product AS p 
+                                        INNER JOIN brand AS b ON p.BrandID=b.BrandID
+                                        WHERE p.BrandID LIKE {$Brand}");
+            if (mysqli_num_rows($result) > 0) {
+                return $result;
+            }
+            else return null;
+        }
+        catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+
+    public function GetAllDistinctColours(){
+        try{
+            $con = Db::getInstance()->getConnection();
+            $result = mysqli_query($con, "SELECT DISTINCT(Colour) FROM product_colour");
+            return $result;
+        }
+        catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+            return null;
+        }
+
+    }
+
+    public function GetAllDistinctSizes(){
+        try{
+            $con = Db::getInstance()->getConnection();
+            $result = mysqli_query($con, "SELECT DISTINCT(size) FROM product_size");
+            return $result;
+        }
+        catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+            return null;
+        }
+
+    }
+
 }
 ?>

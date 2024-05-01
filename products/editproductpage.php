@@ -2,9 +2,23 @@
     include ("../header.html");
     include("../database/db.php"); //had to include directory like this else it was not working
     include("../products/productService.php");
+    include("../brand/brandService.php");
+    include("../category/categoryService.php");
     $mainImageDIR = "../ProductImages/"; //location directory of product images
     $p = new ProductService();
+    $b = new BrandService();
+    $c = new CategoryService();
     if (isset($_POST["GoBack"])){
+        header("location: adminproductpage.php");
+        exit;
+    }
+    if (isset($_POST["DeleteProduct"])){
+        if (isset($_POST['product_id'])){
+            $p->DeleteProduct($_POST['product_id']);
+        }
+        else{
+            echo "<h3> Failed to delete product </h3>";
+        }
         header("location: adminproductpage.php");
         exit;
     }
@@ -14,6 +28,8 @@
         $price =  filter_input(INPUT_POST, "Price", FILTER_SANITIZE_SPECIAL_CHARS);
         $quantity =  filter_input(INPUT_POST, "Quantity", FILTER_SANITIZE_SPECIAL_CHARS);
         $description =  filter_input(INPUT_POST, "Description", FILTER_SANITIZE_SPECIAL_CHARS);
+        $brand = $_POST["branddropdown"];
+        $category = $_POST["categorydropdown"];
 
         if (!empty($name) and !empty($price) and !empty($quantity) and !empty($description)){
             
@@ -49,6 +65,7 @@
                 }
                 else {
                     $newFilePath = $mainImageDIR . $newFilename . "." . $fileExtension;
+                    unlink($mainImageDIR.$updatedfile);
                     if (move_uploaded_file($_FILES["image"]["tmp_name"], $newFilePath)) {
 
                         echo "<h3> Image file uploaded </h3>";
@@ -62,7 +79,7 @@
             }
             
 
-            $prod = new Product($name,$price, $quantity, array(), $updatedfile, array(), $description);
+            $prod = new Product( $name, $price, $quantity, array(), $updatedfile, array(), $description, $brand, $category);
 
             $p->UpdateProduct($prod, $_POST['product_id']);
         }
@@ -81,11 +98,9 @@
     <title>Document</title>
 </head>
 <body class = 'body'>
-<!-- action="producteditpage.php"  -->
     <form role="form" method="post" enctype="multipart/form-data"> 
     <?php
         echo "<h2>Product Edit</h2>";
-
         try{
             if (isset($_POST['product_id'])){
                 $result = $p->GetProduct($_POST['product_id']);
@@ -100,13 +115,13 @@
             echo "<th>Edit Information</th>";
             echo "</tr>";
             echo "<tr>";
-            echo "<td><br> Name: <input type='text' name='ProductName' value='". htmlspecialchars($row["ProductName"])."'></td>";
+            echo "<td><br> Name: <input type='text' name='ProductName' value='". htmlspecialchars($row["ProductName"])."'><br><br></td>";
             echo "</tr>";
             echo "<tr>";
-            echo "<td><br> Price(tk): <input type='number' name='Price' value=".$row["Price"]."> </td>";
+            echo "<td><br> Price(tk): <input type='number' name='Price' value=".$row["Price"]."><br><br></td>";
             echo "</tr>";
             echo "<tr>";
-            echo "<td><br> Quantity: <input type='number' name='Quantity' value=".strval($row["Quantity"])." ></td>";
+            echo "<td><br> Quantity: <input type='number' name='Quantity' value=".strval($row["Quantity"])." ><br><br></td>";
             echo "</tr>";
             echo "<tr>";
             $image = $mainImageDIR.$row["Image"];
@@ -116,11 +131,40 @@
                     '<img src="'.$image.'" height = "100"/><br />'  
                 ."<br>";
             
-            echo "Upload new image: <input type='file' name='image' /></td>";    
+            echo "Upload new image: <input type='file' name='image' /><br><br></td>";    
             echo "</tr>";
-            echo "<tr>";
+            echo "<tr><td>";
             echo "<br>";
-            
+            echo "Choose brand: ";
+            echo "<select name='branddropdown'>";
+            $brand = $b->GetAllBrands();
+            if ($brand){
+                while ($brow = $brand->fetch_assoc()){
+                    echo "<option value='" . $brow['BrandID'] . "'>" . $brow['Name'] . "</option>";
+                }
+            }
+            else {
+                echo "Failed to get brand.";
+            }
+            echo "</select>";
+            echo "<br><br>";
+            echo "</td></tr>";
+            echo "<tr><td>";
+            echo "<br>";
+            echo "Choose category: ";
+            echo "<select name='categorydropdown'>";
+            $category = $c->GetAllCategories();
+            if ($category){
+                while ($crow = $category->fetch_assoc()){
+                    echo "<option value='" . $crow['CategoryID'] . "'>" . $crow['Type'] . "</option>";
+                }
+            }
+            else {
+                echo "Failed to get Category.";
+            }
+            echo "</select>";
+            echo "<br><br>";
+            echo "</td></tr>";
             echo "<tr>";
             echo "<td><br> Description: <input type='text' name='Description' value='" . htmlspecialchars($row["ProductDesc"]) . "' size='50'> <br><br> </td>";
             echo "</tr>";

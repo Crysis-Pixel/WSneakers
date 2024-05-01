@@ -92,8 +92,8 @@
         }
 
         //go to SearchProduct in ProductRepository.php for details
-        public function Search(string $ProductName){
-            $result = $this->productRepo->SearchProduct($ProductName);
+        public function Search(string $ProductName, int $size, string $colour, string $category, string $brand){
+            $result = $this->productRepo->SearchProduct($ProductName, $size, $colour, $category, $brand);
             return $result;
         }
 
@@ -103,13 +103,23 @@
             return $result;
         }
 
-        public function GetAllColours(int $ProductID){
+        public function GetAllProductColours(int $ProductID){
             $result = $this->productRepo->getProductColours($ProductID);
             return $result;
         }
 
-        public function GetAllSizes(int $ProductID){
+        public function GetAllProductSizes(int $ProductID){
             $result = $this->productRepo->getProductSizes($ProductID);
+            return $result;
+        }
+
+        public function GetAllDistinctColours(){
+            $result = $this->productRepo->GetAllDistinctColours();
+            return $result;
+        }
+
+        public function GetAllDistinctSizes(){
+            $result = $this->productRepo->GetAllDistinctSizes();
             return $result;
         }
 
