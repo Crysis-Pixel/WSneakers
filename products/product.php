@@ -12,10 +12,11 @@ class Product
     private string $Image;
     private $Sizes;
     private string $Description;
+    private int $BrandID;
+    private int $CategoryID;
 
-    public function __construct(string $ProductName, float $Price, int $Quantity, array $Colours, $Image, array $Sizes, string $Description)
+    public function __construct(string $ProductName, float $Price, int $Quantity, array $Colours, string $Image, array $Sizes, string $Description, int $BrandID, int $CategoryID)
     {
-        //$this->ProductID = $ProductID;
         $this->ProductName = $ProductName;
         $this->Price = $Price;
         $this->Quantity = $Quantity;
@@ -23,7 +24,9 @@ class Product
         $this->Image = $Image;
         $this->Sizes = $Sizes;
         $this->Description = $Description;
-
+        $this->BrandID = $BrandID;
+        $this->CategoryID = $CategoryID;
+        $this->BrandID =$BrandID;
     }
 
     public function setProductID(string $ProductID) {
@@ -66,6 +69,14 @@ class Product
 
     }
 
+    public function setBrand(string $BrandID) {
+        $this->BrandID = $BrandID;
+    }
+
+    public function setCategory(string $CategoryID) {
+        $this->CategoryID = $CategoryID;
+    }
+
     public function getProductID() : int {
         return $this->ProductID;
     }
@@ -95,6 +106,14 @@ class Product
 
     public function getDesc() : string {
         return $this->Description;
+    }
+
+    public function getBrandID(){
+        return $this->BrandID;
+    }
+
+    public function getCategoryID() {
+        return $this->CategoryID;
     }
 }
 ?>

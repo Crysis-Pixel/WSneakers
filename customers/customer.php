@@ -10,7 +10,6 @@ class Customer
 
     public function setCustomerID(string $customerID) : Customer {
         $this->customerID = $customerID;
-
         return $this;
     }
 
