@@ -5,6 +5,11 @@ include_once("./database/db.php");
 include_once("./customers/customer.php");
 include_once("./customers/customerService.php");
 include_once("./customers/customerRepository.php");
+
+//added by Mostakim
+include_once("./sellers/sellerRepository.php");
+//
+
 session_start();
 ?>
 
@@ -18,6 +23,9 @@ if (isset($_POST["loginBtn"])) {
         if ($username == $adminUsername)    //Admin Login
         {
             if ($password == $adminPassword) {
+
+                $_SESSION = array();
+
                 $_SESSION["Username"] = $username;
                 $_SESSION["Password"] = $password;
                 header("location: ./adminPage/adminPage.html");
@@ -37,9 +45,19 @@ if (isset($_POST["loginBtn"])) {
                     header("location: index.php");
                 }
             } else if ($_POST["option"] == "Seller") {
+                
+                ///Added by Mostakim
+                $s = new SellerRepo();
+                $result = $s->verifySeller($username, $password);
+                if ($result){
+                    $_SESSION["SellerID"] = mysqli_fetch_assoc($result)["SellerID"];
+                    $_SESSION["SellerUsername"] = $username;
+                    $_SESSION["SellerPassword"] = $password;
 
-                //TO BE CONTINUED
+                    header("location: ./sellerProfile/sellerProfile.php");
+                }
 
+                ///
             }
         }
     } else {

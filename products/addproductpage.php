@@ -4,14 +4,21 @@
     include("../products/productService.php");
     include("../brand/brandService.php");
     include("../category/categoryService.php");
+    include("../sellers/sellerRepository.php");
     $mainImageDIR = "../ProductImages/"; //location directory of product images
     $p = new ProductService();
     $b = new BrandService();
     $c = new CategoryService();
+    $s = new SellerRepo();
 
+    session_start();
     if (isset($_POST['Cancel'])){
-        header("location: adminproductpage.php");
-        exit;
+        if (isset($_SESSION["SellerUsername"])) {
+            header("location: ../sellerProfile/sellerProfile.php");
+            exit;
+        }
+        else {header("location: ../products/adminproductpage.php");exit;}
+        
     }
 
     if (isset($_POST['AddProduct'])){
@@ -21,6 +28,10 @@
         $description =  filter_input(INPUT_POST, "Description", FILTER_SANITIZE_SPECIAL_CHARS);
         $brand = $_POST["branddropdown"];
         $category = $_POST["categorydropdown"];
+        if (isset($_POST["sellerdropdown"])){
+            $seller = $_POST["sellerdropdown"];
+        }
+        else $seller = $_SESSION["SellerID"];
 
         if (!empty($name) and !empty($price) and !empty($quantity) and !empty($description) and $_FILES['image']){
             
@@ -61,7 +72,7 @@
                 }
             }
 
-            $prod = new Product( $name, $price, $quantity, array(), $newFilename.".".$fileExtension, array(), $description, $brand, $category);
+            $prod = new Product( $name, $price, $quantity, array(), $newFilename.".".$fileExtension, array(), $description, $brand, $category, $seller);
 
             $p->Insert($prod);
         }
@@ -137,6 +148,26 @@
             echo "</select>";
             echo "<br><br>";
             echo "</td></tr>";
+
+            if (empty($_SESSION["SellerUsername"])){
+                echo "<tr><td>";
+                echo "<br>";
+                echo "Choose seller: ";
+                echo "<select name='sellerdropdown'>";
+                $seller = $s->getAllSellers();
+                if ($seller){
+                    while ($brow = $seller->fetch_assoc()){
+                        echo "<option value='" . $brow['SellerID'] . "'>" . $brow['Username'] . "</option>";
+                    }
+                }
+                else {
+                    echo "Failed to get seller.";
+                }
+                echo "</select>";
+                echo "<br><br>";
+                echo "</td></tr>";
+            }
+
             echo "<tr>";
             echo "<td><br> Description: <input type='text' name='Description' placeholder='Enter product description' size='50'> <br><br> </td>";
             echo "</tr>";

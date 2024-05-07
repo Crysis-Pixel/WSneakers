@@ -12,6 +12,7 @@
             include("../database/db.php"); //had to include directory like this else it was not working
             include("../category/categoryService.php");
             $p = new CategoryService();
+            session_start();
         ?>
          
         <form action="categorypage.php" method="post">
@@ -27,7 +28,12 @@
             <button class='Button' type='submit'>Add Category</button>
         </form></td>
 
-        <td><form action="../products/adminproductpage.php">
+        <?php
+            if (isset($_SESSION["SellerUsername"])) {
+                echo "<td><form action='../sellerProfile/sellerProfile.php'>";
+            }
+            else echo "<td><form action='../products/adminproductpage.php'>";
+        ?>
             <button class='Button' type='submit'>Go Back</button>
         </form></td>
         </tr></table>

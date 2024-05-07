@@ -13,10 +13,12 @@
             include("../products/productService.php");
             include("../brand/brandService.php");
             include("../category/categoryService.php");
+            include("../sellers/sellerRepository.php");
             $mainImageDIR = "../ProductImages/"; //location directory of product images
             $p = new ProductService();
             $b = new BrandService();
             $c = new CategoryService();
+            $s = new SellerRepo();
         ?>
         <form action="adminproductpage.php" method="post">
             <h3>Search by:</h3>
@@ -100,7 +102,7 @@
             <button class='Button' type='submit'>Categories</button>
         </form></td>
 
-        <td><form action="">
+        <td><form action="../adminPage/adminPage.php">
             <button class='Button' type='submit'>Go back</button>
         </form></td>
         </tr></table>
@@ -221,11 +223,15 @@
                         </form>
                         </td>";
 
-                    echo "<td>";
-
-                    //reserved for seller code
-                    
-                    echo "</td>";
+                    if (strcmp($row["SellerID"],'')){
+                        $seller = $s->getSellerbyID($row["SellerID"]);
+                        if ($seller){
+                            echo "<td>".$seller->fetch_assoc()["Username"]."</td>";
+                        }
+                    }
+                    else{
+                        echo "<td> None. </td>";
+                    }
                     
                     echo "</tr>"; 
                 }

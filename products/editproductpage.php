@@ -4,13 +4,22 @@
     include("../products/productService.php");
     include("../brand/brandService.php");
     include("../category/categoryService.php");
+    include("../sellers/sellerRepository.php");
+
+    session_start();
+
     $mainImageDIR = "../ProductImages/"; //location directory of product images
     $p = new ProductService();
     $b = new BrandService();
     $c = new CategoryService();
+    $s = new SellerRepo();
     if (isset($_POST["GoBack"])){
-        header("location: adminproductpage.php");
-        exit;
+        if (isset($_SESSION["SellerUsername"])) {
+            header("location: ../sellerProfile/sellerProfile.php");
+            exit;
+        }
+        else header("location: ../products/adminproductpage.php"); exit;
+        
     }
     if (isset($_POST["DeleteProduct"])){
         if (isset($_POST['product_id'])){
@@ -19,8 +28,11 @@
         else{
             echo "<h3> Failed to delete product </h3>";
         }
-        header("location: adminproductpage.php");
-        exit;
+        if (isset($_SESSION["SellerUsername"])) {
+            header("location: ../sellerProfile/sellerProfile.php");
+            exit;
+        }
+        else {header("location: ../products/adminproductpage.php");exit;}
     }
     if (isset($_POST["SaveItem"])){
 
@@ -30,6 +42,10 @@
         $description =  filter_input(INPUT_POST, "Description", FILTER_SANITIZE_SPECIAL_CHARS);
         $brand = $_POST["branddropdown"];
         $category = $_POST["categorydropdown"];
+        if (isset($_POST["sellerdropdown"])){
+            $seller = $_POST["sellerdropdown"];
+        }
+        else $seller = $_SESSION["SellerID"];
 
         if (!empty($name) and !empty($price) and !empty($quantity) and !empty($description)){
             
@@ -79,7 +95,7 @@
             }
             
 
-            $prod = new Product( $name, $price, $quantity, array(), $updatedfile, array(), $description, $brand, $category);
+            $prod = new Product( $name, $price, $quantity, array(), $updatedfile, array(), $description, $brand, $category, $seller);
 
             $p->UpdateProduct($prod, $_POST['product_id']);
         }
@@ -165,6 +181,26 @@
             echo "</select>";
             echo "<br><br>";
             echo "</td></tr>";
+
+            if (empty($_SESSION["SellerUsername"])){
+                echo "<tr><td>";
+                echo "<br>";
+                echo "Choose seller: ";
+                echo "<select name='sellerdropdown'>";
+                $seller = $s->getAllSellers();
+                if ($seller){
+                    while ($crow = $seller->fetch_assoc()){
+                        echo "<option value='" . $crow['SellerID'] . "'>" . $crow['Username'] . "</option>";
+                    }
+                }
+                else {
+                    echo "Failed to get seller.";
+                }
+                echo "</select>";
+                echo "<br><br>";
+                echo "</td></tr>";
+            }
+
             echo "<tr>";
             echo "<td><br> Description: <input type='text' name='Description' value='" . htmlspecialchars($row["ProductDesc"]) . "' size='50'> <br><br> </td>";
             echo "</tr>";

@@ -12,6 +12,8 @@
             include("../database/db.php"); //had to include directory like this else it was not working
             include("../brand/brandService.php");
             $p = new BrandService();
+            session_start();
+
         ?>
          
         <form action="brandpage.php" method="post">
@@ -26,8 +28,14 @@
         <td><form action="addbrandpage.php">
             <button class='Button' type='submit'>Add Brand</button>
         </form></td>
-
-        <td><form action="../products/adminproductpage.php">
+        
+        
+        <?php
+            if (isset($_SESSION["SellerUsername"])) {
+                echo "<td><form action='../sellerProfile/sellerProfile.php'>";
+            }
+            else echo "<td><form action='../products/adminproductpage.php'>";
+        ?>
             <button class='Button' type='submit'>Go back</button>
         </form></td>
         </tr></table>

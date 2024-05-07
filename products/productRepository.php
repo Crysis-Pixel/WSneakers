@@ -77,26 +77,54 @@ class ProductRepo{
             if ($size==-1){
                 $result = mysqli_query($con, "SELECT DISTINCT(p.ProductID), p.ProductName, p.Price, p.Quantity, p.Image, p.ProductDesc, p.SellerID, p.BrandID, p.CategoryID
                 FROM product AS p
-                INNER JOIN product_size ON p.ProductID = product_size.ProductID
-                INNER JOIN product_colour ON p.ProductID = product_colour.ProductID
+                LEFT JOIN product_size ON p.ProductID = product_size.ProductID
+                LEFT JOIN product_colour ON p.ProductID = product_colour.ProductID
                 INNER JOIN category ON p.CategoryID=category.CategoryID
                 INNER JOIN brand ON p.BrandID=brand.BrandID
-                WHERE product_colour.Colour LIKE '{$colour}%' and p.ProductName LIKE '{$productname}%' and category.Type LIKE '{$category}%' and brand.Name LIKE '{$brand}%';");
+                WHERE (product_colour.Colour LIKE '{$colour}%' or product_colour.Colour IS NULL) and p.ProductName LIKE '{$productname}%' and category.Type LIKE '{$category}%' and brand.Name LIKE '{$brand}%';");
             }
             else{
                 $result = mysqli_query($con, "SELECT DISTINCT(p.ProductID), p.ProductName, p.Price, p.Quantity, p.Image, p.ProductDesc, p.SellerID, p.BrandID, p.CategoryID
                 FROM product AS p
-                INNER JOIN product_size ON p.ProductID = product_size.ProductID
-                INNER JOIN product_colour ON p.ProductID = product_colour.ProductID
+                LEFT JOIN product_size ON p.ProductID = product_size.ProductID
+                LEFT JOIN product_colour ON p.ProductID = product_colour.ProductID
                 INNER JOIN category ON p.CategoryID=category.CategoryID
                 INNER JOIN brand ON p.BrandID=brand.BrandID
-                WHERE product_size.size = {$size} and product_colour.Colour LIKE '{$colour}%' and p.ProductName LIKE '{$productname}%' and category.Type LIKE '{$category}%' and brand.Name LIKE '{$brand}%';");
+                WHERE (product_size.size = {$size} or product_size.size IS NULL) and (product_colour.Colour LIKE '{$colour}%' or product_colour.Colour IS NULL) and p.ProductName LIKE '{$productname}%' and category.Type LIKE '{$category}%' and brand.Name LIKE '{$brand}%';");
             }
             return $result;
-            // if (mysqli_num_rows($result) > 0) {
-            //     return $result;
-            // }
-            // else return null;
+        }
+        catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+
+    //will search a given product by name. If available, will return the result
+    public function SearchProductofSeller(String $productname, int $size, string $colour, string $category, string $brand, string $seller){
+        try{
+            $con = Db::getInstance()->getConnection();
+            if ($size==-1){
+                $result = mysqli_query($con, "SELECT DISTINCT(p.ProductID), p.ProductName, p.Price, p.Quantity, p.Image, p.ProductDesc, p.SellerID, p.BrandID, p.CategoryID
+                FROM product AS p
+                LEFT JOIN product_size ON p.ProductID = product_size.ProductID
+                LEFT JOIN product_colour ON p.ProductID = product_colour.ProductID
+                INNER JOIN category ON p.CategoryID=category.CategoryID
+                INNER JOIN brand ON p.BrandID=brand.BrandID
+                INNER JOIN seller ON p.SellerID=seller.SellerID
+                WHERE seller.SellerID = {$seller} and (product_colour.Colour LIKE '{$colour}%' or product_colour.Colour IS NULL) and p.ProductName LIKE '{$productname}%' and category.Type LIKE '{$category}%' and brand.Name LIKE '{$brand}%';");
+            }
+            else{
+                $result = mysqli_query($con, "SELECT DISTINCT(p.ProductID), p.ProductName, p.Price, p.Quantity, p.Image, p.ProductDesc, p.SellerID, p.BrandID, p.CategoryID
+                FROM product AS p
+                LEFT JOIN product_size ON p.ProductID = product_size.ProductID
+                LEFT JOIN product_colour ON p.ProductID = product_colour.ProductID
+                INNER JOIN category ON p.CategoryID=category.CategoryID
+                INNER JOIN brand ON p.BrandID=brand.BrandID
+                INNER JOIN seller ON p.SellerID=seller.SellerID
+                WHERE seller.SellerID = {$seller} and (product_size.size = {$size} or product_size.size IS NULL) and (product_colour.Colour LIKE '{$colour}%' or product_colour.Colour IS NULL) and p.ProductName LIKE '{$productname}%' and category.Type LIKE '{$category}%' and brand.Name LIKE '{$brand}%';");
+            }
+            return $result;
         }
         catch(Exception $e){
             echo "Error: " . $e->getMessage() . "<br>";
@@ -116,8 +144,9 @@ class ProductRepo{
             $productDescription = $p->getDesc();
             $BrandID = $p->getBrandID();
             $CategoryID = $p->getCategoryID();
-            $result = mysqli_query($con, "INSERT INTO product (ProductName, Price, Quantity, Image, ProductDesc, BrandID, CategoryID)
-                        VALUES('$productName','$price','$quantity','$image','$productDescription', '$BrandID', '$CategoryID')");
+            $SellerID = $p->getSellerID();
+            $result = mysqli_query($con, "INSERT INTO product (ProductName, Price, Quantity, Image, ProductDesc, BrandID, CategoryID, SellerID)
+                        VALUES('$productName','$price','$quantity','$image','$productDescription', '$BrandID', '$CategoryID', '$SellerID')");
             if ($result){
                 $lastID = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM product ORDER BY ProductID DESC LIMIT 1;"))["ProductID"];
 
@@ -184,6 +213,7 @@ class ProductRepo{
             $productDescription = $p->getDesc();
             $BrandID = $p->getBrandID();
             $CategoryID = $p->getCategoryID();
+            $SellerID = $p->getSellerID();
             
             $result = mysqli_query($con, 
             "UPDATE product SET 
@@ -193,7 +223,8 @@ class ProductRepo{
             Image = '$image', 
             ProductDesc = '$productDescription',
             BrandID = '$BrandID',
-            CategoryID = '$CategoryID'
+            CategoryID = '$CategoryID',
+            SellerID = '$SellerID'
             WHERE ProductID = {$productID};");
             return true;
         }

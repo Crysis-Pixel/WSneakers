@@ -3,6 +3,7 @@
 
 <?php
 include("../sellers/sellerRepository.php");
+include("../database/db.php");
 ?>
 
 <head>
@@ -27,7 +28,8 @@ include("../sellers/sellerRepository.php");
     </thead>
     <tbody>
       <?php
-      $result = getAllSellers();
+      $s = new SellerRepo();
+      $result = $s->getAllSellers();
       if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
           echo "<tbody>";

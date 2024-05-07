@@ -4,10 +4,14 @@
     include("/xampp/htdocs/WSneakers/products/productService.php");
     $mainImageDIR = "/WSneakers/ProductImages/"; //location directory of product images
     $p = new ProductService();
+    session_start();
 
     if (isset($_POST['GoBackButton'])){
-        header("location: adminproductpage.php");
-        exit;
+        if (isset($_SESSION["SellerUsername"])) {
+            header("location: ../sellerProfile/sellerProfile.php");
+            exit;
+        }
+        else {header("location: ../products/adminproductpage.php");exit;}
     }
     if (isset($_POST['RemoveColourButton'])){
         if (isset($_POST['colourchoose'])){
@@ -54,7 +58,7 @@
         echo "<h2>Product Colours Edit</h2>";
         try{
             echo "<h3 style='text-align: center;'> Editing colours for Product: ".$_POST['product_id']."</h3>";    
-            $colourresult = $p->GetAllColours($_POST['product_id']);
+            $colourresult = $p->GetAllProductColours($_POST['product_id']);
             echo "<tr>";
             echo "<td style='border:none;'>";
             echo "Stored colours:<br>";

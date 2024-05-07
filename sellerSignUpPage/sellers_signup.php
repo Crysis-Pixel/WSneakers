@@ -53,11 +53,13 @@ if (isset($_POST["submit"])) {
         if (mysqli_num_rows($result) > 0) {
             echo "The Username already exists";
         } else {
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $hashedPassword = $password;
             $sql = "INSERT INTO seller (Phone, Username, Pwd) VALUES('$phone', '$username', '$hashedPassword')";
-
-            mysqli_query($con, $sql);
+            
             try {
+            mysqli_query($con, $sql);
+            
                 echo "User is now registered";
             } catch (mysqli_sql_exception) {
                 echo "Could not register user";

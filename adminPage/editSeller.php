@@ -1,6 +1,7 @@
 <?php
 include("../sellers/sellerRepository.php");
 include("../header.html");
+include("../database/db.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sellerID'])) {
   $sellerID = $_POST['sellerID'];

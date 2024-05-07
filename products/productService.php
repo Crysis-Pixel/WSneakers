@@ -97,6 +97,12 @@
             return $result;
         }
 
+        //go to SearchProduct in ProductRepository.php for details
+        public function SearchofSeller(string $ProductName, int $size, string $colour, string $category, string $brand, string $seller){
+            $result = $this->productRepo->SearchProductofSeller($ProductName, $size, $colour, $category, $brand, $seller);
+            return $result;
+        }
+
         //go to getAllProducts in ProductRepository.php for details
         public function GetAllProducts(){
             $result = $this->productRepo->getAllProducts();

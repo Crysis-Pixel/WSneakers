@@ -5,7 +5,7 @@
     $c = new CategoryService();
 
     if (isset($_POST['Cancel'])){
-        header("location: categorypage.php");
+        header("location: ../category/categoryPage.php");
         exit;
     }
 

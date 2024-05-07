@@ -4,11 +4,15 @@
     include("/xampp/htdocs/WSneakers/products/productService.php");
     $mainImageDIR = "/WSneakers/ProductImages/"; //location directory of product images
     $p = new ProductService();
+    session_start();
 
     
     if (isset($_POST['GoBackButton'])){
-        header("location: adminproductpage.php");
-        exit;
+        if (isset($_SESSION["SellerUsername"])) {
+            header("location: ../sellerProfile/sellerProfile.php");
+            exit;
+        }
+        else {header("location: ../products/adminproductpage.php");exit;}
     }
     if (isset($_POST['RemoveSizeButton'])){
         if (isset($_POST['sizechoose'])){
@@ -56,7 +60,7 @@
         echo "<h2>Product Sizes Edit</h2>";
         echo "<h3 style='text-align: center;'> Editing sizes for Product: ".$_POST['product_id']."</h3>";   
         try{  
-            $sizeresult = $p->getAllSizes($_POST['product_id']);
+            $sizeresult = $p->getAllProductSizes($_POST['product_id']);
             echo "<tr>";
             echo "<td style='border:none;'>";
             echo "Stored sizes:<br>";
