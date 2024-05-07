@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sellerID'])) {
 
   if (isset($_POST['edit'])) {
     if (empty($_POST["phone"]) || empty($_POST["username"])) {
-      echo "Please fillup the sign up form";
+      echo "Please fillup the form";
     } else {
       $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
       $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_SPECIAL_CHARS);
