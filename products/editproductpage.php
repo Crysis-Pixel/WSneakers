@@ -206,7 +206,7 @@
             echo "</tr>";
             echo "</table>";
             echo "<input class='Button' type='submit' name='DeleteProduct' value='Delete Product' style='font-size: 35px;'>";
-            echo "<input class='Button' type='submit' name='GoBack' value='Done' style='font-size: 35px;'>";
+            echo "<input class='Button' type='submit' name='GoBack' value='Back' style='font-size: 35px;'>";
             echo "<input class='Button' type='submit' name='SaveItem' value='Save changes' style='font-size: 35px;'>";
             
         }

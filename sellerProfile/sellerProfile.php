@@ -7,7 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    <?php
+    <?php 
+        session_start();
+        if (!isset($_SESSION["SellerUsername"])){
+            header("location: ../index.php");
+        }
         if (isset($_POST["LogOutBtn"])){
             session_destroy();
             header("location: ../index.php");
@@ -15,7 +19,7 @@
 
         include ("../header.html");
         
-        session_start();
+       
 
         if (empty($_SESSION["SellerUsername"])) {
             header("location: ../login.php");
@@ -195,7 +199,7 @@
                 echo "<td>
                 <form action='../products/editproductpage.php' method='post'>
                     <input type='hidden' name='product_id' value='{$row["ProductID"]}'>
-                    <button class='Button' type='submit'>Edit/Update Product</button>
+                    <button class='Button' type='submit'>Edit/Delete Product</button>
                 </form>
                 </td>";
 
@@ -213,7 +217,7 @@
                 }
                 echo "<form action='../products/editsizespage.php' method='post'>
                     <input type='hidden' name='product_id' value='{$row["ProductID"]}'>
-                    <button class='Button' type='submit' style='padding: 0px;'>Edit/Update Product Sizes</button>
+                    <button class='Button' type='submit' style='padding: 0px;'>Edit/Delete Product Sizes</button>
                     </form>
                     </td>";
                 
@@ -231,7 +235,7 @@
                 }
                 echo "<form action='../products/editcolourspage.php' method='post'>
                     <input type='hidden' name='product_id' value='{$row["ProductID"]}'>
-                    <button class='Button' type='submit' style='padding: 0px;'>Edit/Update Product Colours</button>
+                    <button class='Button' type='submit' style='padding: 0px;'>Edit/Delete Product Colours</button>
                     </form>
                     </td>";
                 

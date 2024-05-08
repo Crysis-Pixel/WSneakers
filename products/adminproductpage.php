@@ -183,7 +183,7 @@
                     echo "<td>
                     <form action='editproductpage.php' method='post'>
                         <input type='hidden' name='product_id' value='{$row["ProductID"]}'>
-                        <button class='Button' type='submit'>Edit/Update Product</button>
+                        <button class='Button' type='submit'>Edit/Delete Product</button>
                     </form>
                     </td>";
 
@@ -201,7 +201,7 @@
                     }
                     echo "<form action='editsizespage.php' method='post'>
                         <input type='hidden' name='product_id' value='{$row["ProductID"]}'>
-                        <button class='Button' type='submit' style='padding: 0px;'>Edit/Update Product Sizes</button>
+                        <button class='Button' type='submit' style='padding: 0px;'>Edit/Delete Product Sizes</button>
                         </form>
                         </td>";
                     
@@ -219,7 +219,7 @@
                     }
                     echo "<form action='editcolourspage.php' method='post'>
                         <input type='hidden' name='product_id' value='{$row["ProductID"]}'>
-                        <button class='Button' type='submit' style='padding: 0px;'>Edit/Update Product Colours</button>
+                        <button class='Button' type='submit' style='padding: 0px;'>Edit/Delete Product Colours</button>
                         </form>
                         </td>";
 
