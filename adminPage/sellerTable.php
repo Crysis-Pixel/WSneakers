@@ -17,7 +17,12 @@ include("../database/db.php");
 
 <body>
   <table>
-    <caption>Seller List</caption>
+    <caption>Seller List (
+      <?php
+      $count = new SellerRepo();
+      $count->getSellersCount();
+      ?>
+      )</caption>
     <thead>
       <tr>
         <th>SellerID</th>
@@ -36,7 +41,13 @@ include("../database/db.php");
           echo '<tr>';
           echo '<td>' . $row['SellerID'] . '</td>';
           echo '<td>' . $row['Username'] . '</td>';
-          echo '<td>' . $row['Phone'] . '</td>';
+
+          $Sphone = "SELECT Phone_Number FROM seller_phonenumbers WHERE SellerID = '" . $row['SellerID'] . "'";
+          $con = db::getInstance()->getConnection();
+          $phoneResult = mysqli_query($con, $Sphone);
+          $arr = mysqli_fetch_assoc($phoneResult);
+
+          echo '<td>' . $arr['Phone_Number'] . '</td>';
           echo '<td>';
           echo "<div>";
           echo "<div>
