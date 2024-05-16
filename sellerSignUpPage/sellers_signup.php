@@ -55,13 +55,18 @@ if (isset($_POST["submit"])) {
         } else {
             // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $hashedPassword = $password;
-            $sql = "INSERT INTO seller (Phone, Username, Pwd) VALUES('$phone', '$username', '$hashedPassword')";
-            
-            try {
-            mysqli_query($con, $sql);
-            
-                echo "User is now registered";
-            } catch (mysqli_sql_exception) {
+            $sql = "INSERT INTO seller (Username, Pwd) VALUES('$username', '$hashedPassword')";
+
+            if (mysqli_query($con, $sql)) {
+                $sellerID = mysqli_insert_id($con);
+                $sql2 = "INSERT INTO seller_phonenumbers (SellerID, Phone_Number) VALUES('$sellerID', '$phone')";
+
+                if (mysqli_query($con, $sql2)) {
+                    echo "User is now registered";
+                } else {
+                    echo "Could not register phone number";
+                }
+            } else {
                 echo "Could not register user";
             }
         }
