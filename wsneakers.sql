@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2024 at 11:08 AM
+-- Generation Time: May 18, 2024 at 03:43 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -87,8 +87,8 @@ INSERT INTO `category` (`CategoryID`, `Type`) VALUES
 --
 
 CREATE TABLE `consists_of` (
-  `CartID` int(10) DEFAULT NULL,
-  `ProductID` int(10) DEFAULT NULL
+  `CartID` int(10) NOT NULL,
+  `ProductID` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -360,6 +360,7 @@ ALTER TABLE `category`
 -- Indexes for table `consists_of`
 --
 ALTER TABLE `consists_of`
+  ADD PRIMARY KEY (`CartID`,`ProductID`),
   ADD KEY `CartID` (`CartID`),
   ADD KEY `ProductID` (`ProductID`);
 
