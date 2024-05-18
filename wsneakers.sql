@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2024 at 03:43 PM
+-- Generation Time: May 18, 2024 at 06:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -53,6 +53,13 @@ CREATE TABLE `cart` (
   `CustomerID` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`CartID`, `CustomerID`) VALUES
+(1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -90,6 +97,13 @@ CREATE TABLE `consists_of` (
   `CartID` int(10) NOT NULL,
   `ProductID` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `consists_of`
+--
+
+INSERT INTO `consists_of` (`CartID`, `ProductID`) VALUES
+(1, 2);
 
 -- --------------------------------------------------------
 
@@ -348,6 +362,7 @@ ALTER TABLE `brand`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`CartID`),
+  ADD UNIQUE KEY `CustomerID_2` (`CustomerID`),
   ADD KEY `CustomerID` (`CustomerID`);
 
 --
@@ -375,7 +390,8 @@ ALTER TABLE `coupons`
 -- Indexes for table `customer`
 --
 ALTER TABLE `customer`
-  ADD PRIMARY KEY (`CustomerID`);
+  ADD PRIMARY KEY (`CustomerID`),
+  ADD UNIQUE KEY `Username` (`Username`);
 
 --
 -- Indexes for table `is_part_of`
@@ -473,7 +489,7 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `category`
