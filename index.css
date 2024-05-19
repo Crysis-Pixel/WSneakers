@@ -6,25 +6,109 @@
 }
 
 .profile{
-    color: #2da1c1;
-    font-size: xx-large;
-    text-decoration: none;
-    float: right;
-}
-
-.profile :hover{
-    color: #f90;
-    text-decoration: underline;
-}
-
-.login{
-    color: #2da1c1;
+    background-color: rgb(255, 115, 60);
+    border: 4px solid rgb(255, 115, 60); 
+    color: #000000;
     font-size: xx-large;
     text-decoration: none;
     float: center;
+    border-top: 4px solid rgb(0, 0, 0);
+    border-bottom: 4px solid rgb(0, 0, 0);
+    border-left: 4px solid rgb(0, 0, 0);
+    border-right: 4px solid rgb(0, 0, 0);
+    padding: 4px;
+    margin-left:10px;
+    margin-right: 10px;
+}
+
+a:hover{
+    color: rgb(255, 208, 0);
+    text-decoration: underline;
+    border-top: 4px solid rgb(229, 255, 0);
+    border-bottom: 4px solid rgb(229, 255, 0);
+    border-left: 4px solid rgb(229, 255, 0);
+    border-right: 4px solid rgb(229, 255, 0);
+}
+
+.login{
+    background-color: rgb(255, 115, 60);
+    border: 4px solid rgb(255, 115, 60); 
+    color: #000000;
+    font-size: xx-large;
+    text-decoration: none;
+    float: center;
+    border-top: 4px solid rgb(0, 0, 0);
+    border-bottom: 4px solid rgb(0, 0, 0);
+    border-left: 4px solid rgb(0, 0, 0);
+    border-right: 4px solid rgb(0, 0, 0);
+    padding: 4px;
+    margin-left:10px;
+    margin-right: 10px;
 }
 
 .login :hover{
     color: #f90;
     text-decoration: underline;
+}
+
+body{
+    background-image: url("HomepageBackground.gif");
+    background-color: rgba(255,255,255,0.6);
+    background-blend-mode: lighten;
+}
+
+.scroll-container {
+    background-color: #333;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 10px;
+    position: relative;
+    width: 98.5%; /* Full width of the viewport */
+    /* max-width: 1000px; Set a maximum width if needed */
+}
+
+.scroll-content {
+    display: flex;
+    animation: scroll 20s linear infinite;
+}
+
+.scroll-container img {
+    /* padding: 10px; */
+    height: 350px; /* Adjust height as needed */
+    display: inline-block;
+    vertical-align: middle;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.scroll-container:hover .scroll-content {
+    animation-play-state: paused;
+}
+
+.image{
+    background-color: rgb(255, 115, 60);
+    border: 4px solid rgb(255, 115, 60); 
+    color: #000000;
+    font-size: xx-large;
+    text-decoration: none;
+    float: center;
+    border-top: 4px solid rgb(0, 0, 0);
+    border-bottom: 4px solid rgb(0, 0, 0);
+    border-left: 4px solid rgb(0, 0, 0);
+    border-right: 4px solid rgb(0, 0, 0);
+    padding: 4px;
+    margin-left:10px;
+    margin-right: 10px;
+}
+
+.image:hover{
+    color: rgb(255, 208, 0);
+    text-decoration: underline;
+    border-top: 4px solid rgb(229, 255, 0);
+    border-bottom: 4px solid rgb(229, 255, 0);
+    border-left: 4px solid rgb(229, 255, 0);
+    border-right: 4px solid rgb(229, 255, 0);
 }
