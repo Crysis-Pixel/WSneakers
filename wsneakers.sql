@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2024 at 06:40 PM
+-- Generation Time: May 19, 2024 at 07:26 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -50,15 +50,9 @@ INSERT INTO `brand` (`BrandID`, `Name`) VALUES
 
 CREATE TABLE `cart` (
   `CartID` int(10) NOT NULL,
-  `CustomerID` int(10) DEFAULT NULL
+  `CustomerID` int(10) DEFAULT NULL,
+  `Quantity` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`CartID`, `CustomerID`) VALUES
-(1, 1);
 
 -- --------------------------------------------------------
 
@@ -94,16 +88,9 @@ INSERT INTO `category` (`CategoryID`, `Type`) VALUES
 --
 
 CREATE TABLE `consists_of` (
-  `CartID` int(10) NOT NULL,
-  `ProductID` int(10) NOT NULL
+  `CartID` int(10) DEFAULT NULL,
+  `ProductID` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `consists_of`
---
-
-INSERT INTO `consists_of` (`CartID`, `ProductID`) VALUES
-(1, 2);
 
 -- --------------------------------------------------------
 
@@ -138,7 +125,8 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`CustomerID`, `Username`, `Password`, `Phone`, `Birthdate`, `Address`) VALUES
-(1, 'Jim', '$2y$10$f1jJHST5dugnpcHfgkCjuuFfTX9iltv9rLx3lRXnTlu/xD4ZlYQAS', '01735225285', '2001-06-21', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka');
+(1, 'Jim', '$2y$10$f1jJHST5dugnpcHfgkCjuuFfTX9iltv9rLx3lRXnTlu/xD4ZlYQAS', '01735225285', '2001-06-21', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka'),
+(2, 'Mostakim52', '$2y$10$H49ZvUMGbLfndMgO2xOY6.F/bD8Xbt4EHnz1NrnEvvEx8n5fUIl3.', '01319674564', '2001-11-01', 'Dhaka, Uttara, Sector-5, Road-4A, House-32');
 
 -- --------------------------------------------------------
 
@@ -362,7 +350,6 @@ ALTER TABLE `brand`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`CartID`),
-  ADD UNIQUE KEY `CustomerID_2` (`CustomerID`),
   ADD KEY `CustomerID` (`CustomerID`);
 
 --
@@ -375,7 +362,6 @@ ALTER TABLE `category`
 -- Indexes for table `consists_of`
 --
 ALTER TABLE `consists_of`
-  ADD PRIMARY KEY (`CartID`,`ProductID`),
   ADD KEY `CartID` (`CartID`),
   ADD KEY `ProductID` (`ProductID`);
 
@@ -390,8 +376,7 @@ ALTER TABLE `coupons`
 -- Indexes for table `customer`
 --
 ALTER TABLE `customer`
-  ADD PRIMARY KEY (`CustomerID`),
-  ADD UNIQUE KEY `Username` (`Username`);
+  ADD PRIMARY KEY (`CustomerID`);
 
 --
 -- Indexes for table `is_part_of`
@@ -489,7 +474,7 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -507,7 +492,7 @@ ALTER TABLE `coupons`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `CustomerID` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `CustomerID` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `order`
