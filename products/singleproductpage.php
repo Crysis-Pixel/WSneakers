@@ -8,6 +8,7 @@
 </head>
 <body>
     <?php
+        include("../cart/cartService.php");
         if (!empty($_POST["product_id"])){
             $productID = $_POST["product_id"];
         }
@@ -16,8 +17,10 @@
             exit();
         }
 
-        if (isset($_POST["Add to Cart"])){
-            
+        if (isset($_POST["Add_to_Cart"])){
+            $Quantity=$_POST["cart_quantity"];
+            $productID=$_POST["product_id"];
+            //CartService::getInstance()->AddCart()
         }
         include ("../header.html");
         include("../database/db.php");
@@ -47,7 +50,7 @@
             <table class='no-border'><tr>
             <?php
                 $image = $mainImageDIR.$prod["Image"];
-                echo '<td><img src="'.$image.'" /><br /></td>';
+                echo '<td><img src="'.$image.'" height="250"/><br /></td>';
                 echo '<td><br>'.$prod["ProductName"].'<br><br>';
                 echo $prod["ProductDesc"].'<br><br>';
             ?>
@@ -59,11 +62,14 @@
             <?php
                 echo $prod["Quantity"].'<br><br>';
             ?>
-            </td>
-            </tr></table>
+        </td></tr>
+        <tr><td>
             <form action='singleproductpage.php' method='post'>
-                <input class='Button' type='button' name='Add to Cart' value='Add to Cart' style='font-size: 35px;'>
-                <input type='hidden' name='product_id' value='{$prod["ProductID"]}'>
+                <input class='Button' style='padding-right:10px;padding-left:10px;' type='submit' name='Add_to_Cart' value='Add to Cart' style='font-size: 35px;'></td>
+                <?php
+                    echo "<td><input type='hidden' name='product_id' value='{$productID}'>";
+                ?>
+                Quantity: <input type='number' name='cart_quantity' value='1'>
             </form>
         </td></tr>
     </table>
