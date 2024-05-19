@@ -3,6 +3,11 @@
     include("./customerProfile.html");
     session_start();
 
+    if (empty($_SESSION["Username"])){
+        header("location:../login.php");
+        exit();
+    }
+
     $username = $_SESSION["Username"];
     $phone = $_SESSION["Phone"];
     $birthdate = $_SESSION["Birthdate"];

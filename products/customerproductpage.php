@@ -125,7 +125,6 @@
                     <th>Colours</th>
                     <th>Product Description</th>
                     <th></th>
-                    <th></th>
                 </tr>";
 
         while ($row = $result->fetch_assoc()) {
@@ -180,10 +179,10 @@
             }
             echo "<td>" . $row["ProductDesc"] . "</td>";
             echo "<td>
-                    <input class='Button' type='button' name='{$row["ProductID"]}' value='Add to cart' onclick='alert(\"Product added to cart\")'>
-                    </td>";
-            echo "<td>
-                        <input class='Button' type='button' name='{$row["ProductID"]}' value='Add to Wishlist' onclick='alert(\"Product added to wishlist\")'>
+                    <form action='singleproductpage.php' method='post'>
+                        <input type='hidden' name='product_id' value='{$row["ProductID"]}'>
+                        <input class='Button' type='submit' name='{$row["ProductID"]}' value='See Item'>
+                    </form>
                     </td>";
             echo "</tr>";
         }
