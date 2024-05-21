@@ -27,10 +27,12 @@
         include("../products/productService.php");
         include("../brand/brandService.php");
         include("../category/categoryService.php");
+        include("../reviews/reviewsService.php");
         $mainImageDIR = "../ProductImages/";
         $p = new ProductService();
         $b = new BrandService();
         $c = new CategoryService();
+        $r = new ReviewsService();
         $prod = $p->GetProduct($productID)->fetch_assoc();
     ?>
     <table>
@@ -62,6 +64,23 @@
             <?php
                 echo $prod["Quantity"].'<br><br>';
             ?>
+        </td></tr>
+        <tr><td style='text-align:left;'>
+            <br>
+            <h3>Reviews</h3>
+            <table>
+                <tr>
+                    <td style='text-align:left;'>
+                        <?php
+                            $reviewresult = $r->Search('',$prod["ProductName"]);
+                            while ($row = $reviewresult->fetch_assoc()){
+                                echo "<u>".$row["Username"]."</u><br>";
+                                echo $row["Text"]."<br><br><br>";
+                            }
+                        ?>
+                    </td>
+                </tr>
+            </table>
         </td></tr>
         <tr><td>
             <form action='singleproductpage.php' method='post'>

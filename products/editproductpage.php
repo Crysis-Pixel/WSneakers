@@ -202,7 +202,7 @@
             }
 
             echo "<tr>";
-            echo "<td><br> Description: <input type='text' name='Description' value='" . htmlspecialchars($row["ProductDesc"]) . "' size='50'> <br><br> </td>";
+            echo "<td><br> Description: <input type='text' name='Description' value='" . htmlspecialchars($row["ProductDesc"],ENT_QUOTES) . "' size='50'> <br><br> </td>";
             echo "</tr>";
             echo "</table>";
             echo "<input class='Button' type='submit' name='DeleteProduct' value='Delete Product' style='font-size: 35px;'>";
