@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2024 at 07:26 PM
+-- Generation Time: May 20, 2024 at 06:42 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -126,7 +126,8 @@ CREATE TABLE `customer` (
 
 INSERT INTO `customer` (`CustomerID`, `Username`, `Password`, `Phone`, `Birthdate`, `Address`) VALUES
 (1, 'Jim', '$2y$10$f1jJHST5dugnpcHfgkCjuuFfTX9iltv9rLx3lRXnTlu/xD4ZlYQAS', '01735225285', '2001-06-21', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka'),
-(2, 'Mostakim52', '$2y$10$H49ZvUMGbLfndMgO2xOY6.F/bD8Xbt4EHnz1NrnEvvEx8n5fUIl3.', '01319674564', '2001-11-01', 'Dhaka, Uttara, Sector-5, Road-4A, House-32');
+(2, 'Mostakim52', '$2y$10$H49ZvUMGbLfndMgO2xOY6.F/bD8Xbt4EHnz1NrnEvvEx8n5fUIl3.', '01319674564', '2001-11-01', 'Dhaka, Uttara, Sector-5, Road-4A, House-32'),
+(4, 'Rudra', '$2y$10$tJYS6i7rDEJRbGBq9EE9s.kYLOna/0sCQo7feM2LJ5qX8sOg784oq', '01956012107', '2001-01-15', 'Uttara');
 
 -- --------------------------------------------------------
 
@@ -332,8 +333,19 @@ CREATE TABLE `transaction_history` (
 
 CREATE TABLE `wishlist` (
   `WishlistID` int(10) NOT NULL,
-  `CustomerID` int(10) DEFAULT NULL
+  `CustomerID` int(10) DEFAULT NULL,
+  `ProductID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wishlist`
+--
+
+INSERT INTO `wishlist` (`WishlistID`, `CustomerID`, `ProductID`) VALUES
+(39, 1, 7),
+(40, 1, 4),
+(43, 4, 2),
+(44, 4, 4);
 
 --
 -- Indexes for dumped tables
@@ -458,7 +470,8 @@ ALTER TABLE `transaction_history`
 --
 ALTER TABLE `wishlist`
   ADD PRIMARY KEY (`WishlistID`),
-  ADD KEY `CustomerID` (`CustomerID`);
+  ADD KEY `CustomerID` (`CustomerID`),
+  ADD KEY `fk_wishlist_product` (`ProductID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -492,7 +505,7 @@ ALTER TABLE `coupons`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `CustomerID` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `CustomerID` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `order`
@@ -534,7 +547,7 @@ ALTER TABLE `transaction_history`
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `WishlistID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `WishlistID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- Constraints for dumped tables
@@ -626,6 +639,7 @@ ALTER TABLE `transaction_history`
 -- Constraints for table `wishlist`
 --
 ALTER TABLE `wishlist`
+  ADD CONSTRAINT `fk_wishlist_product` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`),
   ADD CONSTRAINT `wishlist_ibfk_1` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
