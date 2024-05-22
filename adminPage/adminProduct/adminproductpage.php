@@ -19,7 +19,7 @@ include("../adminSessionAccess.php");
             include("../../brand/brandService.php");
             include("../../category/categoryService.php");
             include("../../sellers/sellerRepository.php");
-            $mainImageDIR = "../../ProductImages/"; //location directory of product images
+            $mainImageDIR = "../ProductImages/"; //location directory of product images
             $p = new ProductService();
             $b = new BrandService();
             $c = new CategoryService();
