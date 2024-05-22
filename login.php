@@ -28,7 +28,8 @@ if (isset($_POST["loginBtn"])) {
 
                 $_SESSION["Username"] = $username;
                 $_SESSION["Password"] = $password;
-                header("location: ./adminPage/adminPage.html");
+                $_SESSION["UserType"] = "admin";
+                header("location: ./adminPage/adminPage.php");
             } else {
                 echo "wrong admin password!";
             }
@@ -42,6 +43,7 @@ if (isset($_POST["loginBtn"])) {
                     $_SESSION["Phone"] = $customer->getPhone();
                     $_SESSION["Birthdate"] = $customer->getBirthdate();
                     $_SESSION["Address"] = $customer->getAddress();
+                    $_SESSION["UserType"] = "customer";
                     header("location: index.php");
                 }
             } else if ($_POST["option"] == "Seller") {
@@ -53,6 +55,7 @@ if (isset($_POST["loginBtn"])) {
                     $_SESSION["SellerID"] = mysqli_fetch_assoc($result)["SellerID"];
                     $_SESSION["SellerUsername"] = $username;
                     $_SESSION["SellerPassword"] = $password;
+                    $_SESSION["UserType"] = "seller";
 
                     header("location: ./sellerProfile/sellerProfile.php");
                 }

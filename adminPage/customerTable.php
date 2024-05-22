@@ -1,3 +1,7 @@
+<?php
+session_start();
+include("./adminSessionAccess.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,8 +30,7 @@
         include("../database/db.php");
         include("../customers/customerService.php");
         include("../customers/customerRepository.php");
-        include("../customers/customer.php");
-        session_start();
+        include("../customers/customer.php");        
         $result = CustomerService::getInstance()->GetAllCustomers();
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {

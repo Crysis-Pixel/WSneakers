@@ -1,20 +1,25 @@
+<?php
+session_start();
+include("../adminSessionAccess.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="productstyles.css">
+    <link rel="stylesheet" href="../../products/productstyles.css">
     <title>Document</title>
 </head>
 <body>
         <?php
-            include("../header.html");
-            include("../database/db.php"); //had to include directory like this else it was not working
-            include("../products/productService.php");
-            include("../brand/brandService.php");
-            include("../category/categoryService.php");
-            include("../sellers/sellerRepository.php");
-            $mainImageDIR = "../ProductImages/"; //location directory of product images
+            include("../../header.html");
+            include("../../database/db.php"); //had to include directory like this else it was not working
+            include("../../products/productService.php");
+            include("../../brand/brandService.php");
+            include("../../category/categoryService.php");
+            include("../../sellers/sellerRepository.php");
+            $mainImageDIR = "../../ProductImages/"; //location directory of product images
             $p = new ProductService();
             $b = new BrandService();
             $c = new CategoryService();
@@ -94,15 +99,15 @@
             <button class='Button' type='submit'>Add Product</button>
         </form></td>
 
-        <td><form action="../brand/brandpage.php">
+        <td><form action="../../brand/brandpage.php">
             <button class='Button' type='submit'>Brands</button>
         </form></td>
 
-        <td><form action="../category/categoryPage.php">
+        <td><form action="../../category/categoryPage.php">
             <button class='Button' type='submit'>Categories</button>
         </form></td>
 
-        <td><form action="../adminPage/adminPage.php">
+        <td><form action="../../adminPage/adminPage.php">
             <button class='Button' type='submit'>Go back</button>
         </form></td>
         </tr></table>
@@ -175,7 +180,7 @@
                     $image = $mainImageDIR.$row["Image"];
                     echo 
                         "<td>".
-                            '<img src="'.$image.'" height = "100"/><br />'  
+                            '<img src="../'.$image.'" height = "100"/><br />'  
                         ."</td>"
                     ;
 

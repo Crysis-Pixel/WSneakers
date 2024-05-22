@@ -32,7 +32,7 @@
             if (isset($_SESSION["SellerUsername"])) {
                 echo "<td><form action='../sellerProfile/sellerProfile.php'>";
             }
-            else echo "<td><form action='../products/adminproductpage.php'>";
+            else echo "<td><form action='../adminPage/adminProduct/adminproductpage.php'>";
         ?>
             <button class='Button' type='submit'>Go Back</button>
         </form></td>

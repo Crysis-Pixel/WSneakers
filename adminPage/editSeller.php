@@ -1,4 +1,6 @@
 <?php
+session_start();
+include("./adminSessionAccess.php");
 include("../sellers/sellerRepository.php");
 include("../header.html");
 include("../database/db.php");

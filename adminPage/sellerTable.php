@@ -2,6 +2,8 @@
 <html lang="en">
 
 <?php
+session_start();
+include("./adminSessionAccess.php");
 include("../sellers/sellerRepository.php");
 include("../database/db.php");
 ?>

@@ -1,6 +1,7 @@
 <?php
-    include("./adminPage.html");
     session_start();
+    include("./adminSessionAccess.php");
+    include("./adminPage.html");
 
     if(isset($_POST["logoutBtn"]))
     {
