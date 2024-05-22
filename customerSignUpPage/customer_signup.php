@@ -1,4 +1,7 @@
 <?php
+
+use function PHPSTORM_META\type;
+
     include("../header.html");
     include("./customer_signup.html");
     include("../database/db.php");   
@@ -30,8 +33,9 @@
                 $_SESSION["Username"] = $username;
                 $_SESSION["Password"] = $password;
                 $_SESSION["Phone"] = $phone;
-                $_SESSION["Birthdate"] = $birthdate;
                 $_SESSION["Address"] = $address;
+                $_SESSION["Birthdate"] = $birthDate;
+                $_SESSION["UserType"] = "customer";
 
                 header("location: ../customerProfile/customerProfile.php");
             }

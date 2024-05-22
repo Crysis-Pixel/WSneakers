@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2024 at 06:42 PM
+-- Generation Time: May 22, 2024 at 07:17 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -127,7 +127,14 @@ CREATE TABLE `customer` (
 INSERT INTO `customer` (`CustomerID`, `Username`, `Password`, `Phone`, `Birthdate`, `Address`) VALUES
 (1, 'Jim', '$2y$10$f1jJHST5dugnpcHfgkCjuuFfTX9iltv9rLx3lRXnTlu/xD4ZlYQAS', '01735225285', '2001-06-21', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka'),
 (2, 'Mostakim52', '$2y$10$H49ZvUMGbLfndMgO2xOY6.F/bD8Xbt4EHnz1NrnEvvEx8n5fUIl3.', '01319674564', '2001-11-01', 'Dhaka, Uttara, Sector-5, Road-4A, House-32'),
-(4, 'Rudra', '$2y$10$tJYS6i7rDEJRbGBq9EE9s.kYLOna/0sCQo7feM2LJ5qX8sOg784oq', '01956012107', '2001-01-15', 'Uttara');
+(4, 'Rudra', '$2y$10$tJYS6i7rDEJRbGBq9EE9s.kYLOna/0sCQo7feM2LJ5qX8sOg784oq', '01956012107', '2001-01-15', 'Uttara'),
+(5, 'Joy', '$2y$10$Dkuhz8YaZZ6WiBnNjypB2uadMojGsi4qQKqsGkfdykBdocd0VNH7e', '01816905001', '1993-12-01', 'House - 18, Road - 7, Block - E, Banasree, Rampura, Dhaka'),
+(6, 'Asrar', '$2y$10$BgK200T4iIbJz.HDALxZye/ua5aLgDR0bjxm/NEEe26n9n89vgUii', '01951467283', '2024-05-05', 'H'),
+(8, 'Rihal', '$2y$10$GgHQ8e5Y6Yp.NB7Jm8So0OufrApd/CJVVraG3nIQtTa4rjCH4NfFW', '01951666781', '2000-05-02', 'Shantinagar'),
+(9, 'Tamim', '$2y$10$xOnccKlIfAgTZq1qWl/RGuGQnF88P3CFOO9D.KU4p8OSpgLPaUrKC', '01319674824', '2002-06-06', 'Gulshan'),
+(10, 'Tushar', '$2y$10$8pFJSkhzLfhqiajvNECECui2WsvPkZ1Gd4KpFfKz1PLx8pwNgRUhO', '01951666788', '1990-06-21', 'Banani'),
+(11, 'Ishan', '$2y$10$dNaKG0PkRH6GZNGy6Ta9CeWiesFP0OLAlnCSMQz4nKiN5PsorNxQS', '01735225265', '1985-08-15', 'Bashundhara'),
+(12, 'Dipu', '$2y$10$91HVmOsmf8m9nxuHE6RGv.gGPSDtkQ843FZh4yidpaCVgjTrLu4/C', '01319674577', '2007-07-07', 'Aftabnagar');
 
 -- --------------------------------------------------------
 
@@ -388,7 +395,8 @@ ALTER TABLE `coupons`
 -- Indexes for table `customer`
 --
 ALTER TABLE `customer`
-  ADD PRIMARY KEY (`CustomerID`);
+  ADD PRIMARY KEY (`CustomerID`),
+  ADD UNIQUE KEY `Username` (`Username`);
 
 --
 -- Indexes for table `is_part_of`
@@ -505,7 +513,7 @@ ALTER TABLE `coupons`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `CustomerID` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `CustomerID` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `order`

@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
     <h1 class="h1">Admin</h1>
-    <h3 class="h3">Customer List</h3>
+    <link rel="stylesheet" href="./adminPage.css">
 </head>
 <body>
-    <a href="customerTable.php">List of Customers<br><br></a>
-    <a href="sellerTable.php">List of Sellers<br><br></a>
-    <a href="./adminProduct/adminproductpage.php">List of Products</a>
+    <a href="customerTable.php" class="CTable">List of Customers<br><br></a>
+    <a href="sellerTable.php" class="STable">List of Sellers<br><br></a>
+    <a href="./adminProduct/adminproductpage.php" class="PTable">List of Products</a>
     <form action="adminPage.php" method="post">
         <input class="logoutBtn" type="submit" name="logoutBtn" value="Logout">
     </form>

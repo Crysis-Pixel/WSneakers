@@ -135,6 +135,57 @@ class CustomerRepo
     $isSuccessful = mysqli_query($con, "DELETE FROM customer WHERE CustomerID = '$customerID'");
     return $isSuccessful;
   }
+  //Search using LIKE
+  public function searchLike($username, $phone, $date,$address, $sortType)
+  {
+    $con = Db::getInstance()->getConnection();
+    if(empty($date))
+    {
+      if($sortType == "ID ASC")
+      {
+        $result = mysqli_query($con, "SELECT * FROM customer WHERE Username LIKE '$username%' AND Phone LIKE '$phone%' AND Address LIKE '%$address%';");
+      } else if ($sortType == "ID DESC")
+      {
+        $result = mysqli_query($con, "SELECT * FROM customer WHERE Username LIKE '$username%' AND 
+        Phone LIKE '$phone%' AND Address LIKE '%$address%' ORDER BY CustomerID DESC;");
+      } else if ($sortType == "Username ASC")
+      {
+        $result = mysqli_query($con, "SELECT * FROM customer WHERE Username LIKE '$username%' AND 
+        Phone LIKE '$phone%' AND Address LIKE '%$address%' ORDER BY Username ASC;");
+      }else if ($sortType == "Username DESC")
+      {
+        $result = mysqli_query($con, "SELECT * FROM customer WHERE Username LIKE '$username%' AND 
+        Phone LIKE '$phone%' AND Address LIKE '%$address%' ORDER BY Username DESC;");
+      }
+    } else
+    {
+      
+      if($sortType == "ID ASC")
+      {
+        $result = mysqli_query($con, "SELECT * FROM customer WHERE Username LIKE '$username%' AND 
+      Phone LIKE '$phone%' AND Birthdate = '$date' AND Address LIKE '%$address%' ORDER BY CustomerID ASC;");
+      } else if ($sortType == "ID DESC")
+      {
+        $result = mysqli_query($con, "SELECT * FROM customer WHERE Username LIKE '$username%' AND 
+      Phone LIKE '$phone%' AND Birthdate = '$date' AND Address LIKE '%$address%' ORDER BY CustomerID DESC;");
+      } else if ($sortType == "Username ASC")
+      {
+        $result = mysqli_query($con, "SELECT * FROM customer WHERE Username LIKE '$username%' AND 
+      Phone LIKE '$phone%' AND Birthdate = '$date' AND Address LIKE '%$address%' ORDER BY Username ASC;");
+      }else if ($sortType == "Username DESC")
+      {
+        $result = mysqli_query($con, "SELECT * FROM customer WHERE Username LIKE '$username%' AND 
+      Phone LIKE '$phone%' AND Birthdate = '$date' AND Address LIKE '%$address%' ORDER BY Username DESC;");
+      }
+    }
+
+    if ($result) {
+        return $result;
+      }
+     else {
+      echo "No result found!";
+    }
+  }
   public static function getInstance(): CustomerRepo
   {
     if (!isset(CustomerRepo::$instance)) {
@@ -143,4 +194,5 @@ class CustomerRepo
 
     return CustomerRepo::$instance;
   }
+
 }

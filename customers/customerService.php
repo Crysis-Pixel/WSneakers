@@ -101,30 +101,26 @@ class CustomerService
         echo "Delete Failed";
         return false;
     }
+    public function searchCustomer($username, $phone, $date, $address, $sortType)
+    {
+        $customerRepo = CustomerRepo::getInstance();
+
+        $result = $customerRepo->searchLike($username, $phone, $date, $address, $sortType);
+
+        if($result != null)
+        {
+            return $result;
+        }
+        else
+        {
+            return null;
+        }
+    }
     public function Print(Customer $customer)
     {
         echo $customer->getUsername();
     }
+    
+    
 }
-/*
-    public function Login($username, $password): Customer
-            {
-                $customerRepo = CustomerRepo::getInstance();
-                $customer = $customerRepo->FindByUsername($username);
-                echo $customer->getUsername();
-                
-                if ($customer->getPassword() !== null)
-                {
-                    if (password_verify($password, $customer->getPassword()))
-                    {
-                        echo "Login Successful!";
-                        //header("location: index.php");
-                    } else
-                    {
-                        echo "Wrong Password!";
-                    }
-                }
-                
-                return $customer;
-            }
-    */
+
