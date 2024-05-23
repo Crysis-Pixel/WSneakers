@@ -2,6 +2,34 @@
 
 class SellerRepo
 {
+  // Search and Sort function
+  public function searchLike($username, $phone, $sortType)
+  {
+    $con = Db::getInstance()->getConnection();
+
+    $query = "SELECT * FROM seller 
+          WHERE Username LIKE '$username%' 
+          AND SellerID IN (SELECT SellerID FROM seller_phonenumbers WHERE Phone_Number LIKE '$phone%')";
+
+    if ($sortType == "ID ASC") {
+      $query .= " ORDER BY SellerID ASC";
+    } elseif ($sortType == "ID DESC") {
+      $query .= " ORDER BY SellerID DESC";
+    } elseif ($sortType == "Username ASC") {
+      $query .= " ORDER BY Username ASC";
+    } elseif ($sortType == "Username DESC") {
+      $query .= " ORDER BY Username DESC";
+    }
+
+    $result = mysqli_query($con, $query);
+
+    if ($result) {
+      return $result;
+    } else {
+      echo "Not found";
+    }
+  }
+
   //Function to get all sellers detail
   function getAllSellers()
   {
