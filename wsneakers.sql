@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2024 at 07:17 PM
+-- Generation Time: May 24, 2024 at 09:40 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -50,7 +50,18 @@ INSERT INTO `brand` (`BrandID`, `Name`) VALUES
 
 CREATE TABLE `cart` (
   `CartID` int(10) NOT NULL,
-  `CustomerID` int(10) DEFAULT NULL,
+  `CustomerID` int(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart_items`
+--
+
+CREATE TABLE `cart_items` (
+  `CartID` int(10) DEFAULT NULL,
+  `ProductID` int(10) DEFAULT NULL,
   `Quantity` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -80,17 +91,6 @@ INSERT INTO `category` (`CategoryID`, `Type`) VALUES
 (8, 'Espadrilles'),
 (9, 'Specialty'),
 (15, 'Cleats');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `consists_of`
---
-
-CREATE TABLE `consists_of` (
-  `CartID` int(10) DEFAULT NULL,
-  `ProductID` int(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -125,12 +125,10 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`CustomerID`, `Username`, `Password`, `Phone`, `Birthdate`, `Address`) VALUES
-(1, 'Jim', '$2y$10$f1jJHST5dugnpcHfgkCjuuFfTX9iltv9rLx3lRXnTlu/xD4ZlYQAS', '01735225285', '2001-06-21', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka'),
+(1, 'Jim', '$2y$10$f1jJHST5dugnpcHfgkCjuuFfTX9iltv9rLx3lRXnTlu/xD4ZlYQAS', '01735225285', '2001-06-22', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka'),
 (2, 'Mostakim52', '$2y$10$H49ZvUMGbLfndMgO2xOY6.F/bD8Xbt4EHnz1NrnEvvEx8n5fUIl3.', '01319674564', '2001-11-01', 'Dhaka, Uttara, Sector-5, Road-4A, House-32'),
 (4, 'Rudra', '$2y$10$tJYS6i7rDEJRbGBq9EE9s.kYLOna/0sCQo7feM2LJ5qX8sOg784oq', '01956012107', '2001-01-15', 'Uttara'),
 (5, 'Joy', '$2y$10$Dkuhz8YaZZ6WiBnNjypB2uadMojGsi4qQKqsGkfdykBdocd0VNH7e', '01816905001', '1993-12-01', 'House - 18, Road - 7, Block - E, Banasree, Rampura, Dhaka'),
-(6, 'Asrar', '$2y$10$BgK200T4iIbJz.HDALxZye/ua5aLgDR0bjxm/NEEe26n9n89vgUii', '01951467283', '2024-05-05', 'H'),
-(8, 'Rihal', '$2y$10$GgHQ8e5Y6Yp.NB7Jm8So0OufrApd/CJVVraG3nIQtTa4rjCH4NfFW', '01951666781', '2000-05-02', 'Shantinagar'),
 (9, 'Tamim', '$2y$10$xOnccKlIfAgTZq1qWl/RGuGQnF88P3CFOO9D.KU4p8OSpgLPaUrKC', '01319674824', '2002-06-06', 'Gulshan'),
 (10, 'Tushar', '$2y$10$8pFJSkhzLfhqiajvNECECui2WsvPkZ1Gd4KpFfKz1PLx8pwNgRUhO', '01951666788', '1990-06-21', 'Banani'),
 (11, 'Ishan', '$2y$10$dNaKG0PkRH6GZNGy6Ta9CeWiesFP0OLAlnCSMQz4nKiN5PsorNxQS', '01735225265', '1985-08-15', 'Bashundhara'),
@@ -372,17 +370,17 @@ ALTER TABLE `cart`
   ADD KEY `CustomerID` (`CustomerID`);
 
 --
+-- Indexes for table `cart_items`
+--
+ALTER TABLE `cart_items`
+  ADD KEY `CartID` (`CartID`),
+  ADD KEY `ProductID` (`ProductID`);
+
+--
 -- Indexes for table `category`
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`CategoryID`);
-
---
--- Indexes for table `consists_of`
---
-ALTER TABLE `consists_of`
-  ADD KEY `CartID` (`CartID`),
-  ADD KEY `ProductID` (`ProductID`);
 
 --
 -- Indexes for table `coupons`
@@ -568,11 +566,11 @@ ALTER TABLE `cart`
   ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `consists_of`
+-- Constraints for table `cart_items`
 --
-ALTER TABLE `consists_of`
-  ADD CONSTRAINT `consists_of_ibfk_1` FOREIGN KEY (`CartID`) REFERENCES `cart` (`CartID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `consists_of_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `cart_items`
+  ADD CONSTRAINT `cart_items_ibfk_1` FOREIGN KEY (`CartID`) REFERENCES `cart` (`CartID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `cart_items_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `coupons`
