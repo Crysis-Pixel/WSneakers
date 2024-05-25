@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2024 at 04:39 PM
+-- Generation Time: May 25, 2024 at 04:06 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -53,6 +53,14 @@ CREATE TABLE `cart` (
   `CustomerID` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`CartID`, `CustomerID`) VALUES
+(16, 1),
+(63, 12);
+
 -- --------------------------------------------------------
 
 --
@@ -60,10 +68,23 @@ CREATE TABLE `cart` (
 --
 
 CREATE TABLE `cart_items` (
-  `CartID` int(10) DEFAULT NULL,
-  `ProductID` int(10) DEFAULT NULL,
+  `CartID` int(10) NOT NULL,
+  `ProductID` int(10) NOT NULL,
   `Quantity` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cart_items`
+--
+
+INSERT INTO `cart_items` (`CartID`, `ProductID`, `Quantity`) VALUES
+(16, 2, 1),
+(16, 4, 1),
+(16, 5, 1),
+(16, 6, 1),
+(63, 4, 1),
+(63, 5, 1),
+(63, 6, 5);
 
 -- --------------------------------------------------------
 
@@ -220,6 +241,19 @@ INSERT INTO `product_colour` (`ProductID`, `Colour`) VALUES
 (7, 'Purple'),
 (10, 'White'),
 (10, 'Black'),
+(10, 'Orange'),
+(2, 'White'),
+(2, 'Black'),
+(4, 'Blue'),
+(4, 'Gray'),
+(4, 'Black'),
+(5, 'White'),
+(5, 'Red'),
+(6, 'White'),
+(7, 'Black'),
+(7, 'Purple'),
+(10, 'White'),
+(10, 'Black'),
 (10, 'Orange');
 
 -- --------------------------------------------------------
@@ -238,6 +272,17 @@ CREATE TABLE `product_size` (
 --
 
 INSERT INTO `product_size` (`ProductID`, `size`) VALUES
+(2, 42),
+(4, 41),
+(4, 42),
+(4, 43),
+(5, 42),
+(5, 43),
+(6, 46),
+(6, 47),
+(7, 41),
+(7, 42),
+(7, 43),
 (2, 42),
 (4, 41),
 (4, 42),
@@ -316,6 +361,9 @@ CREATE TABLE `seller_phonenumbers` (
 INSERT INTO `seller_phonenumbers` (`SellerID`, `Phone_Number`) VALUES
 (1, '01956012107'),
 (3, '01711175098'),
+(4, '01319674564'),
+(1, '01956012107'),
+(3, '01711175098'),
 (4, '01319674564');
 
 -- --------------------------------------------------------
@@ -367,12 +415,14 @@ ALTER TABLE `brand`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`CartID`),
+  ADD UNIQUE KEY `CustomerID_2` (`CustomerID`),
   ADD KEY `CustomerID` (`CustomerID`);
 
 --
 -- Indexes for table `cart_items`
 --
 ALTER TABLE `cart_items`
+  ADD PRIMARY KEY (`CartID`,`ProductID`),
   ADD KEY `CartID` (`CartID`),
   ADD KEY `ProductID` (`ProductID`);
 
@@ -493,7 +543,7 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `category`

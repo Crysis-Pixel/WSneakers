@@ -8,6 +8,14 @@
 </head>
 <body>
     <?php
+        include("../database/db.php");
+        include ("../header.html");
+        include("../brand/brandService.php");
+        include("../category/categoryService.php");
+        include("../reviews/reviewsService.php");
+        include("../products/productService.php");
+        include("../cart/cart.php");
+        include("../cart/cartRepository.php");
         include("../cart/cartService.php");
         if (!empty($_POST["product_id"])){
             $productID = $_POST["product_id"];
@@ -16,18 +24,12 @@
             header("location: customerproductpage.php");
             exit();
         }
-
+        
         if (isset($_POST["Add_to_Cart"])){
-            $Quantity=$_POST["cart_quantity"];
+            $quantity=$_POST["cart_quantity"];
             $productID=$_POST["product_id"];
-            //CartService::getInstance()->AddCart()
+            CartService::getInstance()->AddCart($productID, $quantity);
         }
-        include ("../header.html");
-        include("../database/db.php");
-        include("../products/productService.php");
-        include("../brand/brandService.php");
-        include("../category/categoryService.php");
-        include("../reviews/reviewsService.php");
         $mainImageDIR = "../ProductImages/";
         $p = new ProductService();
         $b = new BrandService();

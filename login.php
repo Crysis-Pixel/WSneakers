@@ -38,6 +38,7 @@ if (isset($_POST["loginBtn"])) {
             if ($_POST["option"] == "Customer") {
                 $customer = CustomerService::getInstance()->Login($username, $password);
                 if ($customer != null) {
+                    $_SESSION["CustomerID"] = $customer->getCustomerID();
                     $_SESSION["Username"] = $username;
                     $_SESSION["Password"] = $password;
                     $_SESSION["Phone"] = $customer->getPhone();

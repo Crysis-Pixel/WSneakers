@@ -6,9 +6,14 @@ class CartRepo
     //Added Exception Handling to prevent code from stopping at a particular point.
 
     //will add product to a table,  will return true if successfully added
+    public function Add(Cart $cart, $productID): bool
+    {
+        $isSuccessful = $this->AddCart($cart);
+        $isSuccessful = $this->AddToCartItems($cart, $productID);
+        return $isSuccessful;
+    }
     public function AddCart(Cart $cart): bool
     {
-
         try {
             $con = Db::getInstance()->getConnection();
             $customerID = $cart->getCustomerID();
@@ -18,21 +23,26 @@ class CartRepo
 
             return $result === true;
         } catch (Exception $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
+            echo "cart available";
             return false;
         }
     }
 
-    public function AddToConsistsOf(Cart $cart, Product $product): bool
+    public function AddToCartItems(Cart $cart, $productID): bool
     {
 
         try {
             $con = Db::getInstance()->getConnection();
-            $cartID = $cart->getCartID();
-            $productID = $product->getProductID();
-            $result = mysqli_query($con, "INSERT INTO consists_of(CartID, ProductID)
-                                    VALUES('$cartID', '$productID')");
-
+            $cartID = $this->getCartID($cart->getCustomerID());
+            $cart->setCartID($cartID);
+            $productQuantities = $cart->getQuantity();
+            $quantity = $productQuantities[$productID];
+            $result = mysqli_query($con, "INSERT INTO cart_items(CartID, ProductID, Quantity)
+                                    VALUES('$cartID', '$productID', '$quantity')");
+            if (!$result) // If same product already in cart
+            {
+                $result = mysqli_query($con, "UPDATE cart_items SET Quantity = '$quantity' WHERE ProductID = '$productID'");
+            }
             return $result === true;
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage() . "<br>";
@@ -58,11 +68,11 @@ class CartRepo
             return false;
         }
     }
-    public function getCartProductIDs($cartID)
+    public function getCartProduct($cartID)
     {
         try {
             $con = Db::getInstance()->getConnection();
-            $result = mysqli_query($con, "select CartID FROM consists_of WHERE CartID = '$cartID'");
+            $result = mysqli_query($con, "select ProductID, Quantity FROM cart_items WHERE CartID = '$cartID'");
             if ($result) {
                 return $result;
             }
@@ -73,28 +83,81 @@ class CartRepo
             return false;
         }
     }
-    public function getCart($customerID): Cart
+
+    public function GetCartProductPrices($cart, $productIDs)
     {
-        try {
-            $cartID = $this->getCartID($customerID);
-            if ($cartID) {
-                $productsResult = $this->getCartProductIDs($cartID);
-                $cart = Cart::create()
-                    ->setCustomerID($customerID)
-                    ->setCartID($cartID["CartID"]);
-                while($row = $productsResult->fetch_assoc())
-                {
-                    $cart->addProductID($row["ProductID"]);
+        $con = Db::getInstance()->getConnection();
+        $result = mysqli_query($con, "SELECT c.ProductID, p.Price FROM cart_items AS c 
+            INNER JOIN product AS p ON c.ProductID = p.ProductID");
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                if (array_search($row["ProductID"], $productIDs) !== false) {
+                    $prices[$row["ProductID"]] = $row["Price"];
                 }
-                return $cart;
             }
-            echo "cart access failed";
-            return false;
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
-            return false;
+            return $prices;
         }
+        echo "Price Error! ";
+        return false;
     }
+    public function GetCartProductNames($cart, $productIDs)
+    {
+        $con = Db::getInstance()->getConnection();
+        $result = mysqli_query($con, "SELECT c.ProductID, p.ProductName FROM cart_items AS c 
+            INNER JOIN product AS p ON c.ProductID = p.ProductID");
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                if (array_search($row["ProductID"], $productIDs) !== false) {
+                    $names[$row["ProductID"]] = $row["ProductName"];
+                }
+            }
+            return $names;
+        }
+        echo "Name Error! ";
+        return false;
+    }
+
+    public function checkCustomerHasCart($customerID)
+    {
+        $con = Db::getInstance()->getConnection();
+        $result = mysqli_query($con, "SELECT Count(CustomerID) as c FROM cart  
+            WHERE CustomerID = $customerID");
+        if ($result) {
+            if($row = $result->fetch_assoc())
+            {
+                if($row["c"] > 0)
+                {
+                    return true;
+                } else
+                {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+    // public function getCart($customerID): Cart
+    // {
+    //     try {
+    //         $cartID = $this->getCartID($customerID);
+    //         if ($cartID) {
+    //             $productsResult = $this->getCartProduct($cartID);
+    //             $cart = Cart::create()
+    //                 ->setCustomerID($customerID)
+    //                 ->setCartID($cartID["CartID"]);
+    //             while($row = $productsResult->fetch_assoc())
+    //             {
+    //                 $cart->addProductID($row["ProductID"]);
+    //             }
+    //             return $cart;
+    //         }
+    //         echo "cart access failed";
+    //         return false;
+    //     } catch (Exception $e) {
+    //         echo "Error: " . $e->getMessage() . "<br>";
+    //         return false;
+    //     }
+    // }
     //Below Work Left
     public function getCartCount()
     {
@@ -113,7 +176,7 @@ class CartRepo
     {
         try {
             $con = Db::getInstance()->getConnection();
-            $result = mysqli_query($con, "SELECT c.CartID, c.CustomerID, co.ProductID FROM cart AS c INNER JOIN consists_of AS co WHERE c.CartID = co.CartID");
+            $result = mysqli_query($con, "SELECT c.CartID, c.CustomerID, co.ProductID FROM cart AS c INNER JOIN cart_items AS co WHERE c.CartID = co.CartID");
             return $result;
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage() . "<br>";
@@ -144,7 +207,7 @@ class CartRepo
         try {
             $con = Db::getInstance()->getConnection();
             $result = mysqli_query($con, "DELETE FROM cart WHERE CartID = {$CartID}");
-            $result1 = mysqli_query($con, "DELETE FROM consists_of WHERE CartID = {$CartID}");
+            $result1 = mysqli_query($con, "DELETE FROM cart_items WHERE CartID = {$CartID}");
             return ($result === true && $result1 === true);
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage() . "<br>";
