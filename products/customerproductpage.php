@@ -2,10 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="productstyles.css">
-    <title>Document</title>
 </head>
 
 <body>
@@ -91,7 +88,9 @@
         <button class='Button' type="submit" style="width:auto; padding:10px;">Search</button>
 
     </form>
-
+    <div class="cartDiv">
+        <a class="cart" href="../cart/cartPage.php">My Cart 🛒</a>
+    </div>
     <?php
     $namesearch = "";
     $coloursearch = "";
@@ -125,7 +124,7 @@
                     <th>Colours</th>
                     <th>Product Description</th>
                     <th><th>
-                    <th></th>
+                    </th>
                 </tr>";
 
         while ($row = $result->fetch_assoc()) {

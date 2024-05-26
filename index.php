@@ -35,6 +35,7 @@ if (isset($_POST["logoutBtn"])) {
                     }
                     ?>
                     <a class="profile" href="customerProfile/customerProfile.php">Profile</a>
+                    <a class="cart" href="cart/cartPage.php">My Cart 🛒</a>
                 </div>
             </td>
         </tr>

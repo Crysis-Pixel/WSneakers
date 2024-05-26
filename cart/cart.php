@@ -61,6 +61,10 @@ class Cart{
     {
         $this->productName = $names;
     }
+    public function setTotalPrice(int $total)
+    {
+        $this->totalPrice = $total;
+    }
     public function getCartID() : int {
         return $this->cartID;
     }
@@ -82,6 +86,10 @@ class Cart{
     public function getProductName()
     {
         return $this->productName;
+    }
+    public function getTotalPrice()
+    {
+        return $this->totalPrice;
     }
     public static function create() : Cart {
         

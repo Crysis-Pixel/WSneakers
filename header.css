@@ -1,10 +1,14 @@
 .homepage{
   font-family: sans-serif;
   color: black;
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 .homePage:hover {
-  text-decoration: none;
-  color: lightblue;
+  color: rgb(2, 53, 148);
+    text-decoration: underline;
+    border-top: 4px solid rgb(229, 255, 0);
+    border-bottom: 4px solid rgb(229, 255, 0);
+    border-left: 4px solid rgb(229, 255, 0);
+    border-right: 4px solid rgb(229, 255, 0);
 }

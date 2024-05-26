@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="productstyles.css">
-    <title>Document</title>
 </head>
 <body>
     <?php
@@ -37,6 +34,9 @@
         $r = new ReviewsService();
         $prod = $p->GetProduct($productID)->fetch_assoc();
     ?>
+    <div class="cartDiv">
+        <a class="cart" href="../cart/cartPage.php">My Cart 🛒</a>
+    </div>
     <table>
         <tr><td>
         <form action="customerproductpage.php">
@@ -90,9 +90,10 @@
                 <?php
                     echo "<td><input type='hidden' name='product_id' value='{$productID}'>";
                 ?>
-                Quantity: <input type='number' name='cart_quantity' value='1'>
+                Quantity: <input type='number' name='cart_quantity' min="0" value='1'>
             </form>
         </td></tr>
     </table>
+    
 </body>
 </html>

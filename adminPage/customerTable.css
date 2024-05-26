@@ -73,3 +73,23 @@ button:hover{
     font-weight: bold;
     font-size: 20px;
 }
+
+.submit{
+    text-transform: uppercase;
+    color: #333;
+    font-weight: bold;
+    font-size: 20px;
+    
+}
+.submit:hover{
+    text-transform: uppercase;
+    color: #0bb9b9;
+    background-color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+}
+.submitDiv{
+    display: flex;
+    justify-content: right;
+    padding-right: 18%;
+}
