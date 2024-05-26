@@ -63,5 +63,13 @@ class CartService{
 
         return CartService::$instance;
     }
+
+    ///Added by Mostakim///
+    public function RemoveCartItem($CartID, $ProductID){
+        $cartRepo = CartRepo::getInstance();
+        if (!$cartRepo->RemoveCartItem($CartID, $ProductID)){
+            echo ('Failed to remove product from cart!');
+        }
+    }
 }
 ?>

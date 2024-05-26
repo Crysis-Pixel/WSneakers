@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2024 at 04:06 PM
+-- Generation Time: May 26, 2024 at 08:34 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -58,8 +58,8 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`CartID`, `CustomerID`) VALUES
-(16, 1),
-(63, 12);
+(112, 1),
+(86, 4);
 
 -- --------------------------------------------------------
 
@@ -78,13 +78,8 @@ CREATE TABLE `cart_items` (
 --
 
 INSERT INTO `cart_items` (`CartID`, `ProductID`, `Quantity`) VALUES
-(16, 2, 1),
-(16, 4, 1),
-(16, 5, 1),
-(16, 6, 1),
-(63, 4, 1),
-(63, 5, 1),
-(63, 6, 5);
+(86, 5, 10),
+(86, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -125,6 +120,15 @@ CREATE TABLE `coupons` (
   `Name` varchar(30) DEFAULT NULL,
   `SellerID` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `coupons`
+--
+
+INSERT INTO `coupons` (`CouponID`, `Percentage_Discount`, `Name`, `SellerID`) VALUES
+(1, 10, 'wrudro', 1),
+(2, 15, 'jim', 3),
+(4, 25, 'summer25', 1);
 
 -- --------------------------------------------------------
 
@@ -180,7 +184,20 @@ CREATE TABLE `order` (
   `CouponID` int(10) DEFAULT NULL,
   `Total_Price` double(10,2) DEFAULT NULL,
   `Date` date DEFAULT NULL,
-  `Address` varchar(100) DEFAULT NULL
+  `Address` varchar(100) DEFAULT NULL,
+  `Payment_Type` varchar(120) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `OrderID` int(10) DEFAULT NULL,
+  `ProductName` varchar(100) DEFAULT NULL,
+  `Quantity` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -298,20 +315,6 @@ INSERT INTO `product_size` (`ProductID`, `size`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `report`
---
-
-CREATE TABLE `report` (
-  `ReportID` int(10) NOT NULL,
-  `Text` varchar(30) DEFAULT NULL,
-  `CustomerID` int(10) DEFAULT NULL,
-  `SellerID` int(10) DEFAULT NULL,
-  `ProductID` int(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `reviews`
 --
 
@@ -369,18 +372,6 @@ INSERT INTO `seller_phonenumbers` (`SellerID`, `Phone_Number`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transaction_history`
---
-
-CREATE TABLE `transaction_history` (
-  `TrxID` int(10) NOT NULL,
-  `CustomerID` int(10) DEFAULT NULL,
-  `OrderID` int(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `wishlist`
 --
 
@@ -398,7 +389,7 @@ INSERT INTO `wishlist` (`WishlistID`, `CustomerID`, `ProductID`) VALUES
 (39, 1, 7),
 (40, 1, 4),
 (43, 4, 2),
-(44, 4, 4);
+(49, 4, 6);
 
 --
 -- Indexes for dumped tables
@@ -463,6 +454,12 @@ ALTER TABLE `order`
   ADD KEY `CouponID` (`CouponID`);
 
 --
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD KEY `order_items_ibfk_1` (`OrderID`);
+
+--
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
@@ -482,15 +479,6 @@ ALTER TABLE `product_colour`
 --
 ALTER TABLE `product_size`
   ADD KEY `ProductID` (`ProductID`);
-
---
--- Indexes for table `report`
---
-ALTER TABLE `report`
-  ADD PRIMARY KEY (`ReportID`),
-  ADD KEY `CustomerID` (`CustomerID`),
-  ADD KEY `ProductID` (`ProductID`),
-  ADD KEY `SellerID` (`SellerID`);
 
 --
 -- Indexes for table `reviews`
@@ -514,14 +502,6 @@ ALTER TABLE `seller_phonenumbers`
   ADD KEY `SellerID` (`SellerID`);
 
 --
--- Indexes for table `transaction_history`
---
-ALTER TABLE `transaction_history`
-  ADD PRIMARY KEY (`TrxID`),
-  ADD KEY `CustomerID` (`CustomerID`),
-  ADD KEY `OrderID` (`OrderID`);
-
---
 -- Indexes for table `wishlist`
 --
 ALTER TABLE `wishlist`
@@ -543,7 +523,7 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -555,7 +535,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `coupons`
 --
 ALTER TABLE `coupons`
-  MODIFY `CouponID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `CouponID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `customer`
@@ -576,12 +556,6 @@ ALTER TABLE `product`
   MODIFY `ProductID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `report`
---
-ALTER TABLE `report`
-  MODIFY `ReportID` int(10) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
@@ -594,16 +568,10 @@ ALTER TABLE `seller`
   MODIFY `SellerID` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `transaction_history`
---
-ALTER TABLE `transaction_history`
-  MODIFY `TrxID` int(10) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `WishlistID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `WishlistID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- Constraints for dumped tables
@@ -644,6 +612,12 @@ ALTER TABLE `order`
   ADD CONSTRAINT `order_ibfk_3` FOREIGN KEY (`CouponID`) REFERENCES `coupons` (`CouponID`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
+-- Constraints for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`OrderID`) REFERENCES `order` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `product`
 --
 ALTER TABLE `product`
@@ -664,14 +638,6 @@ ALTER TABLE `product_size`
   ADD CONSTRAINT `product_size_ibfk_1` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `report`
---
-ALTER TABLE `report`
-  ADD CONSTRAINT `report_ibfk_1` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `report_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `report_ibfk_3` FOREIGN KEY (`SellerID`) REFERENCES `seller` (`SellerID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
@@ -683,13 +649,6 @@ ALTER TABLE `reviews`
 --
 ALTER TABLE `seller_phonenumbers`
   ADD CONSTRAINT `seller_phonenumbers_ibfk_1` FOREIGN KEY (`SellerID`) REFERENCES `seller` (`SellerID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `transaction_history`
---
-ALTER TABLE `transaction_history`
-  ADD CONSTRAINT `transaction_history_ibfk_1` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `transaction_history_ibfk_2` FOREIGN KEY (`OrderID`) REFERENCES `order` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `wishlist`

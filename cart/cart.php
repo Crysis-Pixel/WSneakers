@@ -26,7 +26,7 @@ class Cart{
     
     public function addProductID(int $productID, $quantity)
     {
-        if(array_search($productID, $this->productIDs,false))
+        if(array_search($productID, $this->productIDs,false) !== false)
         {
             $this->quantity[$productID] = $this->quantity[$productID] + $quantity;
         }else

@@ -17,6 +17,7 @@
             header("location: ../index.php");
         }
 
+        include("../sellers/sellerSessionAccess.php");
         include ("../header.html");
         
        
@@ -119,9 +120,14 @@
         <button class='Button' type='submit'>Categories</button>
     </form></td>
 
+    <td><form action="../coupon/couponPage.php" method="post">
+        <button class='Button' name='LogOutBtn' type='submit'>Coupons</button>
+    </form></td>
+
     <td><form action="sellerProfile.php" method="post">
         <button class='Button' name='LogOutBtn' type='submit'>Log Out</button>
     </form></td>
+
     </tr></table>
 
     <?php

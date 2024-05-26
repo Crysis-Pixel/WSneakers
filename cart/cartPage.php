@@ -6,6 +6,23 @@ include("./cartService.php");
 include("../customers/customerSessionAccess.php");
 include("../header.html");
 
+if (isset($_POST['Order'])){
+    if (empty($_POST['Total'])){
+        echo '<h3>Cart is empty!</h3>'; 
+    }
+    else{
+        header("location: ../order/orderPage.php");
+        exit();
+    }
+}
+
+if (isset($_POST['deleteItem'])){
+    $c = CartService::getInstance();
+    if (!empty($_POST['cart_product']) && !empty($_POST['cart_id'])){
+        $c->RemoveCartItem($_POST['cart_id'],$_POST['cart_product']);
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +55,10 @@ include("../header.html");
             $cart = Cart::create()->retrieveOldCart($_SESSION["CustomerID"]);
             CartService::getInstance()->CartRetrievePrice($cart);
             CartService::getInstance()->CartRetrieveName($cart);
+
+            ///Added by Mostakim///
+            $cartID = $cart->getCartID();
+
             $productIDs = $cart->getProductIDs();
             $prices = $cart->getPriceOfProduct();
             $names = $cart->getProductName();
@@ -51,7 +72,15 @@ include("../header.html");
                 echo "<td>" . $prices[$productID] . "</td>";
                 echo "<td>" . $quantity[$productID] . "</td>";
                 echo "<td>" . $prices[$productID] * $quantity[$productID] . "</td>";
-                echo "</td></tr>";
+                echo "</td>
+                <td>
+                <form action='cartPage.php' method='post'>
+                    <input type='hidden' name='cart_product' value='$productID'>
+                    <input type='hidden' name='cart_id' value='$cartID'>
+                    <button class='Button' type='submit' name='deleteItem'>Remove</button>
+                </form>
+                </td>
+                </tr>";
                 echo "</tbody>";
                 $total += $prices[$productID] * $quantity[$productID];
             }
@@ -64,9 +93,11 @@ include("../header.html");
             echo "Total = $total";
             echo "</h1>";
             ?>
-            <form action="../order/orderPage.php" method="post">
+            <form action="cartPage.php" method="post">
                 <div class="submitDiv">
-                    <input type="hidden" value="<?php $total ?>">
+                    <?php
+                        echo "<input type='hidden' name = 'Total' value='$total'>"
+                    ?>
                     <input type="submit" class="submit" name="Order">
                 </div>
             </form>

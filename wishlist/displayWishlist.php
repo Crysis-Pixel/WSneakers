@@ -1,6 +1,7 @@
 <?php
 include("../header.html");
 include("../database/db.php");
+$mainImageDIR = "../ProductImages/";
 $con = db::getInstance()->getConnection();
 session_start();
 
@@ -55,7 +56,8 @@ $result = mysqli_query($con, $sql);
             echo "<td>" . $row['ProductName'] . "</td>";
             echo "<td>" . $row['Price'] . "</td>";
             echo "<td>" . $row['Quantity'] . "</td>";
-            echo "<td><img src='" . $row['Image'] . "' alt='Product Image' width='100'></td>";
+            $image = $mainImageDIR . $row["Image"];
+            echo "<td><img src='" . $image. "' alt='Product Image' height='100' ></td>";
             echo "<td>" . $row['ProductDesc'] . "</td>";
 
             echo "<td><form action='deleteWishlist.php' method='post'>";

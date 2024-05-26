@@ -8,11 +8,13 @@
 </head>
 <body>
         <?php
+            session_start();
+            include("../sellers/sellerSessionAccess.php");
             include ("../header.html");
             include("../database/db.php"); //had to include directory like this else it was not working
             include("../category/categoryService.php");
             $p = new CategoryService();
-            session_start();
+            
         ?>
          
         <form action="categorypage.php" method="post">

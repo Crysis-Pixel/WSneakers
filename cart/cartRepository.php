@@ -9,7 +9,11 @@ class CartRepo
     public function Add(Cart $cart, $productID): bool
     {
         $isSuccessful = $this->AddCart($cart);
+        // if ($isSuccessful) echo "True";
+        // else echo "is Successful is False";
         $isSuccessful = $this->AddToCartItems($cart, $productID);
+        // if ($isSuccessful) echo "True";
+        // else echo "isSuccessful is False";
         return $isSuccessful;
     }
     public function AddCart(Cart $cart): bool
@@ -37,12 +41,9 @@ class CartRepo
             $cart->setCartID($cartID);
             $productQuantities = $cart->getQuantity();
             $quantity = $productQuantities[$productID];
-            $result = mysqli_query($con, "INSERT INTO cart_items(CartID, ProductID, Quantity)
-                                    VALUES('$cartID', '$productID', '$quantity')");
-            if (!$result) // If same product already in cart
-            {
-                $result = mysqli_query($con, "UPDATE cart_items SET Quantity = '$quantity' WHERE ProductID = '$productID'");
-            }
+            $result = mysqli_query($con, "INSERT INTO cart_items (CartID, ProductID, Quantity)
+                                            VALUES ('$cartID', '$productID', '$quantity')
+                                            ON DUPLICATE KEY UPDATE Quantity = '$quantity'");
             return $result === true;
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage() . "<br>";
@@ -95,7 +96,8 @@ class CartRepo
                     $prices[$row["ProductID"]] = $row["Price"];
                 }
             }
-            return $prices;
+            if (!empty($prices)){ return $prices;}
+            else return false;
         }
         echo "Price Error! ";
         return false;
@@ -111,7 +113,8 @@ class CartRepo
                     $names[$row["ProductID"]] = $row["ProductName"];
                 }
             }
-            return $names;
+            if (!empty($names)){ return $names;}
+            else return false;
         }
         echo "Name Error! ";
         return false;
@@ -222,5 +225,19 @@ class CartRepo
         }
 
         return CartRepo::$instance;
+    }
+
+
+    ///Added by Mostakim///
+    public function RemoveCartItem(int $CartID, int $ProductID): bool
+    {
+        try {
+            $con = Db::getInstance()->getConnection();
+            $result = mysqli_query($con, "DELETE FROM cart_items WHERE CartID = {$CartID} AND ProductID = {$ProductID}");
+            return $result;
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
     }
 }

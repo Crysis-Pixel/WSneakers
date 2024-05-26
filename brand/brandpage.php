@@ -8,6 +8,8 @@
 </head>
 <body>
         <?php
+            session_start();
+            include("../sellers/sellerSessionAccess.php");
             include ("../header.html");
             include("../database/db.php"); //had to include directory like this else it was not working
             include("../brand/brandService.php");

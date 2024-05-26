@@ -56,7 +56,7 @@ if (isset($_POST["loginBtn"])) {
                     $_SESSION["SellerID"] = mysqli_fetch_assoc($result)["SellerID"];
                     $_SESSION["SellerUsername"] = $username;
                     $_SESSION["SellerPassword"] = $password;
-                    $_SESSION["UserType"] = "seller";
+                    $_SESSION["UserType"] = "Seller";
 
                     header("location: ./sellerProfile/sellerProfile.php");
                 }

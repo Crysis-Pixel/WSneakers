@@ -1,4 +1,6 @@
 <?php
+    session_start();
+    include("../sellers/sellerSessionAccess.php");
     include ("../header.html");
     include("../database/db.php"); //had to include directory like this else it was not working
     include("../category/categoryService.php");
@@ -63,7 +65,7 @@
             echo "</tr>";
             echo "</table>";
             echo "<input class='Button' type='submit' name='DeleteCategory' value='Delete Category' style='font-size: 35px;'>";
-            echo "<input class='Button' type='submit' name='GoBack' value='Done' style='font-size: 35px;'>";
+            echo "<input class='Button' type='submit' name='GoBack' value='Go Back' style='font-size: 35px;'>";
             echo "<input class='Button' type='submit' name='SaveItem' value='Save changes' style='font-size: 35px;'>"; 
         }
         catch(Exception $e){
