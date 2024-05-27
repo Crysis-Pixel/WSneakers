@@ -63,7 +63,7 @@ if (isset($_POST['deleteItem'])){
             $prices = $cart->getPriceOfProduct();
             $names = $cart->getProductName();
             $quantity = $cart->getQuantity();
-            $total = 0;
+            $total = 0.0;
             foreach ($productIDs as $productID) {
                 echo "<tbody>";
                 echo "<tr>";

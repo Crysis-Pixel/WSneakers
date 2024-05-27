@@ -9,8 +9,9 @@ include("../coupon/couponRepo.php");
 $isCoupon = false;
 if (isset($_POST['couponbutton'])){
     if (!empty($_POST["Coupon"])){
-        $coupon = CouponRepo::getInstance();
-        $c = $coupon->getPercentage($_POST["Coupon"]);
+        $couponRepo = CouponRepo::getInstance();
+        $coupon = $_POST["Coupon"];
+        $c = $couponRepo->getPercentage($coupon);
         if ($c){
             echo "<h3> Coupon Applied! <h3>";
             echo "Percentage Discount: ". $c."%";
@@ -73,8 +74,10 @@ if (isset($_POST['couponbutton'])){
     <h1 style="text-transform: uppercase; display: flex; justify-content: right; padding-right: 18%;">
         Total = <?php echo $total; ?> tk
         <?php 
+        $finalPrice = $total;
         if ($isCoupon){
             echo "<br>New Price: ".$total-($total*$c/100.0)." tk";
+            $finalPrice = $total-($total*$c/100.0);
         }
         ?>
             
@@ -117,3 +120,18 @@ if (isset($_POST['couponbutton'])){
 </body>
 
 </html>
+
+<?php
+    if(isset($_POST["Order"]))
+    {
+        $orderRepo = OrderRepo::getInstance();
+        $order = Order::create()
+            ->setStatus("pending")
+            ->setCartID($orderRepo->getOrderID($cart->getCartID()))
+            ->setCustomerID($_SESSION["CustomerID"])
+            ->setCouponID($couponRepo->getCouponID($coupon))
+            ->setTotalPrice($finalPrice)
+            ->setAddress($_SESSION["Address"])
+            ->setPayment_type($_POST["payment"]);
+    }
+?>

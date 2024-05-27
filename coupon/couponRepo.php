@@ -103,6 +103,20 @@
             if ($result) return $result;
             else return false;
         }
+        public static function getCouponID($code){
+            $con = Db::getInstance()->getConnection();
+
+            $sql = "SELECT CouponID FROM coupons WHERE Name = '$code'";
+
+            $result = mysqli_query($con, $sql);
+            
+            if ($result) 
+            {
+                $row = $result->fetch_assoc();
+                return $row["CouponID"];
+            }
+            else return false;
+        }
     }
 
     
