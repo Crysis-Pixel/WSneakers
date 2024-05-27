@@ -3,6 +3,7 @@ session_start();
 
 class CartService{
     public static $instance;
+    
     public function AddCart($productID, $quantity){
         $cartRepo = CartRepo::getInstance();
         $productService = new ProductService;
@@ -50,7 +51,7 @@ class CartService{
         $productIDs = $cart->getProductIDs();
         $cartRepo = CartRepo::getInstance();
 
-        $names = $cartRepo->GetCartProductNames($cart, $productIDs);
+        $names = $cartRepo->GetCartProductNames($productIDs);
         if($names)
         {
             $cart->setProductName($names);
@@ -62,6 +63,11 @@ class CartService{
         }
 
         return CartService::$instance;
+    }
+
+    public function RemoveCart($cartID)
+    {
+        CartRepo::getInstance()->RemoveCart($cartID);
     }
 
     ///Added by Mostakim///

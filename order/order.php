@@ -4,11 +4,12 @@
         private string $status;
         private int $cartID;
         private int $customerID;
-        private int $couponID;
+        private int $couponID = -1;
         private float $totalPrice;
         private string $date;
         private string $address;
         private string $payment_type;
+        private Cart $orderCart;
 
         public function __construct()
         {
@@ -122,22 +123,26 @@
             return new Order();
         }
 
-        /**
-         * Get the value of totalPrice
-         */ 
         public function getTotalPrice()
         {
                 return $this->totalPrice;
         }
 
-        /**
-         * Set the value of totalPrice
-         *
-         * @return  self
-         */ 
         public function setTotalPrice($totalPrice)
         {
                 $this->totalPrice = $totalPrice;
+
+                return $this;
+        }
+
+        public function getOrderCart()
+        {
+                return $this->orderCart;
+        }
+
+        public function setOrderCart($orderCart)
+        {
+                $this->orderCart = $orderCart;
 
                 return $this;
         }

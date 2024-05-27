@@ -6,15 +6,17 @@ include("../cart/cartService.php");
 include("../customers/customerSessionAccess.php");
 include("../header.html");
 include("../coupon/couponRepo.php");
+include("./orderRepo.php");
+include("./order.php");
 $isCoupon = false;
-if (isset($_POST['couponbutton'])){
-    if (!empty($_POST["Coupon"])){
+if (isset($_POST['couponbutton'])) {
+    if (!empty($_POST["Coupon"])) {
         $couponRepo = CouponRepo::getInstance();
         $coupon = $_POST["Coupon"];
         $c = $couponRepo->getPercentage($coupon);
-        if ($c){
+        if ($c) {
             echo "<h3> Coupon Applied! <h3>";
-            echo "Percentage Discount: ". $c."%";
+            echo "Percentage Discount: " . $c . "%";
             $isCoupon = true;
         }
     }
@@ -29,7 +31,7 @@ if (isset($_POST['couponbutton'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart</title>
     <link rel="stylesheet" href="orderPage.css">
-    
+
 </head>
 
 <body>
@@ -73,44 +75,44 @@ if (isset($_POST['couponbutton'])){
     </div>
     <h1 style="text-transform: uppercase; display: flex; justify-content: right; padding-right: 18%;">
         Total = <?php echo $total; ?> tk
-        <?php 
+        <?php
         $finalPrice = $total;
-        if ($isCoupon){
-            echo "<br>New Price: ".$total-($total*$c/100.0)." tk";
-            $finalPrice = $total-($total*$c/100.0);
+        if ($isCoupon) {
+            echo "<br>New Price: " . $total - ($total * $c / 100.0) . " tk";
+            $finalPrice = $total - ($total * $c / 100.0);
         }
         ?>
-            
+
     </h1>
     <form action="orderPage.php" method="post">
         Coupon:<input type='text' name="Coupon" placeholder="Enter coupon">
         <button type='submit' class='Button' name='couponbutton' style='padding:1%;width:10%;'>Add coupon</button><br><br>
     </form>
     <form action="orderPage.php" method="post">
-    
-    <div class="payment-options" style='display: flex; justify-content: center; padding-bottom:2%'>
-    Payment Options:
-        <div class="payment-option">
-            <input type="radio" id="bkash" name="payment" value="bkash" checked>
-            <img src="../PaymentLogos/bkash.png" alt="bkash Logo" height="20">
-            <label for="bkash">bkash</label>
-        </div>&nbsp;&nbsp;&nbsp;
-        <div class="payment-option">
-            <input type="radio" id="nagad" name="payment" value="nagad">
-            <img src="../PaymentLogos/nagad.png" alt="nagad Logo" height="20">
-            <label for="nagad">nagad</label>
-        </div>&nbsp;&nbsp;&nbsp;
-        <div class="payment-option">
-            <input type="radio" id="mastercard" name="payment" value="MasterCard">
-            <img src="../PaymentLogos/mastercard.png" alt="MasterCard Logo" height="20">
-            <label for="mastercard">MasterCard</label>
-        </div>&nbsp;&nbsp;&nbsp;
-        <div class="payment-option">
-            <input type="radio" id="visa" name="payment" value="Visa">
-            <img src="../PaymentLogos/visa.png" alt="Visa Logo" height="20">
-            <label for="visa">Visa</label>
-        </div>&nbsp;&nbsp;&nbsp;
-    </div>
+    Delivery Address:<input type='text' name="Address" placeholder="Delivery Address" value= <?php echo $_SESSION['Address']?>>
+        <div class="payment-options" style='display: flex; justify-content: center; padding-bottom:2%'>
+            Payment Options:
+            <div class="payment-option">
+                <input type="radio" id="bkash" name="payment" value="bkash" checked>
+                <img src="../PaymentLogos/bkash.png" alt="bkash Logo" height="20">
+                <label for="bkash">bkash</label>
+            </div>&nbsp;&nbsp;&nbsp;
+            <div class="payment-option">
+                <input type="radio" id="nagad" name="payment" value="nagad">
+                <img src="../PaymentLogos/nagad.png" alt="nagad Logo" height="20">
+                <label for="nagad">nagad</label>
+            </div>&nbsp;&nbsp;&nbsp;
+            <div class="payment-option">
+                <input type="radio" id="mastercard" name="payment" value="MasterCard">
+                <img src="../PaymentLogos/mastercard.png" alt="MasterCard Logo" height="20">
+                <label for="mastercard">MasterCard</label>
+            </div>&nbsp;&nbsp;&nbsp;
+            <div class="payment-option">
+                <input type="radio" id="visa" name="payment" value="Visa">
+                <img src="../PaymentLogos/visa.png" alt="Visa Logo" height="20">
+                <label for="visa">Visa</label>
+            </div>&nbsp;&nbsp;&nbsp;
+        </div>
 
         <div class="submitDiv">
             <?php echo "<input type='hidden' name='Total' value='$total'>"; ?>
@@ -122,16 +124,38 @@ if (isset($_POST['couponbutton'])){
 </html>
 
 <?php
-    if(isset($_POST["Order"]))
-    {
-        $orderRepo = OrderRepo::getInstance();
-        $order = Order::create()
-            ->setStatus("pending")
-            ->setCartID($orderRepo->getOrderID($cart->getCartID()))
-            ->setCustomerID($_SESSION["CustomerID"])
-            ->setCouponID($couponRepo->getCouponID($coupon))
-            ->setTotalPrice($finalPrice)
-            ->setAddress($_SESSION["Address"])
-            ->setPayment_type($_POST["payment"]);
+if (isset($_POST["couponbutton"])) {
+    if (!empty($coupon)) { //To store CouponID if used
+        $_SESSION["CouponID"] = $couponRepo->getCouponID($coupon);
     }
+}
+if (isset($_POST["Order"])) {
+    $orderRepo = OrderRepo::getInstance();
+    $order = Order::create()
+        ->setStatus("pending")
+        ->setCartID($cart->getCartID())
+        ->setCustomerID($_SESSION["CustomerID"])
+        ->setTotalPrice($finalPrice)
+        ->setAddress($_POST["Address"])
+        ->setOrderCart($cart)
+        ->setPayment_type($_POST["payment"]);
+
+        if(isset($_SESSION["CouponID"])) // To use the stored CouponID. Used session because value is lost when coupon form submitted
+        {
+            $order->setCouponID($_SESSION["CouponID"]);
+            unset($_SESSION["CouponID"]);
+        } else
+        {
+            $order->setCouponID(-1);
+        }
+        if($orderRepo->placeOrder($order))  //Check if Order Confirmed
+        {
+            echo "Order Confirmed";
+            header("location: ../products/customerproductpage.php");
+            CartService::getInstance()->RemoveCart($cart->getCartID());     //Remove Cart When Order Confirmed
+        } else
+        {           
+            echo "Order Failed!";
+        }
+}
 ?>

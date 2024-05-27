@@ -46,6 +46,7 @@ if (isset($_POST['deleteItem'])){
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Total (Product x Quantity) </th>
+                <th>Action</th>
             </tr>
         </thead>
 
@@ -98,7 +99,7 @@ if (isset($_POST['deleteItem'])){
                     <?php
                         echo "<input type='hidden' name = 'Total' value='$total'>"
                     ?>
-                    <input type="submit" class="submit" name="Order">
+                    <input type="submit" class="submit" value="Checkout" name="Order">
                 </div>
             </form>
 </body>

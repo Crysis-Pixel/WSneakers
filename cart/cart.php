@@ -66,7 +66,11 @@ class Cart{
         $this->totalPrice = $total;
     }
     public function getCartID() : int {
-        return $this->cartID;
+        if(isset($this->cartID))
+        {
+            return $this->cartID;
+        }
+        return 0;
     }
 
     public function getCustomerID() : int {

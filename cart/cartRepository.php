@@ -96,13 +96,14 @@ class CartRepo
                     $prices[$row["ProductID"]] = $row["Price"];
                 }
             }
-            if (!empty($prices)){ return $prices;}
-            else return false;
+            if (!empty($prices)) {
+                return $prices;
+            } else return false;
         }
         echo "Price Error! ";
         return false;
     }
-    public function GetCartProductNames($cart, $productIDs)
+    public function GetCartProductNames($productIDs)
     {
         $con = Db::getInstance()->getConnection();
         $result = mysqli_query($con, "SELECT c.ProductID, p.ProductName FROM cart_items AS c 
@@ -113,8 +114,9 @@ class CartRepo
                     $names[$row["ProductID"]] = $row["ProductName"];
                 }
             }
-            if (!empty($names)){ return $names;}
-            else return false;
+            if (!empty($names)) {
+                return $names;
+            } else return false;
         }
         echo "Name Error! ";
         return false;
@@ -126,42 +128,17 @@ class CartRepo
         $result = mysqli_query($con, "SELECT Count(CustomerID) as c FROM cart  
             WHERE CustomerID = $customerID");
         if ($result) {
-            if($row = $result->fetch_assoc())
-            {
-                if($row["c"] > 0)
-                {
+            if ($row = $result->fetch_assoc()) {
+                if ($row["c"] > 0) {
                     return true;
-                } else
-                {
+                } else {
                     return false;
                 }
             }
         }
         return false;
     }
-    // public function getCart($customerID): Cart
-    // {
-    //     try {
-    //         $cartID = $this->getCartID($customerID);
-    //         if ($cartID) {
-    //             $productsResult = $this->getCartProduct($cartID);
-    //             $cart = Cart::create()
-    //                 ->setCustomerID($customerID)
-    //                 ->setCartID($cartID["CartID"]);
-    //             while($row = $productsResult->fetch_assoc())
-    //             {
-    //                 $cart->addProductID($row["ProductID"]);
-    //             }
-    //             return $cart;
-    //         }
-    //         echo "cart access failed";
-    //         return false;
-    //     } catch (Exception $e) {
-    //         echo "Error: " . $e->getMessage() . "<br>";
-    //         return false;
-    //     }
-    // }
-    //Below Work Left
+    
     public function getCartCount()
     {
         try {
@@ -174,7 +151,7 @@ class CartRepo
             return null;
         }
     }
-
+    //Get Product info currently in Cart
     public function getAllCartsWithProducts()
     {
         try {
@@ -204,20 +181,19 @@ class CartRepo
     }
 
 
-
+    //Removes the whole cart
     public function RemoveCart(int $CartID): bool
     {
         try {
             $con = Db::getInstance()->getConnection();
-            $result = mysqli_query($con, "DELETE FROM cart WHERE CartID = {$CartID}");
-            $result1 = mysqli_query($con, "DELETE FROM cart_items WHERE CartID = {$CartID}");
-            return ($result === true && $result1 === true);
+            $result = mysqli_query($con, "DELETE FROM cart WHERE CartID IN ($CartID)");
+            return ($result === true);
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage() . "<br>";
             return false;
         }
     }
-
+    //Singleton
     public static function getInstance(): CartRepo
     {
         if (!isset(CartRepo::$instance)) {
