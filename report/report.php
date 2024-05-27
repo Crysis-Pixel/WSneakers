@@ -1,17 +1,22 @@
 <?php
-include("../database/db.php");
-$con = db::getInstance()->getConnection();
-session_start();
+  class Report{
+    
+    public function sendReport(array $_POSTarr, array $_SESSIONarr): bool{
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $productID = $_POST['product_id'];
-  $customerID = $_SESSION['CustomerID'];
-  $sellerID = $_POST['seller_id'];
-  $reportText = $_POST['reportText'];
+      $con = db::getInstance()->getConnection();
+      $productID = $_POSTarr['product_id'];
+      $customerID = $_SESSIONarr['CustomerID'];
+      $sellerID = $_POSTarr['seller_id'];
+      $reportText = $_POSTarr['reportText'];
 
-  $sql = "INSERT INTO report (Text, CustomerID, ProductID, SellerID) 
-  VALUES ('$reportText', '$customerID', '$productID', '$sellerID')";
+      $sql = "INSERT INTO report (Text, CustomerID, ProductID, SellerID) 
+      VALUES ('$reportText', '$customerID', '$productID', '$sellerID')";
 
-  mysqli_query($con, $sql);
-  header("Location: ../products/singleproductpage.php");
-}
+      $result = mysqli_query($con, $sql);
+
+      if ($result) return true;
+      else return false;
+    }
+
+  }
+?>
