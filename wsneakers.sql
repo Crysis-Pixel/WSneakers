@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2024 at 08:34 PM
+-- Generation Time: May 27, 2024 at 03:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -79,7 +79,8 @@ CREATE TABLE `cart_items` (
 
 INSERT INTO `cart_items` (`CartID`, `ProductID`, `Quantity`) VALUES
 (86, 5, 10),
-(86, 6, 1);
+(86, 6, 1),
+(86, 7, 10);
 
 -- --------------------------------------------------------
 
@@ -315,6 +316,28 @@ INSERT INTO `product_size` (`ProductID`, `size`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `report`
+--
+
+CREATE TABLE `report` (
+  `ReportID` int(11) NOT NULL,
+  `Text` text DEFAULT NULL,
+  `CustomerID` int(11) DEFAULT NULL,
+  `ProductID` int(11) DEFAULT NULL,
+  `SellerID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `report`
+--
+
+INSERT INTO `report` (`ReportID`, `Text`, `CustomerID`, `ProductID`, `SellerID`) VALUES
+(36, 'Too White', 4, 5, 3),
+(37, 'It looks like a shoe', 4, 5, 3);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `reviews`
 --
 
@@ -388,8 +411,11 @@ CREATE TABLE `wishlist` (
 INSERT INTO `wishlist` (`WishlistID`, `CustomerID`, `ProductID`) VALUES
 (39, 1, 7),
 (40, 1, 4),
-(43, 4, 2),
-(49, 4, 6);
+(63, 4, 2),
+(64, 4, 4),
+(65, 4, 5),
+(66, 4, 2),
+(67, 4, 2);
 
 --
 -- Indexes for dumped tables
@@ -481,6 +507,15 @@ ALTER TABLE `product_size`
   ADD KEY `ProductID` (`ProductID`);
 
 --
+-- Indexes for table `report`
+--
+ALTER TABLE `report`
+  ADD PRIMARY KEY (`ReportID`),
+  ADD KEY `CustomerID` (`CustomerID`),
+  ADD KEY `ProductID` (`ProductID`),
+  ADD KEY `SellerID` (`SellerID`);
+
+--
 -- Indexes for table `reviews`
 --
 ALTER TABLE `reviews`
@@ -523,7 +558,7 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -556,6 +591,12 @@ ALTER TABLE `product`
   MODIFY `ProductID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT for table `report`
+--
+ALTER TABLE `report`
+  MODIFY `ReportID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
+--
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
@@ -571,7 +612,7 @@ ALTER TABLE `seller`
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `WishlistID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `WishlistID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- Constraints for dumped tables
@@ -636,6 +677,14 @@ ALTER TABLE `product_colour`
 --
 ALTER TABLE `product_size`
   ADD CONSTRAINT `product_size_ibfk_1` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `report`
+--
+ALTER TABLE `report`
+  ADD CONSTRAINT `report_ibfk_1` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`),
+  ADD CONSTRAINT `report_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`),
+  ADD CONSTRAINT `report_ibfk_3` FOREIGN KEY (`SellerID`) REFERENCES `seller` (`SellerID`);
 
 --
 -- Constraints for table `reviews`
