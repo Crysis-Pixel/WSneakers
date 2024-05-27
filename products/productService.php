@@ -15,7 +15,15 @@
             $this->productRepo = new ProductRepo();
         }
 
-        //go to AddProduct in ProductRepository.php for details
+        public function UpdateProductQuantity($productID, $quantity){
+            if ($this->productRepo->UpdateProductQuantity($productID, $quantity)){
+                echo "<br> Quantity updated successfully! <br>";
+            }
+            else{
+                echo "<br> Failed to update quantity. <br>";
+            }
+        }
+
         public function Insert(Product $p){
             if ($this->productRepo->AddProduct($p)){
                 echo "Product added successfully! <br>";
@@ -25,7 +33,6 @@
             }
         }
 
-        //go to RemoveProduct in ProductRepository.php for details
         public function DeleteProduct(int $ProductID){
             if ($this->productRepo->RemoveProduct($ProductID)){
                 echo "Product deleted successfully! <br>";

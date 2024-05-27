@@ -337,7 +337,7 @@ class ProductRepo{
             $row = mysqli_fetch_assoc($result);
             return (int)$row['ProductID'];
         }
-        else return null;
+        else return false;
     }
 
     public function SearchbyBrand(string $Brand){
@@ -350,7 +350,7 @@ class ProductRepo{
             if (mysqli_num_rows($result) > 0) {
                 return $result;
             }
-            else return null;
+            else return false;
         }
         catch(Exception $e){
             echo "Error: " . $e->getMessage() . "<br>";
@@ -366,7 +366,7 @@ class ProductRepo{
         }
         catch(Exception $e){
             echo "Error: " . $e->getMessage() . "<br>";
-            return null;
+            return false;
         }
 
     }
@@ -379,9 +379,23 @@ class ProductRepo{
         }
         catch(Exception $e){
             echo "Error: " . $e->getMessage() . "<br>";
-            return null;
+            return false;
         }
 
+    }
+
+    public function UpdateProductQuantity($productID, $quantity){
+        try{
+            $con = Db::getInstance()->getConnection();
+            $result = mysqli_query($con, "UPDATE product SET
+                                            Quantity = (SELECT Quantity FROM product WHERE ProductID = '$productID') - '$quantity'
+                                            WHERE ProductID = '$productID'");
+            return $result;
+        }
+        catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
     }
 
 }

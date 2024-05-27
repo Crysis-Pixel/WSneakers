@@ -36,6 +36,9 @@ $result = mysqli_query($con, $sql);
 </head>
 
 <body>
+    <form action='../customerProfile/customerProfile.php'>
+        <button class="Button" type="submit">Go back</button>
+    </form>
     <h2>Wishlist</h2>
     <table>
         <tr>

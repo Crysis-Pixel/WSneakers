@@ -89,7 +89,7 @@ if (isset($_POST['couponbutton'])) {
         <button type='submit' class='Button' name='couponbutton' style='padding:1%;width:10%;'>Add coupon</button><br><br>
     </form>
     <form action="orderPage.php" method="post">
-    Delivery Address:<input type='text' name="Address" placeholder="Delivery Address" value= <?php echo $_SESSION['Address']?>>
+    Delivery Address:<input type='text' name="Address" placeholder="Delivery Address" value= "<?php echo htmlspecialchars($_SESSION['Address'], ENT_QUOTES, 'UTF-8');?>">
         <div class="payment-options" style='display: flex; justify-content: center; padding-bottom:2%'>
             Payment Options:
             <div class="payment-option">
@@ -133,7 +133,6 @@ if (isset($_POST["Order"])) {
     $orderRepo = OrderRepo::getInstance();
     $order = Order::create()
         ->setStatus("pending")
-        ->setCartID($cart->getCartID())
         ->setCustomerID($_SESSION["CustomerID"])
         ->setTotalPrice($finalPrice)
         ->setAddress($_POST["Address"])

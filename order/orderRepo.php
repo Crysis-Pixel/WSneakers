@@ -8,7 +8,6 @@ class OrderRepo
     {
         $con = Db::getInstance()->getConnection();
         $status = $order->getStatus();
-        $cartID = $order->getCartID();
         $customerID = $order->getCustomerID();
         $couponID = $order->getCouponID();
         $total_price = $order->getTotalPrice();
@@ -18,12 +17,12 @@ class OrderRepo
         $orderCart = $order->getOrderCart();
         if($couponID == -1)//check if coupon used
         {
-            $result = mysqli_query($con, "INSERT INTO `order` (`Status`, `CartID`, `CustomerID`, `CouponID`, `Total_Price`, `Date`, `Address`, `Payment_Type`) 
-            VALUES ('$status', '$cartID', '$customerID', NULL , '$total_price', '$date', '$address', '$payment_type');");
+            $result = mysqli_query($con, "INSERT INTO `order` (`Status`, `CustomerID`, `CouponID`, `Total_Price`, `Date`, `Address`, `Payment_Type`) 
+            VALUES ('$status', '$customerID', NULL , '$total_price', '$date', '$address', '$payment_type');");
         }else
         {
-            $result = mysqli_query($con, "INSERT INTO `order` (`Status`, `CartID`, `CustomerID`, `CouponID`, `Total_Price`, `Date`, `Address`, `Payment_Type`) 
-            VALUES ('$status', '$cartID', '$customerID', $couponID , '$total_price', '$date', '$address', '$payment_type');");
+            $result = mysqli_query($con, "INSERT INTO `order` (`Status`, `CustomerID`, `CouponID`, `Total_Price`, `Date`, `Address`, `Payment_Type`) 
+            VALUES ('$status', '$customerID', $couponID , '$total_price', '$date', '$address', '$payment_type');");
         }
         
         echo $con->error;
@@ -44,7 +43,7 @@ class OrderRepo
             $cartID = $orderCart->getCartID();
             $productIDs = $orderCart->getProductIDs();
             $productQuantities = $orderCart->getQuantity();
-            $orderID = $this->getOrderID($cartID);
+            $orderID = mysqli_insert_id($con);
             $productRepo = new ProductRepo();
             foreach ($productIDs as $productID)
             {
@@ -53,6 +52,13 @@ class OrderRepo
                 $row = $result->fetch_assoc();
                 $productName = $row["ProductName"];
                 $result = mysqli_query($con, "INSERT INTO `order_items` (`OrderID`, `ProductName`, `Quantity`) VALUES ('$orderID', '$productName', '$quantity');");
+                
+                ///Added by Mostakim////
+                if (!$productRepo->UpdateProductQuantity($productID, $quantity)){
+                    $result = false;
+                }
+                ////
+                
                 if($result == false) break;
             }
             echo $con->error;
@@ -111,4 +117,96 @@ class OrderRepo
 
         return OrderRepo::$instance;
     }
+
+
+    ///Added by Mostakim///
+    public function getCurrentOrders($customerID){
+        $con = Db::getInstance()->getConnection();
+        try {
+            $result = mysqli_query($con, "SELECT o.OrderID, p.ProductID, p.ProductName, p.Price, oi.Quantity, (p.Price*oi.Quantity) as total, o.Status
+                                            FROM `order` o
+                                            INNER JOIN order_items oi on oi.OrderID=o.OrderID
+                                            INNER JOIN product p on p.ProductName=oi.ProductName
+                                            WHERE o.CustomerID='$customerID' AND (o.Status='pending' OR o.Status='shipped')
+                                            ORDER BY o.OrderID DESC;");
+            
+            if($result) return $result;
+            else return false;
+
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+    public function getOldOrders($customerID){
+        $con = Db::getInstance()->getConnection();
+        try {
+            $result = mysqli_query($con, "SELECT o.OrderID, p.ProductID, p.ProductName, p.Price, oi.Quantity, (p.Price*oi.Quantity) as total, o.Status
+                                            FROM `order` o
+                                            INNER JOIN order_items oi on oi.OrderID=o.OrderID
+                                            INNER JOIN product p on p.ProductName=oi.ProductName
+                                            WHERE o.CustomerID='$customerID' AND o.Status='delivered'
+                                            ORDER BY o.OrderID DESC;");
+            
+            if($result) return $result;
+            else return false;
+
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+    public function getCurrentOrdersforSeller($sellerID){
+        $con = Db::getInstance()->getConnection();
+        try {
+            $result = mysqli_query($con, "SELECT o.OrderID, p.ProductID, p.ProductName, p.Price, oi.Quantity, (p.Price*oi.Quantity) as total, o.Status
+                                            FROM `order` o
+                                            INNER JOIN order_items oi on oi.OrderID=o.OrderID
+                                            INNER JOIN product p on p.ProductName=oi.ProductName
+                                            WHERE p.SellerID='$sellerID' AND (o.Status='pending' OR o.Status='shipped')
+                                            ORDER BY o.OrderID DESC;");
+            
+            if($result) return $result;
+            else return false;
+
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+    public function getOldOrdersforSeller($sellerID){
+        $con = Db::getInstance()->getConnection();
+        try {
+            $result = mysqli_query($con, "SELECT o.OrderID, p.ProductID, p.ProductName, p.Price, oi.Quantity, (p.Price*oi.Quantity) as total, o.Status
+                                            FROM `order` o
+                                            INNER JOIN order_items oi on oi.OrderID=o.OrderID
+                                            INNER JOIN product p on p.ProductName=oi.ProductName
+                                            WHERE p.SellerID='$sellerID' AND o.Status='delivered'
+                                            ORDER BY o.OrderID DESC;");
+            
+            if($result) return $result;
+            else return false;
+
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+
+    public function UpdateOrderStatus($orderID, $status){
+        $con = Db::getInstance()->getConnection();
+        try {
+            $result = mysqli_query($con, "UPDATE `order` SET
+                                            `Status` = '$status'
+                                            WHERE OrderID= $orderID;");
+            
+            if($result) return $result;
+            else return false;
+
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+    ///
 }

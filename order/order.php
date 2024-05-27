@@ -2,7 +2,6 @@
     class Order{
         private int $orderID;
         private string $status;
-        private int $cartID;
         private int $customerID;
         private int $couponID = -1;
         private float $totalPrice;
@@ -35,20 +34,6 @@
         public function setStatus($status)
         {
                 $this->status = $status;
-
-                return $this;
-        }
-
-
-        public function getCartID()
-        {
-                return $this->cartID;
-        }
-
-
-        public function setCartID($cartID)
-        {
-                $this->cartID = $cartID;
 
                 return $this;
         }
