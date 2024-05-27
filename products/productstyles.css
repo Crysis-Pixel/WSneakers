@@ -86,3 +86,19 @@ th {
     display: flex;
     justify-content: right;
 }
+
+.ReportButton {
+    margin-top: 10px;
+    text-transform: uppercase;
+    color: #333;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .ReportButton:hover {
+    text-transform: uppercase;
+    color: #0bb9b9;
+    background-color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+  }

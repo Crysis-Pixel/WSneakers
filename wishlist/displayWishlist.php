@@ -5,12 +5,7 @@ $mainImageDIR = "../ProductImages/";
 $con = db::getInstance()->getConnection();
 session_start();
 
-$username = $_SESSION['Username'];
-
-$sql = "SELECT CustomerID FROM customer WHERE Username = '$username'";
-$result = mysqli_query($con, $sql);
-$row = mysqli_fetch_assoc($result);
-$CustomerID = $row['CustomerID'];
+$CustomerID = $_SESSION['CustomerID'];
 
 $sql = "SELECT 
             w.WishlistID, 
@@ -37,17 +32,19 @@ $result = mysqli_query($con, $sql);
 
 <head>
     <title>Wishlist</title>
+    <link rel="stylesheet" href="displayWishlist.css">
 </head>
 
 <body>
     <h2>Wishlist</h2>
-    <table border="1">
+    <table>
         <tr>
             <th>Product Name</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Image</th>
             <th>Description</th>
+            <th></th>
             <th></th>
         </tr>
         <?php
@@ -57,14 +54,21 @@ $result = mysqli_query($con, $sql);
             echo "<td>" . $row['Price'] . "</td>";
             echo "<td>" . $row['Quantity'] . "</td>";
             $image = $mainImageDIR . $row["Image"];
-            echo "<td><img src='" . $image. "' alt='Product Image' height='100' ></td>";
+            echo "<td><img src='" . $image . "' alt='Product Image' height='100' ></td>";
             echo "<td>" . $row['ProductDesc'] . "</td>";
 
-            echo "<td><form action='deleteWishlist.php' method='post'>";
-            echo "<input type='hidden' name='WishlistID' value='" . $row['WishlistID'] . "'>";
-            echo "<button type='submit'>Remove</button>";
-            echo "</form></td>";
-
+            echo "<td>
+                    <form action='deleteWishlist.php' method='post'>
+                        <input type='hidden' name='WishlistID' value='" . $row['WishlistID'] . "'>
+                        <button class = 'Button' type='submit'>Remove</button>
+                    </form>
+                </td>";
+            echo "<td>
+                    <form action='../products/singleproductpage.php' method='post'>
+                        <input type='hidden' name='product_id' value='" . $row["ProductID"] . "'>
+                        <button class = 'Button' type='submit'>See Item</button>
+                    </form>
+                </td>";
             echo "</tr>";
         }
         ?>

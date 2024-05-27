@@ -123,8 +123,8 @@
                     <th>Sizes</th>
                     <th>Colours</th>
                     <th>Product Description</th>
-                    <th><th>
-                    </th>
+                    <th>Wishlist</th>
+                    <th>See Item</th>
                 </tr>";
 
         while ($row = $result->fetch_assoc()) {
@@ -190,10 +190,8 @@
                     <input class='Button' type='submit' name='{$row["ProductID"]}' value='See Item'>
                 </form>
                 </td>";
-        
             echo "</tr>";
         }
-
         echo "</table>";
     } else {
         echo "<h2>No product available.</h2>";
