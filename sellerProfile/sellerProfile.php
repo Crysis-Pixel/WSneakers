@@ -128,6 +128,10 @@
         <button class='Button' name='LogOutBtn' type='submit'>Orders</button>
     </form></td>
 
+    <td><form action="../report/displayReport.php" method="post">
+        <button class='Button' name='LogOutBtn' type='submit'>Product Report</button>
+    </form></td>
+
     <td><form action="sellerProfile.php" method="post">
         <button class='Button' name='LogOutBtn' type='submit'>Log Out</button>
     </form></td>
