@@ -1,7 +1,4 @@
 <?php
-
-use function PHPSTORM_META\type;
-
     include("../header.html");
     include("./customer_signup.html");
     include("../database/db.php");   
@@ -30,14 +27,17 @@ use function PHPSTORM_META\type;
 
             if($isSuccessful)
             {
-                $_SESSION["Username"] = $username;
-                $_SESSION["Password"] = $password;
-                $_SESSION["Phone"] = $phone;
-                $_SESSION["Address"] = $address;
-                $_SESSION["Birthdate"] = $birthDate;
-                $_SESSION["UserType"] = "customer";
-
-                header("location: ../customerProfile/customerProfile.php");
+                $customer = CustomerService::getInstance()->Login($username, $password);
+                if ($customer != null) {
+                    $_SESSION["CustomerID"] = $customer->getCustomerID();
+                    $_SESSION["Username"] = $username;
+                    $_SESSION["Password"] = $password;
+                    $_SESSION["Phone"] = $customer->getPhone();
+                    $_SESSION["Birthdate"] = $customer->getBirthdate();
+                    $_SESSION["Address"] = $customer->getAddress();
+                    $_SESSION["UserType"] = "customer";
+                    header("location: ../customerProfile/customerProfile.php");
+                }
             }
 
         }
