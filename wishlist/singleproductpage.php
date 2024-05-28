@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="productstyles.css">
+    <link rel="stylesheet" href="../products/productstyles.css">
 </head>
 
 <body>
@@ -57,7 +57,7 @@
     <table>
         <tr>
             <td>
-                <form action="customerproductpage.php" method = "post">
+                <form action="displayWishlist.php" method = "post">
                     <input class='Button' type='submit' name='GoBack' value='Go Back' style='font-size: 35px;'>
                 </form>
             </td>

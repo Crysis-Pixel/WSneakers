@@ -69,7 +69,7 @@ $result = mysqli_query($con, $sql);
                     </form>
                 </td>";
             echo "<td>
-                    <form action='../products/singleproductpage.php' method='post'>
+                    <form action='singleproductpage.php' method='post'>
                         <input type='hidden' name='product_id' value='" . $row["ProductID"] . "'>
                         <button class = 'Button' type='submit'>See Item</button>
                     </form>

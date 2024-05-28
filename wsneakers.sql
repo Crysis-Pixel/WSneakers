@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2024 at 01:42 PM
+-- Generation Time: May 28, 2024 at 09:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,7 +40,8 @@ INSERT INTO `brand` (`BrandID`, `Name`) VALUES
 (1, 'Nike'),
 (2, 'Adidas'),
 (5, 'New Balance'),
-(6, 'Puma');
+(6, 'Puma'),
+(8, 'Cat');
 
 -- --------------------------------------------------------
 
@@ -128,7 +129,8 @@ CREATE TABLE `coupons` (
 INSERT INTO `coupons` (`CouponID`, `Percentage_Discount`, `Name`, `SellerID`) VALUES
 (1, 10, 'wrudro', 1),
 (2, 15, 'jim', 3),
-(4, 25, 'summer25', 1);
+(4, 25, 'summer25', 1),
+(6, 10, 'CatOJ', 5);
 
 -- --------------------------------------------------------
 
@@ -157,7 +159,10 @@ INSERT INTO `customer` (`CustomerID`, `Username`, `Password`, `Phone`, `Birthdat
 (9, 'Tamim', '$2y$10$xOnccKlIfAgTZq1qWl/RGuGQnF88P3CFOO9D.KU4p8OSpgLPaUrKC', '01319674824', '2002-06-06', 'Gulshan'),
 (10, 'Tushar', '$2y$10$8pFJSkhzLfhqiajvNECECui2WsvPkZ1Gd4KpFfKz1PLx8pwNgRUhO', '01951666788', '1990-06-21', 'Banani'),
 (11, 'Ishan', '$2y$10$dNaKG0PkRH6GZNGy6Ta9CeWiesFP0OLAlnCSMQz4nKiN5PsorNxQS', '01735225265', '1985-08-15', 'Bashundhara'),
-(12, 'Dipu', '$2y$10$91HVmOsmf8m9nxuHE6RGv.gGPSDtkQ843FZh4yidpaCVgjTrLu4/C', '01319674577', '2007-07-07', 'Aftabnagar');
+(12, 'Dipu', '$2y$10$91HVmOsmf8m9nxuHE6RGv.gGPSDtkQ843FZh4yidpaCVgjTrLu4/C', '01319674577', '2007-07-07', 'Aftabnagar'),
+(13, 'Ryan Gosling', '$2y$10$dDSFcCgk0xy2UGT8HiK3K.IYfb3gLmXYAakjIvKS9m5ZxNXrYjS8K', '01319674553', '2000-01-15', 'Uttara'),
+(14, 'Nabiha', '$2y$10$ZcU5rNRxUA6PER4KldLUjeau0iZPfiTIOnfN7RXDtmNQlKatxt8u6', '726138917612341', '2002-07-24', 'Bashundhara Rd'),
+(15, 'Rubu', '$2y$10$YM9BzNgzWNPRCRE1j1Jz5ecA4f/NgRoq9Izp2t.gBvozLyfVcwfXu', '01319674565', '2024-05-13', 'Bashundhara Rd');
 
 -- --------------------------------------------------------
 
@@ -200,7 +205,9 @@ INSERT INTO `order` (`OrderID`, `Status`, `CustomerID`, `CouponID`, `Total_Price
 (11, 'delivered', 1, NULL, 170.50, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'bkash'),
 (12, 'pending', 1, NULL, 450.19, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'bkash'),
 (13, 'pending', 1, NULL, 129.50, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'Visa'),
-(14, 'pending', 1, NULL, 2840.00, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'bkash');
+(14, 'pending', 1, NULL, 2840.00, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'bkash'),
+(15, 'pending', 15, 6, 1577.19, '2024-05-28', 'Bashundhara Rd, North South University', 'MasterCard'),
+(16, 'delivered', 15, NULL, 2999.99, '2024-05-28', 'Bashundhara Rd, Rudros Mansion', 'bkash');
 
 -- --------------------------------------------------------
 
@@ -230,7 +237,11 @@ INSERT INTO `order_items` (`OrderID`, `ProductName`, `Quantity`) VALUES
 (13, 'Nike Converse', 1),
 (14, 'New Balance FuelCell SuperComp Elite v4', 1),
 (14, 'Nike HyperVenom', 1),
-(14, 'FUTURE 7 ULTIMATE Firm Ground/Arificial Ground Men&#38;#39;s Soccer Cleats', 1);
+(14, 'FUTURE 7 ULTIMATE Firm Ground/Arificial Ground Men&#38;#39;s Soccer Cleats', 1),
+(15, 'Nike Air Force One', 1),
+(15, 'Nike Converse', 6),
+(15, 'New Balance FuelCell SuperComp Elite v4', 1),
+(16, 'Cat Intruder', 1);
 
 -- --------------------------------------------------------
 
@@ -256,11 +267,12 @@ CREATE TABLE `product` (
 
 INSERT INTO `product` (`ProductID`, `ProductName`, `Price`, `Quantity`, `Image`, `ProductDesc`, `SellerID`, `BrandID`, `CategoryID`) VALUES
 (2, 'Adidas Dragon', 170.50, 9, '2.gif', 'Better than Nike!', 1, 1, 1),
-(4, 'Nike Air Force One', 450.19, 2, '4.gif', 'Best of Nike! Better than Adidas!', 3, 1, 1),
-(5, 'Nike Converse', 129.50, 6, '5.gif', 'The best for your feet!', 3, 1, 2),
-(6, 'New Balance FuelCell SuperComp Elite v4', 350.00, 2, '6.jpg', 'The FuelCell SC Elite v4 is a race day shoe designed for the moments when seconds really do count. The propulsive feeling of FuelCell is combined with a thinner carbon fiber plate, offering superior energy return in a lightweight package.', 1, 5, 1),
+(4, 'Nike Air Force One', 450.19, 1, '4.gif', 'Best of Nike! Better than Adidas!', 3, 1, 1),
+(5, 'Nike Converse', 129.50, 0, '5.gif', 'The best for your feet!', 3, 1, 2),
+(6, 'New Balance FuelCell SuperComp Elite v4', 350.00, 1, '6.jpg', 'The FuelCell SC Elite v4 is a race day shoe designed for the moments when seconds really do count. The propulsive feeling of FuelCell is combined with a thinner carbon fiber plate, offering superior energy return in a lightweight package.', 1, 5, 1),
 (7, 'Nike HyperVenom', 1000.00, 23, '7.gif', 'Made for the attacking goalscorer, the Nike Hypervenom Football Boot features a large strike zone for unrivalled agility and better ball control on artificial pitches.', 3, 1, 1),
-(10, 'FUTURE 7 ULTIMATE Firm Ground/Arificial Ground Men&#38;#39;s Soccer Cleats', 1490.00, 3, '8.gif', 'The FuelCell SC Elite v4 is a race day shoe designed for the moments when seconds really do count. The propulsive feeling of FuelCell is combined with a thinner carbon fiber plate, offering superior energy return in a lightweight package.', 1, 6, 15);
+(10, 'FUTURE 7 ULTIMATE Firm Ground/Arificial Ground Mens Soccer Cleats', 1490.00, 2, '8.gif', 'The FuelCell SC Elite v4 is a race day shoe designed for the moments when seconds really do count. The propulsive feeling of FuelCell is combined with a thinner carbon fiber plate, offering superior energy return in a lightweight package.', 1, 6, 15),
+(11, 'Cat Intruder', 2999.99, 9, '11.jpeg', 'The iconic Intruder and the original chunky sneaker. Born in the 90s, RePowered for modern day. With its one of a kind thick, rubber outsole the Intruder is unapologetically and authentically Cat.', 5, 8, 4);
 
 -- --------------------------------------------------------
 
@@ -303,7 +315,9 @@ INSERT INTO `product_colour` (`ProductID`, `Colour`) VALUES
 (7, 'Purple'),
 (10, 'White'),
 (10, 'Black'),
-(10, 'Orange');
+(10, 'Orange'),
+(11, 'Black'),
+(11, 'Cat Yellow');
 
 -- --------------------------------------------------------
 
@@ -342,7 +356,10 @@ INSERT INTO `product_size` (`ProductID`, `size`) VALUES
 (6, 47),
 (7, 41),
 (7, 42),
-(7, 43);
+(7, 43),
+(10, 42),
+(11, 43),
+(11, 20);
 
 -- --------------------------------------------------------
 
@@ -364,7 +381,9 @@ CREATE TABLE `report` (
 
 INSERT INTO `report` (`ReportID`, `Text`, `CustomerID`, `ProductID`, `SellerID`) VALUES
 (36, 'Too White', 4, 5, 3),
-(37, 'It looks like a shoe', 4, 5, 3);
+(37, 'It looks like a shoe', 4, 5, 3),
+(39, 'There should be more colour options.', 15, 4, 3),
+(40, 'The shoes are for dogs!', 15, 11, 5);
 
 -- --------------------------------------------------------
 
@@ -384,7 +403,7 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`ReviewID`, `Text`, `ProductID`, `CustomerID`) VALUES
-(6, 'I got the wrong colour again.', 2, 1);
+(7, 'It looks better on my cats than me.', 11, 15);
 
 -- --------------------------------------------------------
 
@@ -405,7 +424,8 @@ CREATE TABLE `seller` (
 INSERT INTO `seller` (`SellerID`, `Username`, `Pwd`) VALUES
 (1, 'Rudra Tahsin', 'Double0Woof'),
 (3, 'John Wick', 'ImACatLover'),
-(4, 'Mostakim Hossain', 'HelloWorld123');
+(4, 'Mostakim Hossain', 'HelloWorld123'),
+(5, 'Nayeem Porag Molla', 'Wrudru');
 
 -- --------------------------------------------------------
 
@@ -428,7 +448,8 @@ INSERT INTO `seller_phonenumbers` (`SellerID`, `Phone_Number`) VALUES
 (4, '01319674564'),
 (1, '01956012107'),
 (3, '01711175098'),
-(4, '01319674564');
+(4, '01319674564'),
+(5, '01303051107');
 
 -- --------------------------------------------------------
 
@@ -452,7 +473,10 @@ INSERT INTO `wishlist` (`WishlistID`, `CustomerID`, `ProductID`) VALUES
 (64, 4, 4),
 (65, 4, 5),
 (66, 4, 2),
-(67, 4, 2);
+(67, 4, 2),
+(69, 15, 5),
+(70, 15, 6),
+(71, 15, 11);
 
 --
 -- Indexes for dumped tables
@@ -588,13 +612,13 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `brand`
 --
 ALTER TABLE `brand`
-  MODIFY `BrandID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `BrandID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
+  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -606,49 +630,49 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `coupons`
 --
 ALTER TABLE `coupons`
-  MODIFY `CouponID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `CouponID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `CustomerID` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `CustomerID` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `OrderID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `OrderID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `ProductID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ProductID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `report`
 --
 ALTER TABLE `report`
-  MODIFY `ReportID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `ReportID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `ReviewID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ReviewID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `seller`
 --
 ALTER TABLE `seller`
-  MODIFY `SellerID` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `SellerID` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `WishlistID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `WishlistID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- Constraints for dumped tables

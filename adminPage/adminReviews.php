@@ -46,6 +46,7 @@ if(isset($_POST["DeleteReview"])){
                 <th>Review</th>
                 <th>Product</th>
                 <th>Customer</th>
+                <th>Action</th>
             </tr>
         </thead>
         <?php

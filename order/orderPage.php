@@ -135,7 +135,7 @@ if (isset($_POST["Order"])) {
         ->setStatus("pending")
         ->setCustomerID($_SESSION["CustomerID"])
         ->setTotalPrice($finalPrice)
-        ->setAddress($_POST["Address"])
+        ->setAddress(filter_input(INPUT_POST, "Address", FILTER_SANITIZE_SPECIAL_CHARS))
         ->setOrderCart($cart)
         ->setPayment_type($_POST["payment"]);
 
