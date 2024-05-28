@@ -28,7 +28,7 @@
     </div>
     <div class="birthdate">
       <label>Birthdate: </label>
-      <input type="text" name="birthdate" value="<?php echo $customerOld->getBirthdate();?>"><br><br>
+      <input type="date" name="birthdate" value="<?php echo $customerOld->getBirthdate();?>"><br><br>
     </div>
     <div class="address">
       <label>Address: </label>
