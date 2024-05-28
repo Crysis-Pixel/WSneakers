@@ -2,7 +2,17 @@
 session_start();
 if(isset($_SESSION["UserType"])) 
 {
-    header("location: http://localhost/wsneakers/index.php");
+    if($_SESSION["UserType"] == "customer")
+    {
+        header("location: http://localhost/wsneakers/index.php");
+    } else if ($_SESSION["UserType"] == "admin")
+    {
+        header("location: http://localhost/wsneakers/adminPage/adminPage.php");
+    } else if($_SESSION["UserType"] == "Seller")
+    {
+        echo "true";
+        header("location: http://localhost/wsneakers/sellerProfile/sellerProfile.php");
+    }
     exit();
 }
 include_once("header.html");

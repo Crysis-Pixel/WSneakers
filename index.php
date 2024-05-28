@@ -1,5 +1,14 @@
 <?php
 session_start();
+if(isset($_SESSION["UserType"]))
+{
+    if ($_SESSION["UserType"] == "admin") {
+        header("location: http://localhost/wsneakers/adminPage/adminPage.php");
+    } else if ($_SESSION["UserType"] == "Seller") {
+        header("location: http://localhost/wsneakers/sellerProfile/sellerProfile.php");
+    }
+    exit();
+}
 include("./database/db.php");
 include("header.html");
 include("./customers/customer.php");
