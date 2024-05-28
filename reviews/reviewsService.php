@@ -9,9 +9,11 @@
         public function Insert(Reviews $r){
             if ($this->reviewRepo->AddReview($r)){
                 echo "Review added successfully! <br>";
+                return true;
             }
             else{
                 echo "<br> Failed to add review. <br>";
+                return false;
             }
         }
 

@@ -120,7 +120,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <th>Product Name</th>
                 <th>Price</th>
                 <th>Quantity</th>
-                <th>Total</th>
+                <th>Total (Price x Quantity)</th>
+                <th>Order Date</th>
+                <th>Payment Type</th>
+                <th>Address</th>
             </tr>
         </thead>
         <tbody>
@@ -134,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $previousOrderID = $currentOrderID;
                 $currentOrderID = $row["OrderID"];
                 if ($previousOrderID!=null && $previousOrderID!=$currentOrderID){
-                    echo "<tr class='total-row'><td colspan='5' data-label='Total'>".$total." tk</td></tr>";
+                    echo "<tr class='total-row'><td colspan='5' data-label='Total'>Total for this order:".$total." tk</td></tr>";
                     if ($laststatus==='pending'){
                         echo "<tr><td>
                         <form action='sellerorders.php' method='post'>
@@ -171,12 +174,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "<td data-label='Quantity'>" . $row["Quantity"] . "</td>";
                 $total += $row["total"];
                 echo "<td data-label='Total'>" . $row["total"] . "</td>";
+                echo "<td data-label='OrderDate'>" . $row["Date"] . "</td>";
+                echo "<td data-label='PaymentType'>" . $row["Payment_Type"] . "</td>";
+                echo "<td data-label='Address'>" . $row["Address"] . "</td>";
                 echo "</tr>";
                 $laststatus = $row["Status"];
             }
 
             if ($currentOrderID !== null) {
-                echo "<tr class='total-row'><td colspan='5' data-label='Total'>".$total." tk</td></tr>";
+                echo "<tr class='total-row'><td colspan='5' data-label='Total'>Total for this order:".$total." tk</td></tr>";
                 if ($laststatus==='pending'){
                     echo "<tr><td>
                         <form action='sellerorders.php' method='post'>
@@ -217,7 +223,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <th>Product Name</th>
                 <th>Price</th>
                 <th>Quantity</th>
-                <th>Total</th>
+                <th>Total (Price x Quantity)</th>
+                <th>Order Date</th>
+                <th>Payment Type</th>
+                <th>Address</th>
             </tr>
         </thead>
         <tbody>
@@ -231,6 +240,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $previousOrderID = $currentOrderID;
                 $currentOrderID = $row["OrderID"];
                 if ($previousOrderID!=null && $previousOrderID!=$currentOrderID){
+                    echo "<tr class='total-row'><td colspan='5' data-label='Total'>Total for this order:".$total." tk</td></tr>";
                     if ($laststatus==='pending'){
                         echo "<tr><td>
                             <form action='sellerorders.php' method='post'>
@@ -269,6 +279,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type='hidden' name='order_id' value='".$previousOrderID."'>
                             <button type='submit' name='updatebtn' class='Button' style='padding:2%;'>Update</button>
                             </form></td></tr>";
+                            $total = 0;
                     }
                 }
                 echo "<tr class='product-row'>";
@@ -278,12 +289,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "<td data-label='Quantity'>" . $row["Quantity"] . "</td>";
                 $total += $row["total"];
                 echo "<td data-label='Total'>" . $row["total"] . "</td>";
+                echo "<td data-label='OrderDate'>" . $row["Date"] . "</td>";
+                echo "<td data-label='PaymentType'>" . $row["Payment_Type"] . "</td>";
+                echo "<td data-label='Address'>" . $row["Address"] . "</td>";
                 echo "</tr>";
                 $laststatus = $row["Status"];
             }
 
             if ($currentOrderID !== null) {
-                echo "<tr class='total-row'><td colspan='5' data-label='Total'>".$total." tk</td></tr>";
+                echo "<tr class='total-row'><td colspan='5' data-label='Total'>Total for this order:".$total." tk</td></tr>";
                 if ($laststatus==='pending'){
                     echo "<tr><td>
                         <form action='sellerorders.php' method='post'>

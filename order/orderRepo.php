@@ -123,7 +123,7 @@ class OrderRepo
     public function getCurrentOrders($customerID){
         $con = Db::getInstance()->getConnection();
         try {
-            $result = mysqli_query($con, "SELECT o.OrderID, p.ProductID, p.ProductName, p.Price, oi.Quantity, (p.Price*oi.Quantity) as total, o.Status
+            $result = mysqli_query($con, "SELECT o.OrderID, p.ProductID, p.ProductName, p.Price, oi.Quantity, o.Date, o.Payment_Type, o.Address, (p.Price*oi.Quantity) as total, o.Status
                                             FROM `order` o
                                             INNER JOIN order_items oi on oi.OrderID=o.OrderID
                                             INNER JOIN product p on p.ProductName=oi.ProductName
@@ -141,7 +141,7 @@ class OrderRepo
     public function getOldOrders($customerID){
         $con = Db::getInstance()->getConnection();
         try {
-            $result = mysqli_query($con, "SELECT o.OrderID, p.ProductID, p.ProductName, p.Price, oi.Quantity, (p.Price*oi.Quantity) as total, o.Status
+            $result = mysqli_query($con, "SELECT o.OrderID, p.ProductID, p.ProductName, p.Price, oi.Quantity, o.Date, o.Payment_Type, o.Address, (p.Price*oi.Quantity) as total, o.Status
                                             FROM `order` o
                                             INNER JOIN order_items oi on oi.OrderID=o.OrderID
                                             INNER JOIN product p on p.ProductName=oi.ProductName
@@ -159,7 +159,7 @@ class OrderRepo
     public function getCurrentOrdersforSeller($sellerID){
         $con = Db::getInstance()->getConnection();
         try {
-            $result = mysqli_query($con, "SELECT o.OrderID, p.ProductID, p.ProductName, p.Price, oi.Quantity, (p.Price*oi.Quantity) as total, o.Status
+            $result = mysqli_query($con, "SELECT o.OrderID, p.ProductID, p.ProductName, p.Price, oi.Quantity, o.Date, o.Payment_Type, o.Address, (p.Price*oi.Quantity) as total, o.Status
                                             FROM `order` o
                                             INNER JOIN order_items oi on oi.OrderID=o.OrderID
                                             INNER JOIN product p on p.ProductName=oi.ProductName
@@ -177,7 +177,7 @@ class OrderRepo
     public function getOldOrdersforSeller($sellerID){
         $con = Db::getInstance()->getConnection();
         try {
-            $result = mysqli_query($con, "SELECT o.OrderID, p.ProductID, p.ProductName, p.Price, oi.Quantity, (p.Price*oi.Quantity) as total, o.Status
+            $result = mysqli_query($con, "SELECT o.OrderID, p.ProductID, p.ProductName, p.Price, oi.Quantity, o.Date, o.Payment_Type, o.Address, (p.Price*oi.Quantity) as total, o.Status
                                             FROM `order` o
                                             INNER JOIN order_items oi on oi.OrderID=o.OrderID
                                             INNER JOIN product p on p.ProductName=oi.ProductName

@@ -27,7 +27,7 @@ class CartRepo
 
             return $result === true;
         } catch (Exception $e) {
-            echo "cart available";
+            //echo "cart available";
             return false;
         }
     }

@@ -89,7 +89,7 @@ if (isset($_POST['couponbutton'])) {
         <button type='submit' class='Button' name='couponbutton' style='padding:1%;width:10%;'>Add coupon</button><br><br>
     </form>
     <form action="orderPage.php" method="post">
-    Delivery Address:<input type='text' name="Address" placeholder="Delivery Address" value= "<?php echo htmlspecialchars($_SESSION['Address'], ENT_QUOTES, 'UTF-8');?>">
+    Delivery Address:<br><textarea type='text' name="Address" rows="2" cols="30"><?php echo $_SESSION["Address"] ?></textarea>
         <div class="payment-options" style='display: flex; justify-content: center; padding-bottom:2%'>
             Payment Options:
             <div class="payment-option">
@@ -149,8 +149,12 @@ if (isset($_POST["Order"])) {
         }
         if($orderRepo->placeOrder($order))  //Check if Order Confirmed
         {
-            echo "Order Confirmed";
-            header("location: ../products/customerproductpage.php");
+            ///Javascript added by Mostakim
+            echo "<script type='text/javascript'>
+                alert('Order Confirmed!');
+                window.location.href = '../products/customerproductpage.php';
+              </script>";
+            ///
             CartService::getInstance()->RemoveCart($cart->getCartID());     //Remove Cart When Order Confirmed
         } else
         {           

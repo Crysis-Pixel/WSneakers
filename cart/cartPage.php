@@ -91,7 +91,7 @@ if (isset($_POST['deleteItem'])){
         <table>
             <?php
             echo "<h1 style = 'text-transform: uppercase; display: flex; justify-content: right; padding-right: 18%;'>";
-            echo "Total = $total";
+            echo "Total = $total tk";
             echo "</h1>";
             ?>
             <form action="cartPage.php" method="post">

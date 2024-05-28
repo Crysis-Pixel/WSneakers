@@ -78,11 +78,10 @@
     
             try{
                 $text=$r->getText();
-                echo $ReviewID;
                 $result = mysqli_query($con, 
                 "UPDATE reviews SET 
                 text = '$text'
-                WHERE ReviewID = {$ReviewID};");
+                WHERE ReviewID = $ReviewID;");
                 return true;
             }
             catch(Exception $e){

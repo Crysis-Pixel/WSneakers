@@ -105,7 +105,10 @@ include("../order/orderRepo.php");
                 <th>Product Name</th>
                 <th>Price</th>
                 <th>Quantity</th>
-                <th>Total</th>
+                <th>Total (Price x Quantity)</th>
+                <th>Order Date</th>
+                <th>Payment Method</th>
+                <th>Address</th>
             </tr>
         </thead>
         <tbody>
@@ -119,7 +122,7 @@ include("../order/orderRepo.php");
             while ($row = $currorders->fetch_assoc()){
                 $currentOrderID = $row["OrderID"];
                 if ($previousOrderID !== null && $currentOrderID != $previousOrderID) {
-                    echo "<tr class='total-row'><td colspan='5' data-label='Total'>".$total." tk</td></tr>";
+                    echo "<tr class='total-row'><td colspan='5' data-label='Total'>Total for this order: ".$total." tk</td></tr>";
                     if ($laststatus==='pending'){
                         echo "<tr class='pending-row'><td colspan='5' data-label='Status'><p>PENDING</p></td></tr>";
                     }
@@ -136,7 +139,10 @@ include("../order/orderRepo.php");
                 echo "<td data-label='Price'>" . $row["Price"] . "</td>";
                 echo "<td data-label='Quantity'>" . $row["Quantity"] . "</td>";
                 $total += $row["total"];
-                echo "<td data-label='Total'>" . $row["total"] . "</td>";
+                echo "<td data-label='Total'>" . $row["total"] . " tk</td>";
+                echo "<td data-label='OrderDate'>" . $row["Date"] . "</td>";
+                echo "<td data-label='PaymentType'>" . $row["Payment_Type"] . "</td>";
+                echo "<td data-label='Address'>" . $row["Address"] . "</td>";
                 echo "<td>
                         <form action='../products/singleproductpage.php' method='post'>
                             <input type='hidden' name='product_id' value='".$row["ProductID"]."'>
@@ -149,7 +155,7 @@ include("../order/orderRepo.php");
             }
 
             if ($previousOrderID !== null) {
-                echo "<tr class='total-row'><td colspan='5' data-label='Total'>".$total." tk</td></tr>";
+                echo "<tr class='total-row'><td colspan='5' data-label='Total'>Total for this order: ".$total." tk</td></tr>";
                 if (strcmp($laststatus,'pending')==0){
                     echo "<tr class='pending-row'><td colspan='5' data-label='Status'><p>PENDING</p></td></tr>";
                 }
@@ -169,7 +175,10 @@ include("../order/orderRepo.php");
                 <th>Product Name</th>
                 <th>Price</th>
                 <th>Quantity</th>
-                <th>Total</th>
+                <th>Total (Price x Quantity)</th>
+                <th>Order Date</th>
+                <th>Payment Method</th>
+                <th>Address</th>
             </tr>
         </thead>
         <tbody>
@@ -184,7 +193,7 @@ include("../order/orderRepo.php");
                 $currentOrderID = $row["OrderID"];
                 if ($previousOrderID !== null && $currentOrderID != $previousOrderID) {
                     
-                    echo "<tr class='total-row'><td colspan='5' data-label='Total'>".$total." tk</td></tr>";
+                    echo "<tr class='total-row'><td colspan='5' data-label='Total'>Total for this order: ".$total." tk</td></tr>";
                     echo "<tr class='delivered-row'><td colspan='5' data-label='Status'><p>DELIVERED</p></td></tr>";
                     echo "<tr class='order-separator'><td colspan='5'></td></tr>";
                     $total = 0;
@@ -195,7 +204,16 @@ include("../order/orderRepo.php");
                 echo "<td data-label='Price'>" . $row["Price"] . "</td>";
                 echo "<td data-label='Quantity'>" . $row["Quantity"] . "</td>";
                 $total += $row["total"];
-                echo "<td data-label='Total'>" . $row["total"] . "</td>";
+                echo "<td data-label='Total'>" . $row["total"] . " tk</td>";
+                echo "<td data-label='OrderDate'>" . $row["Date"] . "</td>";
+                echo "<td data-label='PaymentType'>" . $row["Payment_Type"] . "</td>";
+                echo "<td data-label='Address'>" . $row["Address"] . "</td>";
+                echo "<td>
+                        <form action='../reviews/reviewpage.php' method='post'>
+                            <input type='hidden' name='product_id' value='".$row["ProductID"]."'>
+                            <button class='Button' type='submit' name='ReviewItem'>Write Review</button>
+                        </form>
+                    </td>";
                 echo "<td>
                         <form action='../products/singleproductpage.php' method='post'>
                             <input type='hidden' name='product_id' value='".$row["ProductID"]."'>
@@ -207,7 +225,7 @@ include("../order/orderRepo.php");
             }
 
             if ($previousOrderID !== null) {
-                echo "<tr class='total-row'><td colspan='5' data-label='Total'>".$total." tk</td></tr>";
+                echo "<tr class='total-row'><td colspan='5' data-label='Total'>Total for this order: ".$total." tk</td></tr>";
                 echo "<tr class='delivered-row'><td colspan='5' data-label='Status'><p>DELIVERED</p></td></tr>";
             }
         ?>
