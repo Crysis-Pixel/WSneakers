@@ -58,10 +58,12 @@ class SellerRepo
 
     $result = mysqli_query($con, $getAllSellersID);
 
-    while ($row = mysqli_fetch_assoc($result)) {
-      echo '<br>';
-      echo $row['SellerID'];
-    }
+    return $result;
+
+    // while ($row = mysqli_fetch_assoc($result)) {
+    //   echo '<br>';
+    //   echo $row['SellerID'];
+    // }
   }
 
   //Function to get sellers Username

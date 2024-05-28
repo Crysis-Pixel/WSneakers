@@ -29,7 +29,7 @@
         public function SearchReview(String $CustomerUsername, string $productName){
             try{
                 $con = Db::getInstance()->getConnection();
-                $result = mysqli_query($con, "SELECT r.ReviewID, c.Username, p.ProductName, r.Text
+                $result = mysqli_query($con, "SELECT r.ReviewID, c.CustomerID, c.Username, p.ProductID, p.ProductName, r.Text
                 FROM reviews r
                 INNER JOIN customer c ON c.CustomerID=r.CustomerID
                 INNER JOIN product p ON p.ProductID=r.ProductID
