@@ -41,6 +41,9 @@ include("../customers/customerSessionAccess.php");
                 <form action='customerorders.php' method='post'>
                     <button type=submit class='Button' style="font-size: 250%;">Your orders &#128666</button>
                 </form>
+                <form action='../customers/editCustomerPage.php' method='post'>
+                    <button type=submit class='Button' name="editBtn" style="font-size: 250%;">Edit Information ✏️</button>
+                </form>
             </td>
         </tr>
     </table>

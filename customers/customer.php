@@ -1,7 +1,7 @@
 <?php
 class Customer
 {
-    private int $customerID;
+    private int $customerID = 0;
     private string $username = "";
     private string $password = "";
     private string $phone = "";
