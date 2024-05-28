@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 27, 2024 at 03:29 PM
+-- Generation Time: May 28, 2024 at 01:59 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -58,7 +58,6 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`CartID`, `CustomerID`) VALUES
-(112, 1),
 (86, 4);
 
 -- --------------------------------------------------------
@@ -180,7 +179,6 @@ CREATE TABLE `is_part_of` (
 CREATE TABLE `order` (
   `OrderID` int(10) NOT NULL,
   `Status` varchar(30) DEFAULT NULL,
-  `CartID` int(10) DEFAULT NULL,
   `CustomerID` int(10) DEFAULT NULL,
   `CouponID` int(10) DEFAULT NULL,
   `Total_Price` double(10,2) DEFAULT NULL,
@@ -188,6 +186,18 @@ CREATE TABLE `order` (
   `Address` varchar(100) DEFAULT NULL,
   `Payment_Type` varchar(120) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`OrderID`, `Status`, `CustomerID`, `CouponID`, `Total_Price`, `Date`, `Address`, `Payment_Type`) VALUES
+(6, 'shipped', 1, 4, 388.50, '2024-05-27', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'nagad'),
+(7, 'shipped', 1, NULL, 900.38, '2024-05-27', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'Visa'),
+(8, 'delivered', 1, 4, 1840.00, '2024-05-27', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'MasterCard'),
+(9, 'delivered', 1, NULL, 350.00, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'Visa'),
+(10, 'delivered', 1, NULL, 1000.00, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'MasterCard'),
+(11, 'delivered', 1, NULL, 170.50, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'bkash');
 
 -- --------------------------------------------------------
 
@@ -200,6 +210,19 @@ CREATE TABLE `order_items` (
   `ProductName` varchar(100) DEFAULT NULL,
   `Quantity` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`OrderID`, `ProductName`, `Quantity`) VALUES
+(6, 'Nike Converse', 3),
+(7, 'Nike Air Force One', 2),
+(8, 'New Balance FuelCell SuperComp Elite v4', 1),
+(8, 'FUTURE 7 ULTIMATE Firm Ground/Arificial Ground Men&#38;#39;s Soccer Cleats', 1),
+(9, 'New Balance FuelCell SuperComp Elite v4', 1),
+(10, 'Nike HyperVenom', 1),
+(11, 'Adidas Dragon', 1);
 
 -- --------------------------------------------------------
 
@@ -224,12 +247,12 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`ProductID`, `ProductName`, `Price`, `Quantity`, `Image`, `ProductDesc`, `SellerID`, `BrandID`, `CategoryID`) VALUES
-(2, 'Adidas Dragon', 170.50, 10, '2.gif', 'Better than Nike!', 1, 1, 1),
-(4, 'Nike Air Force One', 450.19, 5, '4.gif', 'Best of Nike! Better than Adidas!', 3, 1, 1),
-(5, 'Nike Converse', 129.50, 10, '5.gif', 'The best for your feet!', 3, 1, 2),
-(6, 'New Balance FuelCell SuperComp Elite v4', 350.00, 5, '6.jpg', 'The FuelCell SC Elite v4 is a race day shoe designed for the moments when seconds really do count. The propulsive feeling of FuelCell is combined with a thinner carbon fiber plate, offering superior energy return in a lightweight package.', 1, 5, 1),
-(7, 'Nike HyperVenom', 1000.00, 25, '7.gif', 'Made for the attacking goalscorer, the Nike Hypervenom Football Boot features a large strike zone for unrivalled agility and better ball control on artificial pitches.', 3, 1, 1),
-(10, 'FUTURE 7 ULTIMATE Firm Ground/Arificial Ground Men&#38;#39;s Soccer Cleats', 1500.00, 10, '8.gif', 'The FuelCell SC Elite v4 is a race day shoe designed for the moments when seconds really do count. The propulsive feeling of FuelCell is combined with a thinner carbon fiber plate, offering superior energy return in a lightweight package.', 1, 6, 15);
+(2, 'Adidas Dragon', 170.50, 9, '2.gif', 'Better than Nike!', 1, 1, 1),
+(4, 'Nike Air Force One', 450.19, 3, '4.gif', 'Best of Nike! Better than Adidas!', 3, 1, 1),
+(5, 'Nike Converse', 129.50, 7, '5.gif', 'The best for your feet!', 3, 1, 2),
+(6, 'New Balance FuelCell SuperComp Elite v4', 350.00, 3, '6.jpg', 'The FuelCell SC Elite v4 is a race day shoe designed for the moments when seconds really do count. The propulsive feeling of FuelCell is combined with a thinner carbon fiber plate, offering superior energy return in a lightweight package.', 1, 5, 1),
+(7, 'Nike HyperVenom', 1000.00, 24, '7.gif', 'Made for the attacking goalscorer, the Nike Hypervenom Football Boot features a large strike zone for unrivalled agility and better ball control on artificial pitches.', 3, 1, 1),
+(10, 'FUTURE 7 ULTIMATE Firm Ground/Arificial Ground Men&#38;#39;s Soccer Cleats', 1490.00, 4, '8.gif', 'The FuelCell SC Elite v4 is a race day shoe designed for the moments when seconds really do count. The propulsive feeling of FuelCell is combined with a thinner carbon fiber plate, offering superior energy return in a lightweight package.', 1, 6, 15);
 
 -- --------------------------------------------------------
 
@@ -410,7 +433,6 @@ CREATE TABLE `wishlist` (
 
 INSERT INTO `wishlist` (`WishlistID`, `CustomerID`, `ProductID`) VALUES
 (39, 1, 7),
-(40, 1, 4),
 (63, 4, 2),
 (64, 4, 4),
 (65, 4, 5),
@@ -476,7 +498,6 @@ ALTER TABLE `is_part_of`
 ALTER TABLE `order`
   ADD PRIMARY KEY (`OrderID`),
   ADD KEY `CustomerID` (`CustomerID`),
-  ADD KEY `CartID` (`CartID`),
   ADD KEY `CouponID` (`CouponID`);
 
 --
@@ -558,7 +579,7 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -582,7 +603,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `OrderID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `OrderID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -594,7 +615,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `report`
 --
 ALTER TABLE `report`
-  MODIFY `ReportID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `ReportID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -649,7 +670,6 @@ ALTER TABLE `is_part_of`
 --
 ALTER TABLE `order`
   ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `order_ibfk_2` FOREIGN KEY (`CartID`) REFERENCES `cart` (`CartID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `order_ibfk_3` FOREIGN KEY (`CouponID`) REFERENCES `coupons` (`CouponID`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
