@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2024 at 01:59 AM
+-- Generation Time: May 28, 2024 at 01:42 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -197,7 +197,10 @@ INSERT INTO `order` (`OrderID`, `Status`, `CustomerID`, `CouponID`, `Total_Price
 (8, 'delivered', 1, 4, 1840.00, '2024-05-27', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'MasterCard'),
 (9, 'delivered', 1, NULL, 350.00, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'Visa'),
 (10, 'delivered', 1, NULL, 1000.00, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'MasterCard'),
-(11, 'delivered', 1, NULL, 170.50, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'bkash');
+(11, 'delivered', 1, NULL, 170.50, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'bkash'),
+(12, 'pending', 1, NULL, 450.19, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'bkash'),
+(13, 'pending', 1, NULL, 129.50, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'Visa'),
+(14, 'pending', 1, NULL, 2840.00, '2024-05-28', 'H:18, R:7, B:E, Banasree, Rampura, Dhaka', 'bkash');
 
 -- --------------------------------------------------------
 
@@ -222,7 +225,12 @@ INSERT INTO `order_items` (`OrderID`, `ProductName`, `Quantity`) VALUES
 (8, 'FUTURE 7 ULTIMATE Firm Ground/Arificial Ground Men&#38;#39;s Soccer Cleats', 1),
 (9, 'New Balance FuelCell SuperComp Elite v4', 1),
 (10, 'Nike HyperVenom', 1),
-(11, 'Adidas Dragon', 1);
+(11, 'Adidas Dragon', 1),
+(12, 'Nike Air Force One', 1),
+(13, 'Nike Converse', 1),
+(14, 'New Balance FuelCell SuperComp Elite v4', 1),
+(14, 'Nike HyperVenom', 1),
+(14, 'FUTURE 7 ULTIMATE Firm Ground/Arificial Ground Men&#38;#39;s Soccer Cleats', 1);
 
 -- --------------------------------------------------------
 
@@ -248,11 +256,11 @@ CREATE TABLE `product` (
 
 INSERT INTO `product` (`ProductID`, `ProductName`, `Price`, `Quantity`, `Image`, `ProductDesc`, `SellerID`, `BrandID`, `CategoryID`) VALUES
 (2, 'Adidas Dragon', 170.50, 9, '2.gif', 'Better than Nike!', 1, 1, 1),
-(4, 'Nike Air Force One', 450.19, 3, '4.gif', 'Best of Nike! Better than Adidas!', 3, 1, 1),
-(5, 'Nike Converse', 129.50, 7, '5.gif', 'The best for your feet!', 3, 1, 2),
-(6, 'New Balance FuelCell SuperComp Elite v4', 350.00, 3, '6.jpg', 'The FuelCell SC Elite v4 is a race day shoe designed for the moments when seconds really do count. The propulsive feeling of FuelCell is combined with a thinner carbon fiber plate, offering superior energy return in a lightweight package.', 1, 5, 1),
-(7, 'Nike HyperVenom', 1000.00, 24, '7.gif', 'Made for the attacking goalscorer, the Nike Hypervenom Football Boot features a large strike zone for unrivalled agility and better ball control on artificial pitches.', 3, 1, 1),
-(10, 'FUTURE 7 ULTIMATE Firm Ground/Arificial Ground Men&#38;#39;s Soccer Cleats', 1490.00, 4, '8.gif', 'The FuelCell SC Elite v4 is a race day shoe designed for the moments when seconds really do count. The propulsive feeling of FuelCell is combined with a thinner carbon fiber plate, offering superior energy return in a lightweight package.', 1, 6, 15);
+(4, 'Nike Air Force One', 450.19, 2, '4.gif', 'Best of Nike! Better than Adidas!', 3, 1, 1),
+(5, 'Nike Converse', 129.50, 6, '5.gif', 'The best for your feet!', 3, 1, 2),
+(6, 'New Balance FuelCell SuperComp Elite v4', 350.00, 2, '6.jpg', 'The FuelCell SC Elite v4 is a race day shoe designed for the moments when seconds really do count. The propulsive feeling of FuelCell is combined with a thinner carbon fiber plate, offering superior energy return in a lightweight package.', 1, 5, 1),
+(7, 'Nike HyperVenom', 1000.00, 23, '7.gif', 'Made for the attacking goalscorer, the Nike Hypervenom Football Boot features a large strike zone for unrivalled agility and better ball control on artificial pitches.', 3, 1, 1),
+(10, 'FUTURE 7 ULTIMATE Firm Ground/Arificial Ground Men&#38;#39;s Soccer Cleats', 1490.00, 3, '8.gif', 'The FuelCell SC Elite v4 is a race day shoe designed for the moments when seconds really do count. The propulsive feeling of FuelCell is combined with a thinner carbon fiber plate, offering superior energy return in a lightweight package.', 1, 6, 15);
 
 -- --------------------------------------------------------
 
@@ -370,6 +378,13 @@ CREATE TABLE `reviews` (
   `ProductID` int(10) DEFAULT NULL,
   `CustomerID` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`ReviewID`, `Text`, `ProductID`, `CustomerID`) VALUES
+(6, 'I got the wrong colour again.', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -579,7 +594,7 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
+  MODIFY `CartID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -603,7 +618,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `OrderID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `OrderID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -621,7 +636,7 @@ ALTER TABLE `report`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `ReviewID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `ReviewID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `seller`
