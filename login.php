@@ -1,4 +1,10 @@
 <?php
+session_start();
+if(isset($_SESSION["UserType"])) 
+{
+    header("location: http://localhost/wsneakers/index.php");
+    exit();
+}
 include_once("header.html");
 include_once("login.html");
 include_once("./database/db.php");
@@ -10,7 +16,6 @@ include_once("./customers/customerRepository.php");
 include_once("./sellers/sellerRepository.php");
 //
 
-session_start();
 ?>
 
 <?php
