@@ -1,8 +1,9 @@
 <?php
-    include("../header.html");
     include("../database/db.php");
     include("../reviews/reviewsService.php");
     session_start();
+    include("../adminPage/adminSessionAccess.php");
+    include("../header.html");
     $r = new ReviewsService();
 
     if (isset($_POST["deletebutton"])){

@@ -7,15 +7,14 @@
 
 <body>
     <?php
+    session_start();
+    include_once("../customers/customerSessionAccess.php");
     include("../database/db.php");
     include("../header.html");
     include("../brand/brandService.php");
     include("../category/categoryService.php");
     include("../reviews/reviewsService.php");
     include("../products/productService.php");
-    include("../cart/cart.php");
-    include("../cart/cartRepository.php");
-    include("../cart/cartService.php");
     include("../report/report.php");
 
     if (!empty($_POST["product_id"])) {
@@ -33,7 +32,6 @@
     $prod = $p->GetProduct($productID)->fetch_assoc();
 
     if (isset($_POST['ReviewSave'])){
-        include_once("../customers/customerSessionAccess.php");
         $review = new Reviews($_POST["Review"],$_POST["product_id"],$_SESSION["CustomerID"]);
         if (isset($_POST["Exists"]) && $_POST["Exists"]==='1'){
             $r->UpdateReview($review, $_POST["ReviewID"]);
@@ -42,13 +40,6 @@
             $r->Insert($review);
         }
     }
-
-    if (isset($_POST["Add_to_Cart"])) {
-        include_once("../customers/customerSessionAccess.php");
-        $quantity = $_POST["cart_quantity"];
-        $productID = $_POST["product_id"];
-        CartService::getInstance()->AddCart($productID, $quantity);
-    }
     ?>
     <div class="cartDiv">
         <a class="cart" href="../cart/cartPage.php">My Cart 🛒</a>
@@ -56,7 +47,7 @@
     <table>
         <tr>
             <td>
-                <form action="../customerProfile/customerProfile.php">
+                <form action="../customerProfile/customerorders.php">
                     <input class='Button' type='submit' name='GoBack' value='Go Back' style='font-size: 35px;'>
                 </form>
             </td>

@@ -1,7 +1,7 @@
 <?php
-include("../database/db.php");
 session_start();
 include("../sellers/sellerSessionAccess.php");
+include("../database/db.php");
 include("../header.html");
 include("../order/orderRepo.php");
 $o = OrderRepo::getInstance();

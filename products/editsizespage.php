@@ -1,11 +1,11 @@
 <?php
+    session_start();
+    include("../sellers/sellerSessionAccess.php");
     include ("/xampp/htdocs/WSneakers/header.html");
     include("/xampp/htdocs/WSneakers/database/db.php"); //had to include directory like this else it was not working
     include("/xampp/htdocs/WSneakers/products/productService.php");
     $mainImageDIR = "/WSneakers/ProductImages/"; //location directory of product images
     $p = new ProductService();
-    session_start();
-
     
     if (isset($_POST['GoBackButton'])){
         if (isset($_SESSION["SellerUsername"])) {

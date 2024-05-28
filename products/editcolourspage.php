@@ -1,4 +1,6 @@
 <?php
+    session_start();
+    include("../sellers/sellerSessionAccess.php");
     include ("/xampp/htdocs/WSneakers/header.html");
     include("/xampp/htdocs/WSneakers/database/db.php"); //had to include directory like this else it was not working
     include("/xampp/htdocs/WSneakers/products/productService.php");

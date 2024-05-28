@@ -26,7 +26,7 @@ if (isset($_POST["deleteCustomer"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./customerTable.css">
-    <a class="admin" href="./adminPage.html">Admin</a>
+    <a class="admin" href="adminPage.php">Admin</a>
     <br><br>
 </head>
 

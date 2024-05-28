@@ -1,4 +1,6 @@
 <?php
+    session_start();
+    include("../sellers/sellerSessionAccess.php");
     include ("../header.html");
     include("../database/db.php"); //had to include directory like this else it was not working
     include("../products/productService.php");
@@ -11,7 +13,6 @@
     $c = new CategoryService();
     $s = new SellerRepo();
 
-    session_start();
     if (isset($_POST['Cancel'])){
         if (isset($_SESSION["SellerUsername"])) {
             header("location: ../sellerProfile/sellerProfile.php");

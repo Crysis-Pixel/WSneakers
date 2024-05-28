@@ -73,6 +73,7 @@
                     echo "</tr>";  
                 }
                 echo "</table><br><br>";
+                echo "<form action='couponPage.php' method='post'>";
                 echo "Enter new coupon: <input type='text' name='newcoupon'>";
                 echo "  Enter new percentage discount: <input type='text' name='newcoupondiscount'>";
                 echo "<button class='Button' type='submit' name='add' style='padding:1%;width:10%;'>Add coupon</button>";

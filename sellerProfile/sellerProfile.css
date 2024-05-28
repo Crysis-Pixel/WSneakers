@@ -1,6 +1,7 @@
 table {
     border-collapse: collapse;
     width: 100%;
+    border: 1px solid black;
 }
 
 h2 {
@@ -16,6 +17,7 @@ h2 {
 th, td {
     text-align: center;
     background-color: #ffffff;
+    border: 1px solid black;
 }
 
 th {

@@ -13,7 +13,7 @@ include("../database/db.php");
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="sellerTable.css">
   <title>Seller List</title>
-  <a class="admin" href="./adminPage.html">Admin</a>
+  <a class="admin" href="adminPage.php">Admin</a>
   <br><br>
 </head>
 

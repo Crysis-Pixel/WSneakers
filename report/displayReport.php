@@ -1,8 +1,10 @@
 <?php
+session_start();
+include("../sellers/sellerSessionAccess.php");
+include("../header.html");
 include('report.php');
 include("../database/db.php");
 $con = db::getInstance()->getConnection();
-session_start();
 
 $SellerID = $_SESSION['SellerID'];
 

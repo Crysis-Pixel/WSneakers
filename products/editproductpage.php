@@ -1,12 +1,12 @@
 <?php
+    session_start();
+    include("../sellers/sellerSessionAccess.php");
     include ("../header.html");
     include("../database/db.php"); //had to include directory like this else it was not working
     include("../products/productService.php");
     include("../brand/brandService.php");
     include("../category/categoryService.php");
     include("../sellers/sellerRepository.php");
-
-    session_start();
 
     $mainImageDIR = "../ProductImages/"; //location directory of product images
     $p = new ProductService();

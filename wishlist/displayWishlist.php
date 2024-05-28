@@ -1,9 +1,11 @@
 <?php
+session_start();
+include_once("../customers/customerSessionAccess.php");
 include("../header.html");
 include("../database/db.php");
 $mainImageDIR = "../ProductImages/";
 $con = db::getInstance()->getConnection();
-session_start();
+
 
 $CustomerID = $_SESSION['CustomerID'];
 
