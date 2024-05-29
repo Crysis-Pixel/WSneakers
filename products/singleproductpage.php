@@ -17,7 +17,7 @@
     include("../cart/cartRepository.php");
     include("../cart/cartService.php");
     include("../report/report.php");
-    
+
     if (!empty($_POST["product_id"])) {
         $productID = $_POST["product_id"];
     } else {
@@ -25,14 +25,13 @@
         exit();
     }
 
-    if (isset($_POST['report'])){
-        if (!empty($_POST['reportText'])){
+    if (isset($_POST['report'])) {
+        if (!empty($_POST['reportText'])) {
             include_once("../customers/customerSessionAccess.php");
             $r = new Report();
-            if ($r->sendReport($_POST, $_SESSION)){
+            if ($r->sendReport($_POST, $_SESSION)) {
                 echo "Report sent successfully.";
-            }
-            else{
+            } else {
                 echo "Failed to send report.";
             }
         }
@@ -57,7 +56,7 @@
     <table>
         <tr>
             <td>
-                <form action="customerproductpage.php" method = "post">
+                <form action="customerproductpage.php" method="post">
                     <input class='Button' type='submit' name='GoBack' value='Go Back' style='font-size: 35px;'>
                 </form>
             </td>
@@ -91,10 +90,10 @@
         </tr>
         <tr>
             <td>
-            <h3>Reviews</h3>
+                <h3>Reviews</h3>
                 <?php
                 $reviewresult = $r->Search('', $prod["ProductName"]);
-                if (mysqli_num_rows($reviewresult)==0) echo "No reviews yet.";
+                if (mysqli_num_rows($reviewresult) == 0) echo "No reviews yet.";
                 while ($row = $reviewresult->fetch_assoc()) {
                     echo "<u>" . $row["Username"] . "</u><br>";
                     echo $row["Text"] . "<br><br><br>";
@@ -102,16 +101,18 @@
                 ?>
                 <br><br>
             </td>
+            <!-- Added by Rudra -->
             <td>
                 <form action='singleproductpage.php' method='post'>
                     <?php
-                        echo "<input type='hidden' name='product_id' value='" . $prod["ProductID"] . "'>
+                    echo "<input type='hidden' name='product_id' value='" . $prod["ProductID"] . "'>
                                 <input type='hidden' name='seller_id' value='" . $prod["SellerID"] . "'>";
                     ?>
                     <input type='text' name='reportText' placeholder='Report Issue' required>
                     <input type='submit' name='report' value='Report' class='ReportButton'>
                 </form>
             </td>
+            <!-- --------------------- -->
         </tr>
         <tr>
             <td>
